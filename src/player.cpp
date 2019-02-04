@@ -7,14 +7,11 @@
 #include <fstream>
 #include <memory>
 
-
 #include "frame.hpp"
 #include "lzv.hpp"
 #include "Crypt.h"
 
-
 std::vector<std::string> Params;
-
 
 namespace
 {
