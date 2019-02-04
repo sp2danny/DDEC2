@@ -346,13 +346,15 @@ UL PredictBlock::MakeDiffFast(const Frame& prv)
 {
 	signed char xx = 0, yy = 0;
 	UL err, minerr = diff_error(DiffXY{xx,yy}, *this, prv);
+	
+	typedef signed char SC;
 
 	while (true)
 	{
 		bool found = false;
 		if (!found) if (xx > -8)
 		{
-			err = diff_error(DiffXY{xx-1,yy}, *this, prv);
+			err = diff_error(DiffXY{SC(xx-1),yy}, *this, prv);
 			if (err<minerr) {
 				minerr = err;
 				--xx;
@@ -361,7 +363,7 @@ UL PredictBlock::MakeDiffFast(const Frame& prv)
 		}
 		if (!found) if (xx < +7)
 		{
-			err = diff_error(DiffXY{xx+1,yy}, *this, prv);
+			err = diff_error(DiffXY{SC(xx+1),yy}, *this, prv);
 			if (err < minerr) {
 				minerr = err;
 				++xx;
@@ -370,7 +372,7 @@ UL PredictBlock::MakeDiffFast(const Frame& prv)
 		}
 		if (!found) if (yy > -8)
 		{
-			err = diff_error(DiffXY{xx,yy-1}, *this, prv);
+			err = diff_error(DiffXY{xx,SC(yy-1)}, *this, prv);
 			if (err < minerr) {
 				minerr = err;
 				--yy;
@@ -379,7 +381,7 @@ UL PredictBlock::MakeDiffFast(const Frame& prv)
 		}
 		if (!found) if (yy < +7)
 		{
-			err = diff_error(DiffXY{xx,yy+1}, *this, prv);
+			err = diff_error(DiffXY{xx,SC(yy+1)}, *this, prv);
 			if (err < minerr) {
 				minerr = err;
 				++yy;
@@ -476,14 +478,19 @@ HSV Frame::Pix(int x, int y) const
 
 void ToFrame(const RGB_Image& src, Frame& dst)
 {
-	assert((src.w % 10) == 0);
-	assert((src.h % 10) == 0);
+	//assert((src.w % 10) == 0);
+	//assert((src.h % 10) == 0);
+	
+	auto w10 = src.w / 10;
+	auto h10 = src.h / 10;
+	auto ww = w10 * 10;
+	auto hh = h10 * 10;
 
-	dst.resize(UC(src.w / 10), UC(src.h / 10));
+	dst.resize(UC(w10), UC(h10));
 
 	#define PROC_1(M, BIT)                                                     \
-		for (UL y = 0; y < src.h; y += 1) {                                    \
-			for (UL x = 0; x < src.w; x += 1) {                                \
+		for (UL y = 0; y < hh; y += 1) {                                       \
+			for (UL x = 0; x < ww; x += 1) {                                   \
 				auto bl_x = UC(x / 10);                                        \
 				auto bl_y = UC(y / 10);                                        \
 				auto& bl = dst.pix(bl_x, bl_y);                                \
@@ -495,8 +502,8 @@ void ToFrame(const RGB_Image& src, Frame& dst)
 		} }
 
 	#define PROC_2(M, BIT)                                                     \
-		for (UL y = 0; y < src.h; y += 2) {                                    \
-			for (UL x = 0; x < src.w; x += 2) {                                \
+		for (UL y = 0; y < hh; y += 2) {                                       \
+			for (UL x = 0; x < ww; x += 2) {                                   \
 				auto bl_x = UC(x / 10);                                        \
 				auto bl_y = UC(y / 10);                                        \
 				auto& bl = dst.pix(bl_x, bl_y);                                \

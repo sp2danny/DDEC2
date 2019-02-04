@@ -79,24 +79,21 @@ void Main()
 	//Params = { "-sfc", "-mf", "-pfb", "-key", "abc" };
 	//Params = { "-stc", "-bmp", "-md", "-mf", "-src", "src3", "-sad", "-pfb", "-start", "9998", "-max", "200", "-dig", "5" };
 
-
 	//Params = { "-md", "-src", "src3", "-bmp", "-dig", "5", "-start", "9998", "-sad", "-mf", "-fr" };
 	//Params = { "-stc", "-ld", "-dig", "5", "-start", "9998", "-mf", "-key", "abcd1234ABCD____"  };
 	//Params = { "-sfc", "-mf", "-pfb", "-max", "1600", "-t"};
-
-
 
 	// 1280x720
 	//Params = { "-md", "-src", "src4", "-bmp", "-dig", "5", "-start", "10000", "-sad", "-mf", "-fr", "-w", "128", "-h", "72", "-max", "215", "-t" };
 	//Params = { "-stc", "-ld", "-dig", "5", "-start", "10000", "-mf", "-w", "128", "-h", "72"};
 	//Params = { "-sfc", "-mf", "-pfb", "-w", "128", "-h", "72" };
 
-
 	// 640x360
 	Params = { 
-		"-md", "-src", "src", "-bmp", "-dig", "5", "-name", "img_", "-start", "0", "-mf", "-fr", "-w", "128", "-h", "72", "-t", "-stc",
-		"-errlim", "3500000"//, "-max", "500",
-		"-fast", "-zds", "65000", "-key", "qwerty123456"
+		"-md", "-src", "img", "-bmp", "-dig", "5", "-name", "img_", "-start", "0", "-mf", "-fr", "-w", "102", "-h", "76", "-t", "-stc",
+		"-errlim", "3500000", //, "-max", "500",
+		"-fast", "-zds", "65000", "-key", "qwerty123456",
+		"-base", "."
 	};
 
 	bool STREAM_TO_CRYPT    = hasparam("-stc");
@@ -254,7 +251,7 @@ void Main()
 
 		auto num = to_string_f(dig.c_str(), i+start);
 
-		cout << num << "\r";
+		cout << num << "\r" << std::flush;
 
 		RGB_Image img;
 
@@ -427,9 +424,7 @@ void Main()
 		cout << "MNCL         " << maximum_nibble_channel_load << "\n";
 		fgetc(stdin);
 	}
-
 }
-
 
 int main()
 {

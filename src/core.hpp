@@ -24,7 +24,7 @@ struct RGB
 static_assert( sizeof(RGB) == 3 );
 static_assert( sizeof(HSV) == 3 );
 
-inline std::string base = "C:/tmp/DDEC/bmp/"s;
+inline std::string base = "./img/"s;
 
 #define abstract =0
 

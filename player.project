@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="DDEC2" InternalType="Console">
+<CodeLite_Project Name="player" InternalType="Console">
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
     <File Name="src/Crypt.cpp"/>
     <File Name="src/Crypt.h"/>
-    <File Name="src/bitmap.cpp"/>
-    <File Name="src/bitmap.hpp"/>
     <File Name="src/bitstream.cpp"/>
     <File Name="src/bitstream.hpp"/>
     <File Name="src/core.hpp"/>
-    <File Name="src/fbct2.cpp"/>
     <File Name="src/frame.cpp"/>
     <File Name="src/frame.hpp"/>
     <File Name="src/lzv.cpp"/>
     <File Name="src/lzv.hpp"/>
     <File Name="src/nibblemap.cpp"/>
     <File Name="src/nibblemap.hpp"/>
-    <File Name="src/perftimer.h"/>
-    <File Name="src/stdafx.h"/>
-    <File Name="src/main.cpp"/>
+    <File Name="src/player.cpp"/>
+    <File Name="src/bitmap.cpp"/>
+    <File Name="src/bitmap.hpp"/>
+    <File Name="src/fbct2.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
@@ -27,9 +25,7 @@
         <IncludePath Value="."/>
       </Compiler>
       <Linker Options="">
-        <LibraryPath Value="/usr/lib/boost"/>
-        <Library Value="boost_system"/>
-        <Library Value="boost_filesystem"/>
+        <LibraryPath Value="."/>
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
@@ -72,7 +68,7 @@
       </Completion>
     </Configuration>
     <Configuration Name="Release" CompilerType="clang( tags/RELEASE_600/final )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-O3" C_Options="-O3" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-O2" C_Options="-O2" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>

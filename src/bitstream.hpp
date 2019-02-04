@@ -9,6 +9,7 @@
 
 struct bitsource
 {
+	virtual ~bitsource() = default;
 	virtual bool have(UC bitcount) abstract;
 	virtual UL get(UC bitcount) abstract;
 	signed long getS(UC bitcount);
@@ -16,6 +17,7 @@ struct bitsource
 
 struct bittarget
 {
+	virtual ~bittarget() = default;
 	virtual void put(UL bits, UC bitcount) abstract;
 	virtual void done() abstract;
 };
