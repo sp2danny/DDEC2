@@ -59,7 +59,7 @@ AS       := /usr/bin/as
 ##
 ## User defined environment variables
 ##
-Objects0=$(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bitmap.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_fbct2.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_lzv.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_nibblemap.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bitmap.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_fbct2.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_lzv.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) 
 
 
 
@@ -133,14 +133,6 @@ $(IntermediateDirectory)/src_lzv.cpp$(DependSuffix): src/lzv.cpp
 
 $(IntermediateDirectory)/src_lzv.cpp$(PreprocessSuffix): src/lzv.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_lzv.cpp$(PreprocessSuffix) "src/lzv.cpp"
-
-$(IntermediateDirectory)/src_nibblemap.cpp$(ObjectSuffix): src/nibblemap.cpp $(IntermediateDirectory)/src_nibblemap.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/sp2danny/extra/DDEC2/src/nibblemap.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_nibblemap.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_nibblemap.cpp$(DependSuffix): src/nibblemap.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_nibblemap.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_nibblemap.cpp$(DependSuffix) -MM "src/nibblemap.cpp"
-
-$(IntermediateDirectory)/src_nibblemap.cpp$(PreprocessSuffix): src/nibblemap.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_nibblemap.cpp$(PreprocessSuffix) "src/nibblemap.cpp"
 
 $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix): src/main.cpp $(IntermediateDirectory)/src_main.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/sp2danny/extra/DDEC2/src/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IncludePath)

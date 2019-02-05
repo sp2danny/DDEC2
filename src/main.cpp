@@ -1,6 +1,4 @@
 
-#include "stdafx.h"
-
 #include <chrono>
 #include <iomanip>
 #include <stdexcept>
@@ -181,7 +179,6 @@ void Main()
 		nam = Params[i + 1];
 	}
 
-
 	UC W = 64, H = 48;
 	if (hasparam("-w"))
 	{
@@ -239,7 +236,7 @@ void Main()
 	if (TIME_IT)
 	{
 		t1 = hrc::now();
-		//pt = &perft;
+		pt = &perft;
 	}
 
 	UL i;
@@ -452,9 +449,6 @@ void Main()
 
 int main()
 {
-	PerfTimer perft;
-	pt = &perft;
-
 	Main();
 }
 

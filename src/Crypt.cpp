@@ -1,15 +1,13 @@
 
-#include "stdafx.h"
+#include <algorithm>
+#include <fstream>
+#include <chrono>
+#include <cassert>
 
 #include "Crypt.h"
 
 #include "core.hpp"
 #include "perftimer.h"
-
-#include <algorithm>
-#include <fstream>
-#include <chrono>
-#include <cassert>
 
 static UL make_4b(const char* str)
 {

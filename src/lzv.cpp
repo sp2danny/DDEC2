@@ -1,9 +1,8 @@
 
-#include "stdafx.h"
-
 #include <iostream>
 
 #include "lzv.hpp"
+
 #include "perftimer.h"
 
 static_assert(std::numeric_limits<UC>::digits == 8);

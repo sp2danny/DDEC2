@@ -15,10 +15,8 @@
     <File Name="src/frame.hpp"/>
     <File Name="src/lzv.cpp"/>
     <File Name="src/lzv.hpp"/>
-    <File Name="src/nibblemap.cpp"/>
     <File Name="src/nibblemap.hpp"/>
     <File Name="src/perftimer.h"/>
-    <File Name="src/stdafx.h"/>
     <File Name="src/main.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
