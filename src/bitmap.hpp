@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include "core.hpp"
 
 struct RGB_Image

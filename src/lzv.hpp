@@ -55,6 +55,7 @@ private:
 template<typename SRC>
 struct lzv_decoder_template : lzv_core
 {
+	//lzv_decoder_template()
 	lzv_decoder_template(UL, SRC&);
 
 	SRC& source;

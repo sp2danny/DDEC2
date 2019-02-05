@@ -67,7 +67,6 @@ UL streamsource::get(UC bitcount)
 	return ret;
 }
 
-
 bool nibble_channel::have(UC bitcount)
 {
 	assert((bitcount%4)==0);
@@ -94,6 +93,59 @@ void nibble_channel::put(UL bits, UC bitcount)
 void nibble_channel::done()
 {
 }
+
+// ----------------------------------------------------------------------------
+
+bool debv::have(UC bitcount)
+{
+	UL tbsf = vec.size() * 8 + cnt_in + cnt_ut;
+	return tbsf >= bitcount;
+}
+
+UL debv::get(UC bitcount)
+{
+	while (cnt_ut < bitcount)
+	{
+		if (!vec.empty())
+		{
+			UC uc = vec.back();
+			vec.pop_back();
+			cnt_ut += 8;
+			bsf_ut = (bsf_ut<<8) | uc;
+		} else {
+			assert(cnt_in);
+			cnt_ut += cnt_in;
+			bsf_ut = (bsf_ut<<cnt_in) | bsf_in;
+			cnt_in = 0;
+			bsf_in = 0;
+		}
+	}
+	UL ret = bsf_ut >> (cnt_ut-bitcount);
+	cnt_ut -= bitcount;
+	bsf_ut &= ((1<<cnt_ut)-1);
+	return ret;
+}
+
+void debv::put(UL bits, UC bitcount)
+{
+	bsf_in <<= bitcount;
+	bsf_in |= bits;
+	cnt_in += bitcount;
+	while (cnt_in >= 8)
+	{
+		UC c = (bsf_in >> (cnt_in-8)) & 0xff;
+		vec.push_back(c);
+		cnt_in -= 8;
+	}
+}
+
+void debv::done()
+{
+	if (cnt_in)
+		put(0, 8-cnt_in);
+	assert(!cnt_in);
+}
+
 
 // ----------------------------------------------------------------------------
 

@@ -93,7 +93,7 @@ void Main()
 		"-md", "-src", "img", "-bmp", "-dig", "5", "-name", "img_", "-start", "0", "-mf", "-fr", "-w", "102", "-h", "76", "-t", "-stc",
 		"-errlim", "3500000", //, "-max", "500",
 		"-fast", "-zds", "65000", "-key", "qwerty123456",
-		"-base", "."
+		"-base", "." // , "-pfb", "-sad", "-sll"
 	};
 
 	bool STREAM_TO_CRYPT    = hasparam("-stc");
@@ -109,6 +109,7 @@ void Main()
 	bool POST_FRAME_BMP     = hasparam("-pfb");
 	bool FRAME_REPORT       = hasparam("-fr");
 	bool FAST_DIFF          = hasparam("-fast");
+	bool SAVE_LOAD_LZV      = hasparam("-sll");
 
 	if (hasparam("-base"))
 	{
@@ -339,6 +340,8 @@ void Main()
 				did_delta = true;
 			}
 		}
+		
+		debv bv;
 
 		if (STREAM_TO_CRYPT)
 		{
@@ -350,8 +353,16 @@ void Main()
 					nibble_channel nc;
 					df.Save(nc);
 					nc.done();
-					lzv_encoder lz(DICTSZ);
-					lz.encode(nc, *cr_t);
+					{
+						lzv_encoder lz(DICTSZ);
+						lz.encode(nc, *cr_t);
+					}
+					if (SAVE_LOAD_LZV)
+					{
+						lzv_encoder lz(DICTSZ);
+						lz.encode(nc, bv);
+						bv.done();
+					}
 				} else {
 					cr_t->put(0, 1);
 					curr->Save(*cr_t);
@@ -369,7 +380,7 @@ void Main()
 				did_delta = cr_s->get(1);
 				if (did_delta)
 				{
-					lzv_decoder_template<decltype(*cr_s)> lz(DICTSZ, *cr_s);
+					lzv_decoder_template lz(DICTSZ, *cr_s);
 					bool ok = df.LoadT(lz);
 					if (!ok) break;
 				} else {
@@ -389,6 +400,19 @@ void Main()
 				df.mkFrame(*prev);
 				assignFrame(*curr, df);
 			}
+		}
+		
+		if (MAKE_FRAME && POST_FRAME_BMP && SAVE_LOAD_LZV && did_delta)
+		{
+			lzv_decoder_template lz(DICTSZ, bv);
+			DiffFrame df_2;
+			df_2.LoadT(lz);
+			Frame f_2;
+			df_2.mkFrame(*prev);
+			assignFrame(f_2, df);
+			FromFrame(f_2, img);
+			auto fn = base + "stage/04_post/de-lz"s + num + ".bmp"s;
+			SaveBMP(img, OFS(fn));
 		}
 
 		if (POST_FRAME_BMP)
@@ -428,6 +452,9 @@ void Main()
 
 int main()
 {
+	PerfTimer perft;
+	pt = &perft;
+
 	Main();
 }
 

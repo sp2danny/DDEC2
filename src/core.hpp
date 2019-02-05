@@ -26,9 +26,5 @@ static_assert( sizeof(HSV) == 3 );
 
 inline std::string base = "./img/"s;
 
-#define abstract =0
 
-//inline constexpr UL max_dframe_nibble_count = 466944;
-
-//static_assert( max_dframe_nibble_count == ((2+25+25+100)*64*48) );
 

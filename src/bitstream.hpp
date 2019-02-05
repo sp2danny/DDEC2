@@ -10,16 +10,16 @@
 struct bitsource
 {
 	virtual ~bitsource() = default;
-	virtual bool have(UC bitcount) abstract;
-	virtual UL get(UC bitcount) abstract;
+	virtual bool have(UC bitcount) =0;
+	virtual UL get(UC bitcount) =0;
 	signed long getS(UC bitcount);
 };
 
 struct bittarget
 {
 	virtual ~bittarget() = default;
-	virtual void put(UL bits, UC bitcount) abstract;
-	virtual void done() abstract;
+	virtual void put(UL bits, UC bitcount) =0;
+	virtual void done() =0;
 };
 
 struct bitvector : bittarget
@@ -30,6 +30,20 @@ struct bitvector : bittarget
 	UL bsf = 0;
 	UC cnt = 0;
 	void write(std::ostream&);
+};
+
+struct debv : bitsource, bittarget
+{
+	virtual bool have(UC bitcount) override;
+	virtual UL get(UC bitcount) override;
+	virtual void put(UL bits, UC bitcount) override;
+	virtual void done() override;
+
+	std::deque<UC> vec;
+	UL bsf_in = 0;
+	UC cnt_in = 0;
+	UL bsf_ut = 0;
+	UC cnt_ut = 0;
 };
 
 struct streamsource : bitsource
