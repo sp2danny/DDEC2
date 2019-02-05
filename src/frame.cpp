@@ -73,11 +73,12 @@ UC add_diff_4b(UC prev, UC diff, UC targbit)
 	return aa & mask;
 }
 
-bool last_was_zero = true;
-int zero_count = 0;
+[[maybe_unused]] bool last_was_zero = true;
+[[maybe_unused]] int zero_count = 0;
 
 void WriteXY(bittarget& bbw, const signed short& dx, const signed short& dy)
 {
+	/*
 	bool current_zero = (dx == 0) && (dy == 0);
 	if (current_zero)
 	{
@@ -96,6 +97,7 @@ void WriteXY(bittarget& bbw, const signed short& dx, const signed short& dy)
 		std::cout << "instance of " << dx << "," << dy << std::endl;
 		last_was_zero = false;
 	}
+	*/
 	
 	bbw.put(((UL)dx) & 0x0f, 4);
 	bbw.put(((UL)dy) & 0x0f, 4);
@@ -165,6 +167,7 @@ void ReadXY(bitsource& bbr, signed short& dx, signed short& dy)
 	dx = (signed short)(bbr.getS(4));
 	dy = (signed short)(bbr.getS(4));
 	
+	/*
 	bool current_zero = (dx == 0) && (dy == 0);
 	if (current_zero)
 	{
@@ -183,6 +186,7 @@ void ReadXY(bitsource& bbr, signed short& dx, signed short& dy)
 		std::cout << "instance of " << dx << "," << dy << std::endl;
 		last_was_zero = false;
 	}
+	*/
 	
 }
 

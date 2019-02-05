@@ -70,7 +70,7 @@ void Main()
 
 	// 1024x768 in
 	Params = { 
-		"-md", "-src", "img", "-bmp", "-dig", "5", "-name", "img_", "-start", "0", "-mf", "-w", "102", "-h", "76", "-stc",
+		"-md", "-src", "img", "-bmp", "-dig", "5", "-name", "img_", "-start", "1", "-mf", "-w", "102", "-h", "76", "-stc",
 		"-errlim", "3500000", //, "-max", "500",
 		"-fast", "-zds", "65000", "-key", "qwerty123456", "-fr", "-t",
 		"-base", ".", "-pfb", "-sad", "-sll"
