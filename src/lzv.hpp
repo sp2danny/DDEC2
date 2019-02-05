@@ -63,11 +63,11 @@ struct lzv_decoder_template : lzv_core
 	bool have(UC bitcount);
 	UL get(UC bitcount);
 
-	signed long getS(UC bitcount)
+	signed getS(UC bitcount)
 	{
 		auto u = get(bitcount);
 		auto shift = 32 - bitcount;
-		signed long sl = u << shift; sl >>= shift;
+		signed sl = u << shift; sl >>= shift;
 		return sl;
 	}
 

@@ -64,8 +64,8 @@ struct decrypt_source : bitsource
 {
 	decrypt_source(const std::string& key, std::istream& in);
 
-	/*virtual*/ bool have(UC bitcount) override;
-	/*virtual*/ UL get(UC bitcount) override;
+	virtual bool have(UC bitcount) override;
+	virtual UL get(UC bitcount) override;
 	void make(UC bitcount);
 
 	static const UL maxblock = Crypt::maxblock();

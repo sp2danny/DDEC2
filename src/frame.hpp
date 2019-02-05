@@ -127,6 +127,9 @@ bool DiffFrame::LoadT(SRC& bbr)
 	return true;
 }
 
+extern void ReadXY(bitsource& bbr, signed short& dx, signed short& dy);
+extern void LogXY(signed short& dx, signed short& dy);
+
 template<typename SRC>
 bool PredictBlock::ReadDiffT(SRC& bbr)
 {

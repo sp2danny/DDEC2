@@ -73,14 +73,30 @@ UC add_diff_4b(UC prev, UC diff, UC targbit)
 	return aa & mask;
 }
 
-void ReadXY(bitsource& bbr, signed short& dx, signed short& dy)
-{
-	dx = (signed short)(bbr.getS(4));
-	dy = (signed short)(bbr.getS(4));
-}
+bool last_was_zero = true;
+int zero_count = 0;
 
 void WriteXY(bittarget& bbw, const signed short& dx, const signed short& dy)
 {
+	bool current_zero = (dx == 0) && (dy == 0);
+	if (current_zero)
+	{
+		if (last_was_zero)
+		{
+			zero_count += 1;
+		} else {
+			last_was_zero = true;
+			zero_count = 1;
+		}
+	} else {
+		if (last_was_zero && zero_count)
+		{
+			std::cout << "string of " << zero_count << " zeros." << std::endl;
+		}
+		std::cout << "instance of " << dx << "," << dy << std::endl;
+		last_was_zero = false;
+	}
+	
 	bbw.put(((UL)dx) & 0x0f, 4);
 	bbw.put(((UL)dy) & 0x0f, 4);
 }
@@ -142,6 +158,32 @@ UL diff_error(DiffXY d, const PredictBlock& pb, const Frame& prv)
 	return acc;
 }
 
+}
+
+void ReadXY(bitsource& bbr, signed short& dx, signed short& dy)
+{
+	dx = (signed short)(bbr.getS(4));
+	dy = (signed short)(bbr.getS(4));
+	
+	bool current_zero = (dx == 0) && (dy == 0);
+	if (current_zero)
+	{
+		if (last_was_zero)
+		{
+			zero_count += 1;
+		} else {
+			last_was_zero = true;
+			zero_count = 1;
+		}
+	} else {
+		if (last_was_zero && zero_count)
+		{
+			std::cout << "string of " << zero_count << " zeros." << std::endl;
+		}
+		std::cout << "instance of " << dx << "," << dy << std::endl;
+		last_was_zero = false;
+	}
+	
 }
 
 // ----------------------------------------------------------------------------

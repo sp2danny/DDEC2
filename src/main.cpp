@@ -62,37 +62,26 @@ int paramnum(std::string_view str)
 
 void Main()
 {
-
-	using namespace std;
-
 	DiffFrame df;
 
 	// -bmp -md -sad -mf
 	// -stc -ld -mf
 	// -sfc -mf -pfb -t
 
-	//Params = { "-bmp", "-md", "-sad", "-mf" };
-	//Params = { "-stc", "-ld", "-mf" };
-	//Params = { "-sfc", "-mf", "-pfb", "-t" };
-	//Params = { "-sfc", "-mf", "-pfb", "-key", "abc" };
-	//Params = { "-stc", "-bmp", "-md", "-mf", "-src", "src3", "-sad", "-pfb", "-start", "9998", "-max", "200", "-dig", "5" };
-
-	//Params = { "-md", "-src", "src3", "-bmp", "-dig", "5", "-start", "9998", "-sad", "-mf", "-fr" };
-	//Params = { "-stc", "-ld", "-dig", "5", "-start", "9998", "-mf", "-key", "abcd1234ABCD____"  };
-	//Params = { "-sfc", "-mf", "-pfb", "-max", "1600", "-t"};
-
-	// 1280x720
-	//Params = { "-md", "-src", "src4", "-bmp", "-dig", "5", "-start", "10000", "-sad", "-mf", "-fr", "-w", "128", "-h", "72", "-max", "215", "-t" };
-	//Params = { "-stc", "-ld", "-dig", "5", "-start", "10000", "-mf", "-w", "128", "-h", "72"};
-	//Params = { "-sfc", "-mf", "-pfb", "-w", "128", "-h", "72" };
-
-	// 640x360
+	// 1024x768 in
 	Params = { 
-		"-md", "-src", "img", "-bmp", "-dig", "5", "-name", "img_", "-start", "0", "-mf", "-fr", "-w", "102", "-h", "76", "-t", "-stc",
+		"-md", "-src", "img", "-bmp", "-dig", "5", "-name", "img_", "-start", "0", "-mf", "-w", "102", "-h", "76", "-stc",
 		"-errlim", "3500000", //, "-max", "500",
-		"-fast", "-zds", "65000", "-key", "qwerty123456",
-		"-base", "." // , "-pfb", "-sad", "-sll"
+		"-fast", "-zds", "65000", "-key", "qwerty123456", "-fr", "-t",
+		"-base", ".", "-pfb", "-sad", "-sll"
 	};
+	
+	// 1024x768 ut
+	//Params = { 
+	//	"-mf", "-w", "102", "-h", "76", "-sfc", "-pfb",
+	//	"-zds", "65000", "-key", "qwerty123456", "-fr", "-t",
+	//	"-base", "." //, "-sad", "-sll"
+	//};
 
 	bool STREAM_TO_CRYPT    = hasparam("-stc");
 	bool STREAM_FROM_CRYPT  = hasparam("-sfc");
@@ -138,14 +127,14 @@ void Main()
 		crfn = Params[i + 1];
 	}
 
-	string src = "src2";
+	std::string src = "src2";
 	if (hasparam("-src"))
 	{
 		int i = paramnum("-src");
 		src = Params[i + 1];
 	}
 
-	string dig = "%04d";
+	std::string dig = "%04d";
 	if (hasparam("-dig"))
 	{
 		int i = paramnum("-dig");
@@ -183,49 +172,49 @@ void Main()
 	if (hasparam("-w"))
 	{
 		int i = paramnum("-w");
-		W = (UC)atoi(Params[i + 1].c_str());
+		W = (UC)stoi(Params[i + 1]);
 	}
 	if (hasparam("-h"))
 	{
 		int i = paramnum("-h");
-		H = (UC)atoi(Params[i + 1].c_str());
+		H = (UC)stoi(Params[i + 1]);
 	}
 
 	UL errlim = 165ul * W * H;
 	if (hasparam("-errlim"))
 	{
 		int i = paramnum("-errlim");
-		errlim = atoi(Params[i + 1].c_str());
+		errlim = stoi(Params[i + 1]);
 	}
 
 	fr1.resize(W, H);
 	fr2.resize(W, H);
 	df.resize(W, H);
 
-	unique_ptr<encrypt_target> cr_t;
-	unique_ptr<decrypt_source> cr_s;
-	unique_ptr<std::iostream> crypt_stream;
+	std::unique_ptr<encrypt_target> cr_t;
+	std::unique_ptr<decrypt_source> cr_s;
+	std::unique_ptr<std::iostream> crypt_stream;
 
 	if (STREAM_TO_CRYPT && STREAM_FROM_CRYPT)
 	{
 		std::string err = "-stc and -sfc are exclusive";
-		std::cerr << err << endl;
+		std::cerr << err << std::endl;
 		throw err;
 	}
 
 	if (STREAM_TO_CRYPT)
 	{
-		crypt_stream = make_unique<std::fstream>(crfn, std::fstream::binary | std::fstream::out);
-		cr_t = make_unique<encrypt_target>(key, *crypt_stream);
+		crypt_stream = std::make_unique<std::fstream>(crfn, std::fstream::binary | std::fstream::out);
+		cr_t = std::make_unique<encrypt_target>(key, *crypt_stream);
 	}
 
 	if (STREAM_FROM_CRYPT)
 	{
-		crypt_stream = make_unique<std::fstream>(crfn, std::fstream::binary | std::fstream::in);
-		cr_s = make_unique<decrypt_source>(key, *crypt_stream);
+		crypt_stream = std::make_unique<std::fstream>(crfn, std::fstream::binary | std::fstream::in);
+		cr_s = std::make_unique<decrypt_source>(key, *crypt_stream);
 	}
 
-	ofstream fr;
+	std::ofstream fr;
 	if (FRAME_REPORT)
 	{
 		fr.open("FrameReport.txt", std::fstream::out);
@@ -249,7 +238,7 @@ void Main()
 
 		auto num = to_string_f(dig.c_str(), i+start);
 
-		cout << num << "\r" << std::flush;
+		std::cout << num << "\r" << std::flush;
 
 		RGB_Image img;
 
@@ -298,7 +287,7 @@ void Main()
 				did_delta = false;
 		}
 		if (FRAME_REPORT)
-			(fr << "Frame " << num << " error " << setw(10) << right << acc << "  " << (did_delta ? "" : "(kf)") << endl).flush();
+			fr << "Frame " << num << " error " << std::setw(10) << std::right << acc << (did_delta ? "" : " (kf)") << std::endl << std::flush;
 		if (SAVE_AFTER_DIFF)
 		{
 			if (did_delta)
@@ -343,26 +332,22 @@ void Main()
 		if (STREAM_TO_CRYPT)
 		{
 			if (i)
+				cr_t->put(did_delta, 1);
+
+			if (did_delta)
 			{
-				if (did_delta)
+				nibble_channel nc;
+				df.Save(nc);
+				nc.done();
 				{
-					cr_t->put(1,1);
-					nibble_channel nc;
-					df.Save(nc);
-					nc.done();
-					{
-						lzv_encoder lz(DICTSZ);
-						lz.encode(nc, *cr_t);
-					}
-					if (SAVE_LOAD_LZV)
-					{
-						lzv_encoder lz(DICTSZ);
-						lz.encode(nc, bv);
-						bv.done();
-					}
-				} else {
-					cr_t->put(0, 1);
-					curr->Save(*cr_t);
+					lzv_encoder lz(DICTSZ);
+					lz.encode(nc, *cr_t);
+				}
+				if (SAVE_LOAD_LZV)
+				{
+					lzv_encoder lz(DICTSZ);
+					lz.encode(nc, bv);
+					bv.done();
 				}
 			} else {
 				curr->Save(*cr_t);
@@ -408,14 +393,14 @@ void Main()
 			df_2.mkFrame(*prev);
 			assignFrame(f_2, df);
 			FromFrame(f_2, img);
-			auto fn = base + "stage/04_post/de-lz"s + num + ".bmp"s;
+			auto fn = base + "stage/04_post/"s + num + "-delz.bmp"s;
 			SaveBMP(img, OFS(fn));
 		}
 
 		if (POST_FRAME_BMP)
 		{
 			FromFrame(*curr, img);
-			auto fn = base + "stage/04_post/img"s + num + ".bmp"s;
+			auto fn = base + "stage/04_post/"s + num + "-img.bmp"s;
 			SaveBMP(img, OFS(fn));
 		}
 	}
@@ -434,15 +419,15 @@ void Main()
 		t2 = hrc::now();
 		auto dur = Dur(t2-t1);
 		double s = dur.count();
-		cout << "\n FPS : " << (i/s) << endl;
+		std::cout << "\n FPS : " << (i/s) << std::endl;
 
-		cout << "streamin     " << perft.streamin   .count() << " s\n";
-		cout << "decrypt      " << perft.decrypt    .count() << " s\n";
-		cout << "decompress   " << perft.decompress .count() << " s\n";
-		cout << "makeframe    " << perft.makeframe  .count() << " s\n";
-		cout << "rest         " << (dur-(perft.streamin+perft.decrypt+perft.decompress+perft.makeframe)).count() << " s\n";
-		cout << "longest seq  " << longest_sequence << "\n";
-		cout << "MNCL         " << maximum_nibble_channel_load << "\n";
+		std::cout << "streamin     " << perft.streamin   .count() << " s\n";
+		std::cout << "decrypt      " << perft.decrypt    .count() << " s\n";
+		std::cout << "decompress   " << perft.decompress .count() << " s\n";
+		std::cout << "makeframe    " << perft.makeframe  .count() << " s\n";
+		std::cout << "rest         " << (dur-(perft.streamin+perft.decrypt+perft.decompress+perft.makeframe)).count() << " s\n";
+		std::cout << "longest seq  " << longest_sequence << "\n";
+		std::cout << "MNCL         " << maximum_nibble_channel_load << "\n";
 		fgetc(stdin);
 	}
 }

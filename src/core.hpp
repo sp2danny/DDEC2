@@ -9,6 +9,9 @@ using namespace std::literals;
 typedef unsigned char UC;
 typedef unsigned int UL;
 
+static_assert( sizeof(UC) == 1 );
+static_assert( sizeof(UL) == 4 );
+
 typedef std::vector<UC> BVec;
 
 struct HSV

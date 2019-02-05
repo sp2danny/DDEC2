@@ -12,7 +12,7 @@ struct bitsource
 	virtual ~bitsource() = default;
 	virtual bool have(UC bitcount) =0;
 	virtual UL get(UC bitcount) =0;
-	signed long getS(UC bitcount);
+	signed getS(UC bitcount);
 };
 
 struct bittarget

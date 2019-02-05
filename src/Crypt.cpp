@@ -3,6 +3,7 @@
 #include <fstream>
 #include <chrono>
 #include <cassert>
+#include <iostream>
 
 #include "Crypt.h"
 
@@ -266,6 +267,10 @@ decrypt_source::decrypt_source(const std::string& key, std::istream& in)
 bool decrypt_source::have(UC bitcount)
 {
 	make(bitcount);
+	if (cnt < bitcount)
+	{
+		std::cerr << "did not have " << bitcount << " bits" << std::endl;
+	}
 	return cnt >= bitcount;
 }
 
@@ -303,7 +308,11 @@ void decrypt_source::make(UC bitcount)
 				pt->streamin += Dur(t2 - t1);
 				t1 = t2;
 			}
-			if (!n) return;
+			if (!n)
+			{
+				std::cerr << "could not read from in\n";
+				return;
+			}
 			blsz = n;
 			//block.resize(n);
 			cr.decrypt_block(block.data(), n);

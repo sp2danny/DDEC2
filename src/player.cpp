@@ -150,16 +150,16 @@ gboolean idle_func([[maybe_unused]] gpointer data)
 
 	++i;
 
-	std::cout << "decoded frame " << i << ", size " << int(curr->w) << "x" << int(curr->h) << (did_delta?" (delta)":"") << std::endl;
+	std::cout << "decoded frame " << i << ", size " << int(curr->w) << "x" << int(curr->h) << (did_delta?" (delta)":"        ") << "\r" << std::flush;
 	
 	RGB_Image img;
 	FromFrame(*curr, img);
 	
-	{
+	/*{
 		auto fn = "stage/test-out"s + std::to_string(i) + ".bmp"s;
 		std::ofstream ofs(fn, std::fstream::binary | std::fstream::out);
 		SaveBMP(img, ofs);
-	}
+	}*/
 
 	SetPixbuf(pixbuf, img);
 
