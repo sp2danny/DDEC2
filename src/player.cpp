@@ -178,12 +178,6 @@ gboolean idle_func([[maybe_unused]] gpointer data)
 void Main()
 {
 
-	Params = {
-		"-w", "128", "-h", "96"
-		"-fps", "50",
-		"-zds", "6500", "-key", "qwerty123456",
-	};
-
 	if (hasparam("-key"))
 	{
 		int i = paramnum("-key");
@@ -239,6 +233,7 @@ void Main()
 int main(int argc, char** argv)
 {
 	gtk_init(&argc, &argv);
+	Params.insert(Params.begin(), argv+1, argv+argc);
 	Main();
 }
 
