@@ -181,7 +181,7 @@ void Main()
 	Params = {
 		"-w", "128", "-h", "96"
 		"-fps", "50",
-		"-zds", "65000", "-key", "qwerty123456",
+		"-zds", "6500", "-key", "qwerty123456",
 	};
 
 	if (hasparam("-key"))

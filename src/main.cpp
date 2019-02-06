@@ -60,28 +60,29 @@ int paramnum(std::string_view str)
 	return -1;
 }
 
-void Main()
+void Main(int argc, char** argv)
 {
 	DiffFrame df;
 
 	// -bmp -md -sad -mf
 	// -stc -ld -mf
 	// -sfc -mf -pfb -t
+	
+	// -w 128 -h 96 -start 1 -zds 6500 -key qwerty123456 -t -base . -mf
 
 	// 1280x960 in
 	Params = { 
-		"-md", "-src", "img", "-bmp", "-dig", "5", "-name", "img_", "-start", "600", "-mf", "-w", "128", "-h", "96", "-stc",
-		"-errlim", "3500000", //, "-max", "500",
-		"-fast", "-zds", "65000", "-key", "qwerty123456", "-fr", "-t",
-		"-base", ".", "-pfb", "-sad", "-sll"
+		"-bmp", "-src", "img", "-dig", "5", "-name", "img_",
+		"-md", "-stc", "-errlim", "3500000", "-fast", //, "-max", "500",
+		 "-fr"//, "-pfb", "-sal", "-saf", "-sad", "-sll"
 	};
 
 	// 1280x960 ut
 	//Params = { 
-	//	"-mf", "-w", "128", "-h", "96", "-sfc", "-pfb",
-	//	"-zds", "65000", "-key", "qwerty123456", "-fr", "-t",
-	//	"-base", "." //, "-sad", "-sll"
+	//	"-sfc", "-pfb" //, "-sad", "-sll"
 	//};
+
+	Params.insert(Params.begin(), argv+1, argv+argc);
 
 	bool STREAM_TO_CRYPT    = hasparam("-stc");
 	bool STREAM_FROM_CRYPT  = hasparam("-sfc");
@@ -145,21 +146,21 @@ void Main()
 	if (hasparam("-zds"))
 	{
 		int i = paramnum("-zds");
-		DICTSZ = atoi(Params[i + 1].c_str());
+		DICTSZ = std::stoi(Params[i + 1]);
 	}
 
 	UL start = 0;
 	if (hasparam("-start"))
 	{
 		int i = paramnum("-start");
-		start = atoi(Params[i + 1].c_str());
+		start = std::stoi(Params[i + 1]);
 	}
 
 	UL maxcnt = (UL)-1;
 	if (hasparam("-max"))
 	{
 		int i = paramnum("-max");
-		maxcnt = atoi(Params[i + 1].c_str());
+		maxcnt = std::stoi(Params[i + 1]);
 	}
 	auto nam = "img"s;
 	if (hasparam("-name"))
@@ -172,19 +173,19 @@ void Main()
 	if (hasparam("-w"))
 	{
 		int i = paramnum("-w");
-		W = (UC)stoi(Params[i + 1]);
+		W = (UC)std::stoi(Params[i + 1]);
 	}
 	if (hasparam("-h"))
 	{
 		int i = paramnum("-h");
-		H = (UC)stoi(Params[i + 1]);
+		H = (UC)std::stoi(Params[i + 1]);
 	}
 
 	UL errlim = 165ul * W * H;
 	if (hasparam("-errlim"))
 	{
 		int i = paramnum("-errlim");
-		errlim = stoi(Params[i + 1]);
+		errlim = std::stoi(Params[i + 1]);
 	}
 
 	fr1.resize(W, H);
@@ -432,9 +433,9 @@ void Main()
 	}
 }
 
-int main()
+int main(int argc, char** argv)
 {
-	Main();
+	Main(argc, argv);
 }
 
 

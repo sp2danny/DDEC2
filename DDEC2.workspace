@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="DDEC2" Database="/home/sp2danny/extra/DDEC2/.codelite/DDEC2.tags">
-  <Project Name="DDEC2" Path="DDEC2.project" Active="Yes"/>
-  <Project Name="player" Path="player.project" Active="No"/>
+  <Project Name="DDEC2" Path="DDEC2.project" Active="No"/>
+  <Project Name="player" Path="player.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="no">
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Project Name="DDEC2" ConfigName="Debug"/>
       <Project Name="player" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="yes">
+    <WorkspaceConfiguration Name="Release" Selected="no">
       <Project Name="DDEC2" ConfigName="Release"/>
       <Project Name="player" ConfigName="Release"/>
     </WorkspaceConfiguration>
