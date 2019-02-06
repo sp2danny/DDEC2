@@ -269,7 +269,7 @@ bool decrypt_source::have(UC bitcount)
 	make(bitcount);
 	if (cnt < bitcount)
 	{
-		std::cerr << "did not have " << bitcount << " bits" << std::endl;
+		std::cerr << "did not have " << (int)bitcount << " bits" << std::endl;
 	}
 	return cnt >= bitcount;
 }

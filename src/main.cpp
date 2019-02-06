@@ -68,17 +68,17 @@ void Main()
 	// -stc -ld -mf
 	// -sfc -mf -pfb -t
 
-	// 1024x768 in
+	// 1280x960 in
 	Params = { 
-		"-md", "-src", "img", "-bmp", "-dig", "5", "-name", "img_", "-start", "1", "-mf", "-w", "102", "-h", "76", "-stc",
+		"-md", "-src", "img", "-bmp", "-dig", "5", "-name", "img_", "-start", "600", "-mf", "-w", "128", "-h", "96", "-stc",
 		"-errlim", "3500000", //, "-max", "500",
 		"-fast", "-zds", "65000", "-key", "qwerty123456", "-fr", "-t",
 		"-base", ".", "-pfb", "-sad", "-sll"
 	};
-	
-	// 1024x768 ut
+
+	// 1280x960 ut
 	//Params = { 
-	//	"-mf", "-w", "102", "-h", "76", "-sfc", "-pfb",
+	//	"-mf", "-w", "128", "-h", "96", "-sfc", "-pfb",
 	//	"-zds", "65000", "-key", "qwerty123456", "-fr", "-t",
 	//	"-base", "." //, "-sad", "-sll"
 	//};

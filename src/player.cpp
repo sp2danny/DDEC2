@@ -155,11 +155,11 @@ gboolean idle_func([[maybe_unused]] gpointer data)
 	RGB_Image img;
 	FromFrame(*curr, img);
 	
-	/*{
+	{
 		auto fn = "stage/test-out"s + std::to_string(i) + ".bmp"s;
 		std::ofstream ofs(fn, std::fstream::binary | std::fstream::out);
 		SaveBMP(img, ofs);
-	}*/
+	}
 
 	SetPixbuf(pixbuf, img);
 
@@ -179,7 +179,7 @@ void Main()
 {
 
 	Params = {
-		"-w", "102", "-h", "76"
+		"-w", "128", "-h", "96"
 		"-fps", "50",
 		"-zds", "65000", "-key", "qwerty123456",
 	};

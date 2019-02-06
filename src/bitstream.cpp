@@ -54,7 +54,7 @@ bool streamsource::have(UC bitcount)
 	make(bitcount);
 	if (cnt < bitcount)
 	{
-		std::cerr << "did not have " << bitcount << " bits" << std::endl;
+		std::cerr << "did not have " << (int)bitcount << " bits" << std::endl;
 	}
 	return cnt >= bitcount;
 }
@@ -74,7 +74,7 @@ bool nibble_channel::have(UC bitcount)
 	assert((bitcount%4)==0);
 	if (nibbles.size() < (bitcount/4))
 	{
-		std::cerr << "did not have " << bitcount << " bits" << std::endl;
+		std::cerr << "did not have " << (int)bitcount << " bits" << std::endl;
 	}
 	return nibbles.size() >= (bitcount/4);
 }
@@ -107,7 +107,7 @@ bool debv::have(UC bitcount)
 	UL tbsf = vec.size() * 8 + cnt_in + cnt_ut;
 	if (tbsf < bitcount)
 	{
-		std::cerr << "did not have " << bitcount << " bits" << std::endl;
+		std::cerr << "did not have " << (int)bitcount << " bits" << std::endl;
 	}
 	return tbsf >= bitcount;
 }
