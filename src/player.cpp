@@ -117,9 +117,9 @@ void SetPixbuf(GdkPixbuf* pb, RGB_Image& img)
 		{
 			p = pixels + y * rowstride + x * n_channels;
 			RGB rgb = img.pix[x+y*img.w];
-			p[0] = rgb.r;
+			p[0] = rgb.b;
 			p[1] = rgb.g;
-			p[2] = rgb.b;
+			p[2] = rgb.r;
 		}
 	}
 }
