@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <string>
+#include <string_view>
+#include <filesystem>
 
 using namespace std::literals;
 
@@ -27,7 +29,45 @@ struct RGB
 static_assert( sizeof(RGB) == 3 );
 static_assert( sizeof(HSV) == 3 );
 
-inline std::string base = "./img/"s;
+// inline std::string base = "./img/"s;
 
+inline std::filesystem::path base = "./img/"s;
 
+inline std::vector<std::string> Params;
 
+inline bool hasparam(std::string_view str)
+{
+	for(auto&& x : Params)
+		if (x==str)
+			return true;
+	return false;
+}
+
+inline int paramnum(std::string_view str)
+{
+	int i = 0;
+	for (auto&& x : Params)
+	{
+		if (x == str)
+			return i;
+		++i;
+	}
+	return -1;
+}
+
+inline auto paramlookup(std::string_view str)
+{
+	struct { bool ok; int index; } res = { false, 0 };
+	if (Params.empty()) return res;
+	int i = 0;
+	for (auto&& x : Params)
+	{
+		if (x == str) {
+			res = {true, i};
+			return res;
+		}
+		//	return {true, i};
+		++i;
+	}
+	return res; // {false, -1};
+}

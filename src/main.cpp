@@ -7,16 +7,13 @@
 #include <fstream>
 #include <memory>
 
-#include <boost/filesystem.hpp>
-
 #include "frame.hpp"
 #include "lzv.hpp"
 #include "Crypt.h"
 #include "perftimer.h"
 
-namespace fs = boost::filesystem;
-
-/*extern*/ std::vector<std::string> Params;
+#include <filesystem>
+namespace fs = std::filesystem;
 
 template<typename... Ts>
 std::string to_string_f(const char* fmt, const Ts& ...ts)
@@ -39,26 +36,6 @@ namespace
 #define IFS(fn) unmove(std::ifstream{fn, std::fstream::binary | std::fstream::in})
 
 using hrc = std::chrono::high_resolution_clock;
-
-bool hasparam(std::string_view str)
-{
-	for(auto&& x : Params)
-		if (x==str)
-			return true;
-	return false;
-}
-
-int paramnum(std::string_view str)
-{
-	int i = 0;
-	for (auto&& x : Params)
-	{
-		if (x == str)
-			return i;
-		++i;
-	}
-	return -1;
-}
 
 void Main(int argc, char** argv)
 {
@@ -99,93 +76,101 @@ void Main(int argc, char** argv)
 	bool FAST_DIFF          = hasparam("-fast");
 	bool SAVE_LOAD_LZV      = hasparam("-sll");
 
-	if (hasparam("-base"))
+	if (auto [ok, idx] = paramlookup("-base"); ok)
+	//if (hasparam("-base"))
 	{
-		int i = paramnum("-base");
-		base = Params[i + 1];
-		base += "/";
+		//int i = paramnum("-base");
+		base = Params[idx + 1];
 	}
 
-	if (!fs::exists(base + "stage"))               fs::create_directory(base + "stage");
-	if (!fs::exists(base + "stage/01_loaded"))     fs::create_directory(base + "stage/01_loaded");
-	if (!fs::exists(base + "stage/02_toframe"))    fs::create_directory(base + "stage/02_toframe");
-	if (!fs::exists(base + "stage/03_mkdiff"))     fs::create_directory(base + "stage/03_mkdiff");
-	if (!fs::exists(base + "stage/04_post"))       fs::create_directory(base + "stage/04_post");
-	if (!fs::exists(base + "stream"))              fs::create_directory(base + "stream");
+	if (!fs::exists(base / "stage"))               fs::create_directory(base / "stage");
+	if (!fs::exists(base / "stage/01_loaded"))     fs::create_directory(base / "stage/01_loaded");
+	if (!fs::exists(base / "stage/02_toframe"))    fs::create_directory(base / "stage/02_toframe");
+	if (!fs::exists(base / "stage/03_mkdiff"))     fs::create_directory(base / "stage/03_mkdiff");
+	if (!fs::exists(base / "stage/04_post"))       fs::create_directory(base / "stage/04_post");
+	if (!fs::exists(base / "stream"))              fs::create_directory(base / "stream");
 
 	std::string key = "abcdef123456"s;
-	std::string crfn = base + "stream/64.czs"s;
+	std::string crfn = base / "stream/64.czs"s;
 
-	if (hasparam("-key"))
+	if (auto [ok, idx] = paramlookup("-key"); ok)
 	{
-		int i = paramnum("-key");
-		key = Params[i+1];
+		key = Params[idx+1];
 	}
 
-	if (hasparam("-sn"))
+	if (auto [ok, idx] = paramlookup("-sn"); ok)
+	//if (hasparam("-sn"))
 	{
-		int i = paramnum("-sn");
-		crfn = Params[i + 1];
+		crfn = Params[idx + 1];
 	}
 
 	std::string src = "src2";
-	if (hasparam("-src"))
+	if (auto [ok, idx] = paramlookup("-src"); ok)
+	//if (hasparam("-src"))
 	{
-		int i = paramnum("-src");
-		src = Params[i + 1];
+		//int i = paramnum("-src");
+		src = Params[idx + 1];
 	}
 
 	std::string dig = "%04d";
-	if (hasparam("-dig"))
+	if (auto [ok, idx] = paramlookup("-dig"); ok)
+	//if (hasparam("-dig"))
 	{
-		int i = paramnum("-dig");
-		dig = "%0" + Params[i + 1] + "d";
+		//int i = paramnum("-dig");
+		dig = "%0" + Params[idx + 1] + "d";
 	}
 
 	UL DICTSZ = 65'000;
-	if (hasparam("-zds"))
+	if (auto [ok, idx] = paramlookup("-zds"); ok)
+	//if (hasparam("-zds"))
 	{
-		int i = paramnum("-zds");
-		DICTSZ = std::stoi(Params[i + 1]);
+		//int i = paramnum("-zds");
+		DICTSZ = std::stoi(Params[idx + 1]);
 	}
 
 	UL start = 0;
-	if (hasparam("-start"))
+	if (auto [ok, idx] = paramlookup("-start"); ok)
+	//if (hasparam("-start"))
 	{
-		int i = paramnum("-start");
-		start = std::stoi(Params[i + 1]);
+		//int i = paramnum("-start");
+		start = std::stoi(Params[idx + 1]);
 	}
 
 	UL maxcnt = (UL)-1;
-	if (hasparam("-max"))
+	if (auto [ok, idx] = paramlookup("-max"); ok)
+	//if (hasparam("-max"))
 	{
-		int i = paramnum("-max");
-		maxcnt = std::stoi(Params[i + 1]);
+		//int i = paramnum("-max");
+		maxcnt = std::stoi(Params[idx + 1]);
 	}
 	auto nam = "img"s;
-	if (hasparam("-name"))
+	if (auto [ok, idx] = paramlookup("-name"); ok)
+	//if (hasparam("-name"))
 	{
-		int i = paramnum("-name");
-		nam = Params[i + 1];
+		//int i = paramnum("-name");
+		nam = Params[idx + 1];
 	}
 
 	UC W = 64, H = 48;
+	if (auto [ok, idx] = paramlookup("-w"); ok)
 	if (hasparam("-w"))
 	{
-		int i = paramnum("-w");
-		W = (UC)std::stoi(Params[i + 1]);
+		//int i = paramnum("-w");
+		W = (UC)std::stoi(Params[idx + 1]);
 	}
-	if (hasparam("-h"))
+	if (auto [ok, idx] = paramlookup("-h"); ok)
+	//if (hasparam("-h"))
 	{
-		int i = paramnum("-h");
-		H = (UC)std::stoi(Params[i + 1]);
+		//int i = paramnum("-h");
+		H = (UC)std::stoi(Params[idx + 1]);
 	}
 
 	UL errlim = 165ul * W * H;
-	if (hasparam("-errlim"))
+	if (auto [ok, idx] = paramlookup("-errlim"); ok)
+	//if (hasparam("-errlim"))
 	{
-		int i = paramnum("-errlim");
-		errlim = std::stoi(Params[i + 1]);
+		//int i = paramnum("-errlim");
+		errlim = std::stoi(Params[idx + 1]);
 	}
 
 	fr1.resize(W, H);
@@ -245,7 +230,7 @@ void Main(int argc, char** argv)
 
 		if (LOAD_FROM_BMP)
 		{
-			auto fn = base + src + "/" + nam + num + ".bmp"s;
+			auto fn = base / src / (nam + num + ".bmp"s);
 			std::ifstream ifs{fn, std::fstream::binary | std::fstream::in};
 			if (!ifs) break;
 			LoadBMP(img, ifs);
@@ -253,7 +238,7 @@ void Main(int argc, char** argv)
 
 		if (SAVE_AFTER_LOAD)
 		{
-			auto fn = base + "stage/01_loaded/img"s + num + ".bmp"s;
+			auto fn = base / ("stage/01_loaded/img"s + num + ".bmp"s);
 			SaveBMP(img, OFS(fn));
 		}
 
@@ -266,13 +251,13 @@ void Main(int argc, char** argv)
 				bitvector bv;
 				curr->Save(bv);
 				bv.done();
-				auto fn = base + "stage/02_toframe/img"s + num + ".f"s;
+				auto fn = base / ("stage/02_toframe/img"s + num + ".f"s);
 				bv.write(OFS(fn));
 			}
 			{
 				RGB_Image tmp;
 				FromFrame(*curr, tmp);
-				auto fn = base + "stage/02_toframe/img"s + num + ".bmp"s;
+				auto fn = base / ("stage/02_toframe/img"s + num + ".bmp"s);
 				SaveBMP(tmp, OFS(fn));
 			}
 		}
@@ -296,20 +281,20 @@ void Main(int argc, char** argv)
 				bitvector bv;
 				df.Save(bv);
 				bv.done();
-				auto fn = base + "stage/03_mkdiff/img"s + num + ".df"s;
+				auto fn = base / ("stage/03_mkdiff/img"s + num + ".df"s);
 				bv.write(OFS(fn));
 			} else {
 				bitvector bv;
 				curr->Save(bv);
 				bv.done();
-				auto fn = base + "stage/03_mkdiff/img"s + num + ".f"s;
+				auto fn = base / ("stage/03_mkdiff/img"s + num + ".f"s);
 				bv.write(OFS(fn));
 			}
 		}
 
 		if (LOAD_DIFF)
 		{
-			auto fn = base + "stage/03_mkdiff/img"s + num + ".f"s;
+			auto fn = base / ("stage/03_mkdiff/img"s + num + ".f"s);
 			std::ifstream in{fn, std::fstream::binary | std::fstream::in};
 			if (in)
 			{
@@ -318,7 +303,7 @@ void Main(int argc, char** argv)
 				if (!ok) break;
 				did_delta = false;
 			} else {
-				fn = base + "stage/03_mkdiff/img"s + num + ".df"s;
+				fn = base / ("stage/03_mkdiff/img"s + num + ".df"s);
 				in.open(fn, std::fstream::binary | std::fstream::in);
 				if (!in) break;
 				streamsource ss(in);
@@ -394,14 +379,14 @@ void Main(int argc, char** argv)
 			df_2.mkFrame(*prev);
 			assignFrame(f_2, df);
 			FromFrame(f_2, img);
-			auto fn = base + "stage/04_post/"s + num + "-delz.bmp"s;
+			auto fn = base / ("stage/04_post/"s + num + "-delz.bmp"s);
 			SaveBMP(img, OFS(fn));
 		}
 
 		if (POST_FRAME_BMP)
 		{
 			FromFrame(*curr, img);
-			auto fn = base + "stage/04_post/"s + num + "-img.bmp"s;
+			auto fn = base / ("stage/04_post/"s + num + "-img.bmp"s);
 			SaveBMP(img, OFS(fn));
 		}
 	}
