@@ -215,6 +215,8 @@ encrypt_target::encrypt_target(const std::string& key, std::ostream& out)
 
 void encrypt_target::put(UL bits, UC bitcount)
 {
+	assert( (cnt+bitcount) <= (sizeof(UL)*8) );
+	
 	bsf <<= bitcount;
 	bsf |= bits;
 	cnt += bitcount;

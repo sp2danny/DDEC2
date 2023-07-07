@@ -32,16 +32,13 @@ namespace
 	std::unique_ptr<decrypt_source> cr_s;
 	std::unique_ptr<std::iostream> crypt_stream;
 
-	[[maybe_unused]] TP t1, t2;
+	TP t1, t2;
 	UL i;
 
-	[[maybe_unused]] Frame* curr;
-	[[maybe_unused]] Frame* prev;
+	Frame* curr;
+	Frame* prev;
 
-	[[maybe_unused]] bool did_delta = false;
-	RGB_Image img;
-	
-	[[maybe_unused]] bool want_more = true;
+	bool did_delta = false, want_more = true;
 }
 
 #define OFS(fn) unmove(std::ofstream{fn, std::fstream::binary | std::fstream::out})
