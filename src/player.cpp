@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include <filesystem>
 
 #include <SFML/Graphics.hpp>
 
@@ -66,6 +67,11 @@ void Main()
 	{
 		H = (UC)std::stoi(Params[idx + 1]);
 	}
+	bool want_bmp = hasparam("-bmp");
+	if (want_bmp) {
+		if (!std::filesystem::exists("./stage/00_play"))
+			std::filesystem::create_directory("./stage/00_play");
+	}
 
 	const int WW = W*10, HH = H*10;
 
@@ -92,7 +98,9 @@ void Main()
 
 	sf::Texture tex;
 	tex.create(WW, HH);
-	
+
+	[[maybe_unused]] bool pause = false;
+
 	while (want_more && window.isOpen())
     {
         sf::Event event;
@@ -102,9 +110,20 @@ void Main()
                 window.close();
 				want_more = false;
 			}
+			if (event.type == sf::Event::KeyPressed) {
+				if (event.key.code == sf::Keyboard::Space)
+					pause = !pause;
+				if (event.key.code == sf::Keyboard::Escape)
+					want_more = false;
+			}
         }
 		
 		if (!want_more) break;
+		
+		if (pause) {
+			usleep(100);
+			continue;
+		}
 
 		curr = (i % 2) ? &fr1 : &fr2;
 		prev = (i % 2) ? &fr2 : &fr1;
@@ -131,8 +150,10 @@ void Main()
 
 		RGB_Image img;
 		FromFrame(*curr, img);
+		
+		if (want_bmp)
 		{
-			auto fn = "stage/test-out"s + std::to_string(i) + ".bmp"s;
+			auto fn = "./stage/00_play/img-"s + std::to_string(i) + ".bmp"s;
 			std::ofstream ofs(fn, std::fstream::binary | std::fstream::out);
 			SaveBMP(img, ofs);
 		}

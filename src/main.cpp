@@ -353,6 +353,9 @@ void Main(int argc, char** argv)
 			}
 		}
 		
+		//	df.mkFrame(*prev);
+		//	assignFrame(*curr, df);
+
 		if (MAKE_FRAME && POST_FRAME_BMP && SAVE_LOAD_LZV && did_delta)
 		{
 			lzv_decoder_template lz(DICTSZ, bv);
@@ -388,7 +391,7 @@ void Main(int argc, char** argv)
 		t2 = hrc::now();
 		auto dur = Dur(t2-t1);
 		double s = dur.count();
-		std::cout << "\n FPS : " << (i/s) << std::endl;
+		std::cout << "\n\n FPS : " << (i/s) << std::endl;
 
 		std::cout << "streamin     " << perft.streamin   .count() << " s\n";
 		std::cout << "decrypt      " << perft.decrypt    .count() << " s\n";
@@ -396,7 +399,7 @@ void Main(int argc, char** argv)
 		std::cout << "makeframe    " << perft.makeframe  .count() << " s\n";
 		std::cout << "rest         " << (dur-(perft.streamin+perft.decrypt+perft.decompress+perft.makeframe)).count() << " s\n";
 		std::cout << "longest seq  " << longest_sequence << "\n";
-		std::cout << "MNCL         " << maximum_nibble_channel_load << "\n";
+		std::cout << "MNCL         " << maximum_nibble_channel_load << std::endl;
 		fgetc(stdin);
 	}
 }

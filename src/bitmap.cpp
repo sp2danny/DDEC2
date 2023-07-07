@@ -74,8 +74,10 @@ void LoadBMP(RGB_Image& img, std::istream& in)
 				std::cerr << std::boolalpha << "fail " << in.fail() << std::endl;
 				std::cerr << std::boolalpha << "eof  " << in.eof()  << std::endl;
 			}
-			in.read( (char*)&rgb, 3 );
-			assert( in && (in.gcount()==3) );
+			in.read( (char*)&rgb.b, 1 );
+			in.read( (char*)&rgb.r, 1 );
+			in.read( (char*)&rgb.g, 1 );
+			//assert( in && (in.gcount()==3) );
 			img.pix[x+y*w] = rgb;
 		}
 		if (padding)
@@ -124,7 +126,9 @@ void SaveBMP(const RGB_Image& img, std::ostream& out)
 		for (auto x = 0ul; x < w; ++x)
 		{
 			RGB rgb = img.pix[x + y*w];
-			out.write((char*)&rgb, 3);
+			out.write((char*)&rgb.b, 1);
+			out.write((char*)&rgb.g, 1);
+			out.write((char*)&rgb.r, 1);
 		}
 		if (padding)
 			out.write(buf, padding);
@@ -146,7 +150,7 @@ void FadeToBlack(RGB_Image& img, float amount)
 		HSV hsv = RgbToHsv(pix);
 		float v = hsv.v;
 		v = v * (1.0f-amount);
-		if (v>255) v = v=255;
+		if (v>255) v=255;
 		hsv.v = (UC)v;
 		pix = HsvToRgb(hsv);
 	}

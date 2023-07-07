@@ -31,8 +31,6 @@
       </Compiler>
       <Linker Options="">
         <LibraryPath Value="/usr/lib/boost"/>
-        <Library Value="boost_system"/>
-        <Library Value="boost_filesystem"/>
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
@@ -42,7 +40,7 @@
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(ProjectName)_dbg.out" IntermediateDirectory="./bin/Debug" Command="$(ProjectName)_dbg.out" CommandArguments="-bmp -stc -base ./img -sn ./out.czs -dig 4 -name b -w 48 -h 27 -max 999 -start 2" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="." PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(ProjectName)_dbg.out" IntermediateDirectory="./bin/Debug" Command="$(ProjectName)_dbg.out" CommandArguments="-errlim 80000 -bmp -stc -base . -src img -sn ./out.czs -dig 4 -name b -w 48 -h 27 -max 999 -start 2 -md" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="." PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
