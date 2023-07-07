@@ -77,7 +77,6 @@ void LoadBMP(RGB_Image& img, std::istream& in)
 			in.read( (char*)&rgb.b, 1 );
 			in.read( (char*)&rgb.r, 1 );
 			in.read( (char*)&rgb.g, 1 );
-			//assert( in && (in.gcount()==3) );
 			img.pix[x+y*w] = rgb;
 		}
 		if (padding)
@@ -87,7 +86,6 @@ void LoadBMP(RGB_Image& img, std::istream& in)
 
 void SaveBMP(const RGB_Image& img, std::ostream& out)
 {
-
 	BITMAPFILEHEADER fh;
 	BITMAPINFOHEADER ih;
 

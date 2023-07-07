@@ -23,36 +23,9 @@
     <GlobalSettings>
       <Compiler Options="-std=c++2a;-Wall;-Wextra;-Werror;-Wno-multichar" C_Options="" Assembler="">
         <IncludePath Value="."/>
-        <IncludePath Value="/usr/include/glib-2.0"/>
-        <IncludePath Value="/usr/lib/x86_64-linux-gnu/glib-2.0/include"/>
-        <IncludePath Value="/usr/include/cairo"/>
-        <IncludePath Value="/usr/include/pango-1.0"/>
-        <IncludePath Value="/usr/include/atk-1.0"/>
       </Compiler>
       <Linker Options="-std=c++2a">
         <LibraryPath Value="."/>
-        <Library Value="pangocairo-1.0"/>
-        <Library Value="atk-1.0"/>
-        <Library Value="cairo"/>
-        <Library Value="gio-2.0"/>
-        <Library Value="pangoft2-1.0"/>
-        <Library Value="pango-1.0"/>
-        <Library Value="gobject-2.0"/>
-        <Library Value="glib-2.0"/>
-        <Library Value="fontconfig"/>
-        <Library Value="freetype"/>
-        <Library Value="boost_system"/>
-        <Library Value="pthread"/>
-        <Library Value="boost_system"/>
-        <Library Value="boost_filesystem"/>
-        <Library Value="boost_thread"/>
-        <Library Value="boost_chrono"/>
-        <Library Value="gmp"/>
-        <Library Value="gmpxx"/>
-        <Library Value="avcodec"/>
-        <Library Value="avformat"/>
-        <Library Value="avutil"/>
-        <Library Value="swresample"/>
         <Library Value="sfml-graphics"/>
         <Library Value="sfml-window"/>
         <Library Value="sfml-system"/>

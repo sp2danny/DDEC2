@@ -49,6 +49,33 @@ namespace
 
 using hrc = std::chrono::high_resolution_clock;
 
+void FromFrameSF(const Frame& frame, sf::Image& image)
+{
+	UL W = frame.w*10;
+	UL H = frame.h*10;
+	sf::Color c;
+
+	for (UL y = 0; y < H; ++y)
+	{
+		for (UL x = 0; x < W; ++x)
+		{
+			auto bl_x = UC(x / 10);
+			auto bl_y = UC(y / 10);
+			auto& bl = frame.pix(bl_x, bl_y);
+			auto bl_ix = x % 10;
+			auto bl_iy = y % 10;
+			HSV hsv = bl.Pix(bl_ix, bl_iy);
+			hsv.h = hsv.h << (8 - HBIT);
+			hsv.s = hsv.s << (8 - SBIT);
+			hsv.v = hsv.v << (8 - VBIT);
+			auto rgb = HsvToRgb(hsv);
+			c.r = rgb.r; c.g = rgb.g; c.b = rgb.b;
+			image.setPixel(x, H-y-1, c);
+		}
+	}
+}
+
+
 void Main()
 {
 	if (auto [ok, idx] = paramlookup("-key"); ok)
@@ -66,11 +93,6 @@ void Main()
 	if (auto [ok, idx] = paramlookup("-h"); ok)
 	{
 		H = (UC)std::stoi(Params[idx + 1]);
-	}
-	bool want_bmp = hasparam("-bmp");
-	if (want_bmp) {
-		if (!std::filesystem::exists("./stage/00_play"))
-			std::filesystem::create_directory("./stage/00_play");
 	}
 
 	const int WW = W*10, HH = H*10;
@@ -99,7 +121,7 @@ void Main()
 	sf::Texture tex;
 	tex.create(WW, HH);
 
-	[[maybe_unused]] bool pause = false;
+	bool pause = false;
 
 	while (want_more && window.isOpen())
     {
@@ -148,28 +170,7 @@ void Main()
 		++i;
 		std::cout << i << "\r" << std::flush;
 
-		RGB_Image img;
-		FromFrame(*curr, img);
-		
-		if (want_bmp)
-		{
-			auto fn = "./stage/00_play/img-"s + std::to_string(i) + ".bmp"s;
-			std::ofstream ofs(fn, std::fstream::binary | std::fstream::out);
-			SaveBMP(img, ofs);
-		}
-
-		sf::Color pix;
-		pix.a = 255;
-		for(auto y = 0; y < HH; ++y)
-		{
-			for(auto x = 0; x < WW; ++x)
-			{
-				pix.r = img.pix[x + y*WW].r;
-				pix.g = img.pix[x + y*WW].g;
-				pix.b = img.pix[x + y*WW].b;
-				sfimg.setPixel(x, HH-y-1, pix);
-			}
-		}
+		FromFrameSF(*curr, sfimg);
 
 		tex.update(sfimg);
 

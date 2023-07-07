@@ -16,6 +16,8 @@ static_assert( sizeof(UL) == 4 );
 
 typedef std::vector<UC> BVec;
 
+#pragma pack(push, 1)
+
 struct HSV
 {
 	UC h, s, v;
@@ -25,6 +27,8 @@ struct RGB
 {
 	UC r, g, b;
 };
+
+#pragma pack(pop)
 
 static_assert( sizeof(RGB) == 3 );
 static_assert( sizeof(HSV) == 3 );
