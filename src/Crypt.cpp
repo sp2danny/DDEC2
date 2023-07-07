@@ -251,16 +251,12 @@ void encrypt_target::done()
 	out.flush();
 }
 
-
 // ----------------------------------------------------------------------------
-
 
 decrypt_source::decrypt_source(const std::string& key, std::istream& in)
 	: in(in), cr(key)
 {
 	blsz = 0;
-	//block.clear();
-	//block.reserve(cr.maxblock());
 	pos = 0;
 	bsf = 0;
 	cnt = 0;
@@ -278,7 +274,6 @@ bool decrypt_source::have(UC bitcount)
 
 UL decrypt_source::get(UC bitcount)
 {
-	//make(bitcount);
 	assert(cnt >= bitcount);
 	UL ret = bsf >> (cnt - bitcount);
 	cnt -= bitcount;
@@ -298,7 +293,6 @@ void decrypt_source::make(UC bitcount)
 			if (pt)
 				t1 = hrc::now();
 			UL max = cr.maxblock();
-			//block.resize(max);
 			if (pt) {
 				t2 = hrc::now();
 				pt->decrypt += Dur(t2 - t1);
@@ -316,7 +310,6 @@ void decrypt_source::make(UC bitcount)
 				return;
 			}
 			blsz = n;
-			//block.resize(n);
 			cr.decrypt_block(block.data(), n);
 			pos = 0;
 			if (pt)

@@ -90,7 +90,7 @@ void Main(int argc, char** argv)
 	if (!fs::exists(base / "stage/02_toframe"))    fs::create_directory(base / "stage/02_toframe");
 	if (!fs::exists(base / "stage/03_mkdiff"))     fs::create_directory(base / "stage/03_mkdiff");
 	if (!fs::exists(base / "stage/04_post"))       fs::create_directory(base / "stage/04_post");
-	if (!fs::exists(base / "stream"))              fs::create_directory(base / "stream");
+	//if (!fs::exists(base / "stream"))              fs::create_directory(base / "stream");
 
 	std::string key = "abcdef123456"s;
 	std::string crfn = base / "stream/64.czs"s;
@@ -186,7 +186,7 @@ void Main(int argc, char** argv)
 	std::ofstream fr;
 	if (FRAME_REPORT)
 	{
-		fr.open("FrameReport.txt", std::fstream::out);
+		fr.open("stage/FrameReport.txt", std::fstream::out);
 	}
 
 	TP t1, t2;
@@ -400,7 +400,7 @@ void Main(int argc, char** argv)
 		std::cout << "rest         " << (dur-(perft.streamin+perft.decrypt+perft.decompress+perft.makeframe)).count() << " s\n";
 		std::cout << "longest seq  " << longest_sequence << "\n";
 		std::cout << "MNCL         " << maximum_nibble_channel_load << std::endl;
-		fgetc(stdin);
+		//fgetc(stdin);
 	}
 }
 
