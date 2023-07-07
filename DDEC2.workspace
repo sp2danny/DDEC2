@@ -4,10 +4,12 @@
   <Project Name="player" Path="player.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">
+      <Environment/>
       <Project Name="DDEC2" ConfigName="Debug"/>
       <Project Name="player" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
+      <Environment/>
       <Project Name="DDEC2" ConfigName="Release"/>
       <Project Name="player" ConfigName="Release"/>
     </WorkspaceConfiguration>

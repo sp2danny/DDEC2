@@ -39,6 +39,8 @@ using hrc = std::chrono::high_resolution_clock;
 
 void Main(int argc, char** argv)
 {
+	std::cout << "Starting..." << std::endl; 
+	
 	DiffFrame df;
 
 	// -bmp -md -sad -mf
@@ -48,11 +50,11 @@ void Main(int argc, char** argv)
 	// -w 128 -h 96 -start 1 -zds 6500 -key qwerty123456 -t -base . -mf
 
 	// 1280x960 in
-	Params = { 
+	/*Params = { 
 		"-bmp", "-src", "img", "-dig", "5", "-name", "img_",
 		"-md", "-stc", "-errlim", "3500000", "-fast", //, "-max", "500",
 		 "-fr"//, "-pfb", "-sal", "-saf", "-sad", "-sll"
-	};
+	};*/
 
 	// 1280x960 ut
 	//Params = { 
@@ -99,77 +101,58 @@ void Main(int argc, char** argv)
 	}
 
 	if (auto [ok, idx] = paramlookup("-sn"); ok)
-	//if (hasparam("-sn"))
 	{
 		crfn = Params[idx + 1];
 	}
 
 	std::string src = "src2";
 	if (auto [ok, idx] = paramlookup("-src"); ok)
-	//if (hasparam("-src"))
 	{
-		//int i = paramnum("-src");
 		src = Params[idx + 1];
 	}
 
 	std::string dig = "%04d";
 	if (auto [ok, idx] = paramlookup("-dig"); ok)
-	//if (hasparam("-dig"))
 	{
-		//int i = paramnum("-dig");
 		dig = "%0" + Params[idx + 1] + "d";
 	}
 
 	UL DICTSZ = 65'000;
 	if (auto [ok, idx] = paramlookup("-zds"); ok)
-	//if (hasparam("-zds"))
 	{
-		//int i = paramnum("-zds");
 		DICTSZ = std::stoi(Params[idx + 1]);
 	}
 
 	UL start = 0;
 	if (auto [ok, idx] = paramlookup("-start"); ok)
-	//if (hasparam("-start"))
 	{
-		//int i = paramnum("-start");
 		start = std::stoi(Params[idx + 1]);
 	}
 
 	UL maxcnt = (UL)-1;
 	if (auto [ok, idx] = paramlookup("-max"); ok)
-	//if (hasparam("-max"))
 	{
-		//int i = paramnum("-max");
 		maxcnt = std::stoi(Params[idx + 1]);
 	}
 	auto nam = "img"s;
 	if (auto [ok, idx] = paramlookup("-name"); ok)
-	//if (hasparam("-name"))
 	{
-		//int i = paramnum("-name");
 		nam = Params[idx + 1];
 	}
 
 	UC W = 64, H = 48;
 	if (auto [ok, idx] = paramlookup("-w"); ok)
-	if (hasparam("-w"))
 	{
-		//int i = paramnum("-w");
 		W = (UC)std::stoi(Params[idx + 1]);
 	}
 	if (auto [ok, idx] = paramlookup("-h"); ok)
-	//if (hasparam("-h"))
 	{
-		//int i = paramnum("-h");
 		H = (UC)std::stoi(Params[idx + 1]);
 	}
 
 	UL errlim = 165ul * W * H;
 	if (auto [ok, idx] = paramlookup("-errlim"); ok)
-	//if (hasparam("-errlim"))
 	{
-		//int i = paramnum("-errlim");
 		errlim = std::stoi(Params[idx + 1]);
 	}
 

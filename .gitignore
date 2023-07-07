@@ -1,3 +1,8 @@
 *.out
 bin/
 .*/
+img/
+stage/
+FrameReport.txt
+*.mp4
+*.czs

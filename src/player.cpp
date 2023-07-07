@@ -7,11 +7,6 @@
 #include <fstream>
 #include <memory>
 
-// #include <gtk/gtk.h>
-// #include <gdk/gdk.h>
-// #include <gdk/gdkkeysyms.h>
-// #include <gdk-pixbuf/gdk-pixbuf.h>
-
 #include <SFML/Graphics.hpp>
 
 #include "frame.hpp"
@@ -38,10 +33,6 @@ namespace
 
 	[[maybe_unused]] TP t1, t2;
 	UL i;
-	
-	//GtkWidget* image;
-	//GtkWidget* window;
-	//GdkPixbuf* pixbuf;
 
 	[[maybe_unused]] Frame* curr;
 	[[maybe_unused]] Frame* prev;
@@ -57,153 +48,37 @@ namespace
 
 using hrc = std::chrono::high_resolution_clock;
 
-
-//gboolean idle_func(gpointer data);
-
-//extern gboolean delete_event(GtkWidget* widget, GdkEvent* event, gpointer data);
-
-//gboolean delete_event(GtkWidget* widget, GdkEvent* event, gpointer data)
-//{
-//	(void)widget;
-//	(void)event;
-//	(void)data;
-//
-//	gtk_main_quit();
-//	return TRUE;
-//}
-//
-//void SetPixbuf(GdkPixbuf* pb, RGB_Image& img)
-//{
-//	
-//	int ww, hh, rowstride, n_channels;
-//	guchar *pixels, *p;
-//
-//	n_channels = gdk_pixbuf_get_n_channels (pb);
-//
-//	g_assert (gdk_pixbuf_get_colorspace (pb) == GDK_COLORSPACE_RGB);
-//	g_assert (gdk_pixbuf_get_bits_per_sample (pb) == 8);
-//
-//	ww = std::min<int>( img.w , gdk_pixbuf_get_width  (pb) );
-//	hh = std::min<int>( img.h , gdk_pixbuf_get_height (pb) );
-//
-//	rowstride = gdk_pixbuf_get_rowstride (pb);
-//	pixels = gdk_pixbuf_get_pixels (pb);
-//
-//	int x,y;
-//	for (y=0; y<hh; ++y)
-//	{
-//		for (x=0; x<ww; ++x)
-//		{
-//			p = pixels + y * rowstride + x * n_channels;
-//			RGB rgb = img.pix[x+y*img.w];
-//			p[0] = rgb.b;
-//			p[1] = rgb.g;
-//			p[2] = rgb.r;
-//		}
-//	}
-//}
-//
-//gboolean idle_func([[maybe_unused]] gpointer data)
-//{
-//	if (!want_more) return TRUE;
-//	
-//	curr = (i % 2) ? &fr1 : &fr2;
-//	prev = (i % 2) ? &fr2 : &fr1;
-//
-//	if (i)
-//	{
-//		if (!cr_s->have(1)) { want_more=false; return TRUE; }
-//		did_delta = cr_s->get(1);
-//	}
-//	if (did_delta)
-//	{
-//		lzv_decoder_template lz(DICTSZ, *cr_s);
-//		bool ok = df.LoadT(lz);
-//		if (!ok) { want_more=false; return TRUE; }
-//		df.mkFrame(*prev);
-//		assignFrame(*curr, df);
-//	} else {
-//		bool ok = curr->Load(*cr_s);
-//		if (!ok) { want_more=false; return TRUE; }
-//	}
-//
-//	++i;
-//
-//	std::cout << "decoded frame " << i << ", size " << int(curr->w) << "x" << int(curr->h) << (did_delta?" (delta)":"        ") << "\r" << std::flush;
-//	
-//	RGB_Image img;
-//	FromFrame(*curr, img);
-//	
-//	{
-//		auto fn = "stage/test-out"s + std::to_string(i) + ".bmp"s;
-//		std::ofstream ofs(fn, std::fstream::binary | std::fstream::out);
-//		SaveBMP(img, ofs);
-//	}
-//
-//	SetPixbuf(pixbuf, img);
-//
-//	while (true)
-//	{
-//		t2 = hrc::now();
-//		if ((t2-t1) > 35ms) break;
-//	}
-//	t1 = t2;
-//	
-//	gtk_widget_queue_draw(image);
-//
-//	return TRUE;
-//}
-//
-
 void Main()
 {
 	if (auto [ok, idx] = paramlookup("-key"); ok)
-	//if (hasparam("-key"))
 	{
-		//int i = paramnum("-key");
 		key = Params[idx+1];
 	}
 	if (auto [ok, idx] = paramlookup("-zds"); ok)
-	//if (hasparam("-zds"))
 	{
-		//int i = paramnum("-zds");
 		DICTSZ = atoi(Params[idx + 1].c_str());
 	}
 	if (auto [ok, idx] = paramlookup("-w"); ok)
-	//if (hasparam("-w"))
 	{
-		//int i = paramnum("-w");
 		W = (UC)std::stoi(Params[idx + 1]);
 	}
 	if (auto [ok, idx] = paramlookup("-h"); ok)
-	//if (hasparam("-h"))
 	{
-		//int i = paramnum("-h");
 		H = (UC)std::stoi(Params[idx + 1]);
 	}
-	
-	sf::RenderWindow window(sf::VideoMode(200, 200), "ddec player");
-	
-	//window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	//g_signal_connect(G_OBJECT(window), "delete-event", G_CALLBACK(delete_event), nullptr);
-    //
-	//gtk_container_set_border_width(GTK_CONTAINER(window), 8);
-    //
-	//pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, false, 8, W*10, H*10);
-    //
-	//image = gtk_image_new_from_pixbuf(pixbuf);
-	//gtk_widget_show(image);
-	//gtk_container_add(GTK_CONTAINER(window), image);
-    //
-	//gtk_widget_show_all(window);
-	//gtk_widget_show(window);
-	//gtk_idle_add(&idle_func, nullptr);
+
+	const int WW = W*10, HH = H*10;
+
+	sf::RenderWindow window(sf::VideoMode(WW, HH), "ddec2 player");
 
 	fr1.resize(W, H);
 	fr2.resize(W, H);
 	df.resize(W, H);
 
-	crfn = "./stream/64.czs"s;
+	if (auto [ok, idx] = paramlookup("-in"); ok)
+	{
+		crfn = Params[idx + 1];
+	}
 	std::cout << "attempting to load " << crfn << std::endl;
 
 	crypt_stream = std::make_unique<std::fstream>(crfn, std::fstream::binary | std::fstream::in);
@@ -212,19 +87,88 @@ void Main()
 	t1 = hrc::now();
 	i = 0;
 
-	//gtk_main();
+	sf::Image sfimg;
+	sfimg.create(WW, HH);
+
+	sf::Texture tex;
+	tex.create(WW, HH);
+	
+	while (want_more && window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+				want_more = false;
+			}
+        }
+		
+		if (!want_more) break;
+
+		curr = (i % 2) ? &fr1 : &fr2;
+		prev = (i % 2) ? &fr2 : &fr1;
+
+		if (i)
+		{
+			if (!cr_s->have(1)) { want_more=false; break; }
+			did_delta = cr_s->get(1);
+		}
+		if (did_delta)
+		{
+			lzv_decoder_template lz(DICTSZ, *cr_s);
+			bool ok = df.LoadT(lz);
+			if (!ok) { want_more=false; break; }
+			df.mkFrame(*prev);
+			assignFrame(*curr, df);
+		} else {
+			bool ok = curr->Load(*cr_s);
+			if (!ok) { want_more=false; break; }
+		}
+
+		++i;
+		std::cout << i << "\r" << std::flush;
+
+		RGB_Image img;
+		FromFrame(*curr, img);
+		{
+			auto fn = "stage/test-out"s + std::to_string(i) + ".bmp"s;
+			std::ofstream ofs(fn, std::fstream::binary | std::fstream::out);
+			SaveBMP(img, ofs);
+		}
+
+		sf::Color pix;
+		pix.a = 255;
+		for(auto y = 0; y < HH; ++y)
+		{
+			for(auto x = 0; x < WW; ++x)
+			{
+				pix.r = img.pix[x + y*WW].r;
+				pix.g = img.pix[x + y*WW].g;
+				pix.b = img.pix[x + y*WW].b;
+				sfimg.setPixel(x, HH-y-1, pix);
+			}
+		}
+
+		tex.update(sfimg);
+
+		while (true)
+		{
+			t2 = hrc::now();
+			if ((t2-t1) > 35ms) break;
+		}
+		t1 = t2;
+
+		window.clear();
+        window.draw(sf::Sprite(tex));
+		window.display();
+	}
 }
 
 int main(int argc, char** argv)
 {
-	//gtk_init(&argc, &argv);
 	Params.insert(Params.begin(), argv+1, argv+argc);
 	Main();
 }
-
-
-
-
-
 
 
