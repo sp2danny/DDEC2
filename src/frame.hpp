@@ -94,8 +94,8 @@ struct DiffFrame
 	template<typename SRC>
 	bool LoadT(SRC&);
 
-	UL mkDiff(const Frame& prev, const Frame& curr);
-	UL mkDiffFast(const Frame& prev, const Frame& curr);
+	int mkDiff(const Frame& prev, const Frame& curr);
+	int mkDiffFast(const Frame& prev, const Frame& curr);
 
 	void mkFrame(const Frame& prev);
 

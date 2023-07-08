@@ -8,7 +8,7 @@
 static_assert(std::numeric_limits<UC>::digits == 8);
 static_assert(std::numeric_limits<UL>::digits == 32);
 
-void lzv_core::init(UL max)
+void lzv_core::init(int max)
 {
 	m4.init(max);
 	for (UC c = 0; c < 16; ++c)
@@ -24,7 +24,7 @@ void lzv_core::init(UL max)
 }
 
 UC pre1[] = {0x0, 0x0, 0xf, 0xf, 0xf};
-const UL NN = 1;
+const int NN = 1;
 
 void lzv_encoder::encode(nibble_channel& src, bittarget& dst)
 {
@@ -167,15 +167,15 @@ lzv_decoder::lzv_decoder(UL max, bitsource& src)
 	have_prev = false;
 }
 
-bool lzv_decoder::have(UC bitcount)
+bool lzv_decoder::have(int bitcount)
 {
 	assert((bitcount%4)==0);
-	UL nc = bitcount/4;
+	int nc = bitcount/4;
 	make(nc);
-	return nibbles.size() >= nc;
+	return std::ssize(nibbles) >= nc;
 }
 
-UL lzv_decoder::get(UC bitcount)
+UL lzv_decoder::get(int bitcount)
 {
 	(void)bitcount;
 	assert(bitcount == 4);
@@ -184,11 +184,11 @@ UL lzv_decoder::get(UC bitcount)
 	return ret;
 }
 
-void lzv_decoder::make(UL nc)
+void lzv_decoder::make(int nc)
 {
 	while (true)
 	{
-		if (nibbles.size() >= nc) return;
+		if (std::ssize(nibbles) >= nc) return;
 
 		if (!source.have(current_bd)) return;
 

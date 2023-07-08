@@ -533,10 +533,10 @@ void ToFrame(const RGB_Image& src, Frame& dst)
 	dst.resize(UC(w10), UC(h10));
 
 	#define PROC_1(M, BIT)                                                     \
-		for (UL y = 0; y < hh; y += 1) {                                       \
-			for (UL x = 0; x < ww; x += 1) {                                   \
-				auto bl_x = UC(x / 10);                                        \
-				auto bl_y = UC(y / 10);                                        \
+		for (int y = 0; y < hh; y += 1) {                                      \
+			for (int x = 0; x < ww; x += 1) {                                  \
+				int bl_x = x / 10;                                             \
+				int bl_y = y / 10;                                             \
 				auto& bl = dst.pix(bl_x, bl_y);                                \
 				const RGB& rgb = src.pix[x + y * src.w];                       \
 				HSV hsv = RgbToHsv(rgb);                                       \
@@ -546,10 +546,10 @@ void ToFrame(const RGB_Image& src, Frame& dst)
 		} }
 
 	#define PROC_2(M, BIT)                                                     \
-		for (UL y = 0; y < hh; y += 2) {                                       \
-			for (UL x = 0; x < ww; x += 2) {                                   \
-				auto bl_x = UC(x / 10);                                        \
-				auto bl_y = UC(y / 10);                                        \
+		for (int y = 0; y < hh; y += 2) {                                      \
+			for (int x = 0; x < ww; x += 2) {                                  \
+				int bl_x = x / 10;                                             \
+				int bl_y = y / 10;                                             \
 				auto& bl = dst.pix(bl_x, bl_y);                                \
 				const RGB& rgb_1 = src.pix[(x + 0) + (y + 0) * src.w];         \
 				const RGB& rgb_2 = src.pix[(x + 1) + (y + 0) * src.w];         \
@@ -590,12 +590,12 @@ void FromFrame(const Frame& frame, RGB_Image& image)
 	auto H = image.h = frame.h*10;
 	image.pix.resize(W*H);
 
-	for (UL y = 0; y < H; ++y)
+	for (int y = 0; y < H; ++y)
 	{
-		for (UL x = 0; x < W; ++x)
+		for (int x = 0; x < W; ++x)
 		{
-			auto bl_x = UC(x / 10);
-			auto bl_y = UC(y / 10);
+			int bl_x = x / 10;
+			int bl_y = y / 10;
 			auto& bl = frame.pix(bl_x, bl_y);
 			RGB& rgb = image.pix[x + y * W];
 			auto bl_ix = x % 10;
@@ -611,9 +611,9 @@ void FromFrame(const Frame& frame, RGB_Image& image)
 
 void Frame::Save(bittarget& out) const
 {
-	for (UC y = 0; y < h; ++y)
+	for (int y = 0; y < h; ++y)
 	{
-		for (UC x = 0; x < w; ++x)
+		for (int x = 0; x < w; ++x)
 		{
 			const Block& bl = pix(x,y);
 			bl.Save(out);
@@ -623,9 +623,9 @@ void Frame::Save(bittarget& out) const
 
 bool Frame::Load(bitsource& in)
 {
-	for (UC y = 0; y < h; ++y)
+	for (int y = 0; y < h; ++y)
 	{
-		for (UC x = 0; x < w; ++x)
+		for (int x = 0; x < w; ++x)
 		{
 			Block& bl = pix(x,y);
 			if (!bl.Load(in))
@@ -637,9 +637,9 @@ bool Frame::Load(bitsource& in)
 
 void Frame::Black()
 {
-	for (UC y = 0; y < h; ++y)
+	for (int y = 0; y < h; ++y)
 	{
-		for (UC x = 0; x < w; ++x)
+		for (int x = 0; x < w; ++x)
 		{
 			Block& bl = pix(x,y);
 			for (int i = 0; i < H_SZ; ++i)
@@ -726,9 +726,9 @@ void DiffFrame::construct(const Frame& fr)
 	}
 }
 
-UL DiffFrame::mkDiff(const Frame& prev, const Frame& curr)
+int DiffFrame::mkDiff(const Frame& prev, const Frame& curr)
 {
-	UL acc = 0;
+	int acc = 0;
 
 	construct(curr);
 
@@ -744,9 +744,9 @@ UL DiffFrame::mkDiff(const Frame& prev, const Frame& curr)
 	return acc;
 }
 
-UL DiffFrame::mkDiffFast(const Frame& prev, const Frame& curr)
+int DiffFrame::mkDiffFast(const Frame& prev, const Frame& curr)
 {
-	UL acc = 0;
+	int acc = 0;
 
 	construct(curr);
 

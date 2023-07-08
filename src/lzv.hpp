@@ -12,7 +12,7 @@
 
 struct lzv_core
 {
-	void init(UL max);
+	void init(int max);
 
 	//map4 m4;
 	fbct2 m4;
@@ -27,7 +27,7 @@ struct lzv_core
 
 struct lzv_encoder : lzv_core
 {
-	lzv_encoder(UL max)
+	lzv_encoder(int max)
 	{
 		init(max);
 	}
@@ -42,28 +42,26 @@ struct lzv_decoder : lzv_core, bitsource
 
 	bitsource& source;
 
-	virtual bool have(UC bitcount) override;
-	virtual UL get(UC bitcount) override;
+	virtual bool have(int bitcount) override;
+	virtual UL get(int bitcount) override;
 
 private:
-	void make(UL nibblecount);
+	void make(int nibblecount);
 
 	cyclic_nibble_channel nibbles;
-	//std::deque<UC> nibbles;
 };
 
 template<typename SRC>
 struct lzv_decoder_template : lzv_core
 {
-	//lzv_decoder_template()
-	lzv_decoder_template(UL, SRC&);
+	lzv_decoder_template(int, SRC&);
 
 	SRC& source;
 
-	bool have(UC bitcount);
-	UL get(UC bitcount);
+	bool have(int bitcount);
+	UL get(int bitcount);
 
-	signed getS(UC bitcount)
+	signed getS(int bitcount)
 	{
 		auto u = get(bitcount);
 		auto shift = 32 - bitcount;
@@ -72,7 +70,7 @@ struct lzv_decoder_template : lzv_core
 	}
 
 private:
-	void make(UL nibblecount);
+	void make(int nibblecount);
 
 	cyclic_nibble_channel nibbles;
 	BVec bv;
@@ -85,7 +83,7 @@ private:
 
 
 template<typename SRC>
-lzv_decoder_template<SRC>::lzv_decoder_template(UL max, SRC& src)
+lzv_decoder_template<SRC>::lzv_decoder_template(int max, SRC& src)
 	: source(src)
 {
 	init(max);
@@ -94,16 +92,16 @@ lzv_decoder_template<SRC>::lzv_decoder_template(UL max, SRC& src)
 }
 
 template<typename SRC>
-bool lzv_decoder_template<SRC>::have(UC bitcount)
+bool lzv_decoder_template<SRC>::have(int bitcount)
 {
 	assert((bitcount % 4) == 0);
-	UL nc = bitcount / 4;
+	int nc = bitcount / 4;
 	make(nc);
-	return nibbles.size() >= nc;
+	return std::ssize(nibbles) >= nc;
 }
 
 template<typename SRC>
-UL lzv_decoder_template<SRC>::get(UC bitcount)
+UL lzv_decoder_template<SRC>::get(int bitcount)
 {
 	(void)bitcount;
 	assert(bitcount == 4);
@@ -113,15 +111,15 @@ UL lzv_decoder_template<SRC>::get(UC bitcount)
 }
 
 extern UC pre1[5];
-extern const UL NN;
+extern const int NN;
 
 
 template<typename SRC>
-void lzv_decoder_template<SRC>::make(UL nc)
+void lzv_decoder_template<SRC>::make(int nc)
 {
 	while (true)
 	{
-		if (nibbles.size() >= nc) return;
+		if (std::ssize(nibbles) >= nc) return;
 
 		if (!source.have(current_bd)) return;
 
@@ -139,7 +137,7 @@ void lzv_decoder_template<SRC>::make(UL nc)
 				nibbles.put(c, 4);
 		}
 		else {
-			UL nn = 1 + code - next_token;
+			int nn = 1 + code - next_token;
 			while (nn--)
 				for (auto c : pre1)
 					nibbles.put(c, 4);

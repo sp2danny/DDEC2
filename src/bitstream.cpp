@@ -4,15 +4,15 @@
 
 #include "bitstream.hpp"
 
-signed bitsource::getS(UC bitcount)
+signed bitsource::getS(int bitcount)
 {
-	auto u = get(bitcount);
-	auto shift = 32 - bitcount;
+	UL u = get(bitcount);
+	int shift = 32 - bitcount;
 	signed sl = u << shift; sl >>= shift;
 	return sl;
 }
 
-void bitvector::put(UL bits, UC bitcount)
+void bitvector::put(UL bits, int bitcount)
 {
 	bsf <<= bitcount;
 	bsf |= bits;
@@ -37,7 +37,7 @@ void bitvector::write(std::ostream& out)
 	out.write((char*)vec.data(), vec.size());
 }
 
-void streamsource::make(UC bitcount)
+void streamsource::make(int bitcount)
 {
 	while (cnt < bitcount)
 	{
@@ -49,7 +49,7 @@ void streamsource::make(UC bitcount)
 	}
 }
 
-bool streamsource::have(UC bitcount)
+bool streamsource::have(int bitcount)
 {
 	make(bitcount);
 	if (cnt < bitcount)
@@ -59,7 +59,7 @@ bool streamsource::have(UC bitcount)
 	return cnt >= bitcount;
 }
 
-UL streamsource::get(UC bitcount)
+UL streamsource::get(int bitcount)
 {
 	make(bitcount);
 	assert(cnt >= bitcount);
@@ -69,17 +69,17 @@ UL streamsource::get(UC bitcount)
 	return ret;
 }
 
-bool nibble_channel::have(UC bitcount)
+bool nibble_channel::have(int bitcount)
 {
 	assert((bitcount%4)==0);
-	if (nibbles.size() < (bitcount/4))
+	if (std::ssize(nibbles) < (bitcount/4))
 	{
 		std::cerr << "did not have " << (int)bitcount << " bits" << std::endl;
 	}
-	return nibbles.size() >= (bitcount/4);
+	return std::ssize(nibbles) >= (bitcount/4);
 }
 
-UL nibble_channel::get(UC bitcount)
+UL nibble_channel::get(int bitcount)
 {
 	(void)bitcount;
 	assert(bitcount == 4);
@@ -89,7 +89,7 @@ UL nibble_channel::get(UC bitcount)
 	return c;
 }
 
-void nibble_channel::put(UL bits, UC bitcount)
+void nibble_channel::put(UL bits, int bitcount)
 {
 	(void)bitcount;
 	assert(bitcount==4);
@@ -102,9 +102,9 @@ void nibble_channel::done()
 
 // ----------------------------------------------------------------------------
 
-bool debv::have(UC bitcount)
+bool debv::have(int bitcount)
 {
-	UL tbsf = vec.size() * 8 + cnt_in + cnt_ut;
+	int tbsf = std::ssize(vec) * 8 + cnt_in + cnt_ut;
 	if (tbsf < bitcount)
 	{
 		std::cerr << "did not have " << (int)bitcount << " bits" << std::endl;
@@ -112,7 +112,7 @@ bool debv::have(UC bitcount)
 	return tbsf >= bitcount;
 }
 
-UL debv::get(UC bitcount)
+UL debv::get(int bitcount)
 {
 	while (cnt_ut < bitcount)
 	{
@@ -136,7 +136,7 @@ UL debv::get(UC bitcount)
 	return ret;
 }
 
-void debv::put(UL bits, UC bitcount)
+void debv::put(UL bits, int bitcount)
 {
 	bsf_in <<= bitcount;
 	bsf_in |= bits;
@@ -166,15 +166,15 @@ cyclic_nibble_channel::cyclic_nibble_channel()
 	//nibbles.resize(N);
 }
 
-bool cyclic_nibble_channel::have(UC bitcount)
+bool cyclic_nibble_channel::have(int bitcount)
 {
 	assert((bitcount % 4) == 0);
-	return sz > (bitcount / 4u);
+	return sz > (bitcount / 4);
 }
 
-UL maximum_nibble_channel_load = 0;
+int maximum_nibble_channel_load = 0;
 
-UL cyclic_nibble_channel::get(UC bitcount)
+UL cyclic_nibble_channel::get(int bitcount)
 {
 	(void)bitcount;
 	assert(bitcount == 4);
@@ -185,7 +185,7 @@ UL cyclic_nibble_channel::get(UC bitcount)
 	return c;
 }
 
-void cyclic_nibble_channel::put(UL bits, UC bitcount)
+void cyclic_nibble_channel::put(UL bits, int bitcount)
 {
 	(void)bitcount;
 	assert(bitcount == 4);
@@ -201,19 +201,19 @@ void cyclic_nibble_channel::done()
 {
 }
 
-UL cyclic_nibble_channel::size() const
+int cyclic_nibble_channel::size() const
 {
 	return sz;
 }
 
-UC& cyclic_nibble_channel::operator[](UL idx)
+UC& cyclic_nibble_channel::operator[](int idx)
 {
 	assert (idx < size());
 	idx = (idx + utp) % N;
 	return nibbles[idx];
 }
 
-UC cyclic_nibble_channel::operator[](UL idx) const
+UC cyclic_nibble_channel::operator[](int idx) const
 {
 	assert (idx < size());
 	idx = (idx + utp) % N;

@@ -35,24 +35,24 @@ bool map4::add(const BVec& bv)
 
 bool map4::lookup(UL idx, BVec& bv)
 {
-	if (idx >= size())
+	if (idx >= (UL)size())
 		return false;
 	bv = i2v[idx];
 	assert(v2i[bv]==idx);
 	return true;
 }
 
-void map4::init(UL max)
+void map4::init(int max)
 {
 	i2v.clear();
 	v2i.clear();
 	i2v.reserve(max);
 }
 
-UL map4::size() const
+int map4::size() const
 {
 	assert( i2v.size() == v2i.size() );
-	return (UL)v2i.size();
+	return v2i.size();
 }
 
 

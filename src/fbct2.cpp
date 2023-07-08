@@ -70,7 +70,7 @@ bool fbct2::add(const BVec& bv)
 	return true;
 }
 
-void fbct2::init(UL max)
+void fbct2::init(int max)
 {
 	all.clear();
 	if (max>250'000)

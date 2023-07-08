@@ -5,7 +5,7 @@
 
 struct RGB_Image
 {
-	unsigned long w, h;
+	int w, h;
 	std::vector<RGB> pix;
 };
 

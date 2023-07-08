@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include <limits>
 
 #include "frame.hpp"
 #include "lzv.hpp"
@@ -39,27 +40,7 @@ using hrc = std::chrono::high_resolution_clock;
 
 void Main(int argc, char** argv)
 {
-	std::cout << "Starting..." << std::endl; 
-	
 	DiffFrame df;
-
-	// -bmp -md -sad -mf
-	// -stc -ld -mf
-	// -sfc -mf -pfb -t
-	
-	// -w 128 -h 96 -start 1 -zds 6500 -key qwerty123456 -t -base . -mf
-
-	// 1280x960 in
-	/*Params = { 
-		"-bmp", "-src", "img", "-dig", "5", "-name", "img_",
-		"-md", "-stc", "-errlim", "3500000", "-fast", //, "-max", "500",
-		 "-fr"//, "-pfb", "-sal", "-saf", "-sad", "-sll"
-	};*/
-
-	// 1280x960 ut
-	//Params = { 
-	//	"-sfc", "-pfb" //, "-sad", "-sll"
-	//};
 
 	Params.insert(Params.begin(), argv+1, argv+argc);
 
@@ -79,82 +60,56 @@ void Main(int argc, char** argv)
 	bool SAVE_LOAD_LZV      = hasparam("-sll");
 
 	if (auto [ok, idx] = paramlookup("-base"); ok)
-	//if (hasparam("-base"))
-	{
-		//int i = paramnum("-base");
 		base = Params[idx + 1];
-	}
 
 	if (!fs::exists(base / "stage"))               fs::create_directory(base / "stage");
 	if (!fs::exists(base / "stage/01_loaded"))     fs::create_directory(base / "stage/01_loaded");
 	if (!fs::exists(base / "stage/02_toframe"))    fs::create_directory(base / "stage/02_toframe");
 	if (!fs::exists(base / "stage/03_mkdiff"))     fs::create_directory(base / "stage/03_mkdiff");
 	if (!fs::exists(base / "stage/04_post"))       fs::create_directory(base / "stage/04_post");
-	//if (!fs::exists(base / "stream"))              fs::create_directory(base / "stream");
 
 	std::string key = "abcdef123456"s;
 	std::string crfn = base / "stream/64.czs"s;
 
 	if (auto [ok, idx] = paramlookup("-key"); ok)
-	{
 		key = Params[idx+1];
-	}
 
 	if (auto [ok, idx] = paramlookup("-sn"); ok)
-	{
 		crfn = Params[idx + 1];
-	}
 
 	std::string src = "src2";
 	if (auto [ok, idx] = paramlookup("-src"); ok)
-	{
 		src = Params[idx + 1];
-	}
 
 	std::string dig = "%04d";
 	if (auto [ok, idx] = paramlookup("-dig"); ok)
-	{
 		dig = "%0" + Params[idx + 1] + "d";
-	}
 
 	UL DICTSZ = 65'000;
 	if (auto [ok, idx] = paramlookup("-zds"); ok)
-	{
 		DICTSZ = std::stoi(Params[idx + 1]);
-	}
 
-	UL start = 0;
+	int start = 0;
 	if (auto [ok, idx] = paramlookup("-start"); ok)
-	{
 		start = std::stoi(Params[idx + 1]);
-	}
 
-	UL maxcnt = (UL)-1;
+	int maxcnt = std::numeric_limits<int>::max();
 	if (auto [ok, idx] = paramlookup("-max"); ok)
-	{
 		maxcnt = std::stoi(Params[idx + 1]);
-	}
+
 	auto nam = "img"s;
 	if (auto [ok, idx] = paramlookup("-name"); ok)
-	{
 		nam = Params[idx + 1];
-	}
 
 	UC W = 64, H = 48;
 	if (auto [ok, idx] = paramlookup("-w"); ok)
-	{
 		W = (UC)std::stoi(Params[idx + 1]);
-	}
 	if (auto [ok, idx] = paramlookup("-h"); ok)
-	{
 		H = (UC)std::stoi(Params[idx + 1]);
-	}
 
-	UL errlim = 165ul * W * H;
+	int errlim = 165ul * W * H;
 	if (auto [ok, idx] = paramlookup("-errlim"); ok)
-	{
 		errlim = std::stoi(Params[idx + 1]);
-	}
 
 	fr1.resize(W, H);
 	fr2.resize(W, H);
@@ -197,7 +152,7 @@ void Main(int argc, char** argv)
 		pt = &perft;
 	}
 
-	UL i;
+	int i;
 	for (i = 0; i<maxcnt; ++i)
 	{
 		[[maybe_unused]] Frame* curr = (i % 2) ? &fr1 : &fr2;
@@ -245,7 +200,7 @@ void Main(int argc, char** argv)
 			}
 		}
 
-		UL acc = 0;
+		int acc = 0;
 		if (MAKE_DIFF && i)
 		{
 			if (FAST_DIFF)
@@ -295,7 +250,7 @@ void Main(int argc, char** argv)
 				did_delta = true;
 			}
 		}
-		
+
 		debv bv;
 
 		if (STREAM_TO_CRYPT)
@@ -352,9 +307,6 @@ void Main(int argc, char** argv)
 				assignFrame(*curr, df);
 			}
 		}
-		
-		//	df.mkFrame(*prev);
-		//	assignFrame(*curr, df);
 
 		if (MAKE_FRAME && POST_FRAME_BMP && SAVE_LOAD_LZV && did_delta)
 		{

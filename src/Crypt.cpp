@@ -20,17 +20,17 @@ static UL make_4b(const char* str)
 	return k;
 }
 
-void Operator::execute(UC* block, [[maybe_unused]] UL size)
+void Operator::execute(UC* block, [[maybe_unused]] int size)
 {
 	switch (op)
 	{
 	case op_swap:
-		assert(par1<size);
-		assert(par2<size);
+		assert(par1 < (UL)size);
+		assert(par2 < (UL)size);
 		std::swap(block[par1], block[par2]);
 		break;
 	case op_xor:
-		assert(par1 < size);
+		assert(par1 < (UL)size);
 		assert(par2 < 256);
 		block[par1] ^= par2;
 		break;
@@ -66,7 +66,7 @@ UL Crypt::next()
 	return ret;
 }
 
-void Crypt::loadup_big(UL size, UC* block)
+void Crypt::loadup_big(int size, UC* block)
 {
 	assert(size <= maxblock());
 	UL n = (UL)keys.size();
@@ -78,13 +78,13 @@ void Crypt::loadup_big(UL size, UC* block)
 	}
 }
 
-void Crypt::loadup_scramble(UL size, UC* block)
+void Crypt::loadup_scramble(int size, UC* block)
 {
 	assert(size <= maxblock());
 
 	if (block && (size == 65536))
 	{
-		for (UL i = 0; i < 65536; ++i)
+		for (int i = 0; i < 65536; ++i)
 		{
 			UL k = next() & 0xffff;
 			std::swap(block[i], block[k]);
@@ -92,14 +92,14 @@ void Crypt::loadup_scramble(UL size, UC* block)
 		return;
 	}
 
-	for (UL i = 0; i < size; ++i)
+	for (int i = 0; i < size; ++i)
 	{
 		UL k;
 		if (size==65536)
 			k = next() & 0xffff;
 		else
 			k = next() % size;
-		Operator op{Operator::op_swap, i, k};
+		Operator op{Operator::op_swap, (UL)i, k};
 		if (block)
 			op.execute(block, size);
 		else
@@ -107,13 +107,13 @@ void Crypt::loadup_scramble(UL size, UC* block)
 	}
 }
 
-void Crypt::loadup_xorpass(UL size, UC* block)
+void Crypt::loadup_xorpass(int size, UC* block)
 {
 	assert(size <= maxblock());
 
 	if (block)
 	{
-		for (UL i = 0; i < size; ++i)
+		for (int i = 0; i < size; ++i)
 		{
 			UL k = next() & 0xff;
 			block[i] ^= k;
@@ -121,10 +121,10 @@ void Crypt::loadup_xorpass(UL size, UC* block)
 		return;
 	}
 
-	for (UL i = 0; i < size; ++i)
+	for (int i = 0; i < size; ++i)
 	{
 		UC k = next() % 256;
-		Operator op{Operator::op_xor, i, k};
+		Operator op{Operator::op_xor, (UL)i, k};
 		if (block)
 			op.execute(block, size);
 		else
@@ -132,10 +132,10 @@ void Crypt::loadup_xorpass(UL size, UC* block)
 	}
 }
 
-void Crypt::loadup_mixpass(UL size, UC* block)
+void Crypt::loadup_mixpass(int size, UC* block)
 {
 	assert(size <= maxblock());
-	for (UL i = 0; i < size; ++i)
+	for (int i = 0; i < size; ++i)
 	{
 		UL nxt = next();
 		UL idx = (nxt/256) % size;
@@ -148,14 +148,14 @@ void Crypt::loadup_mixpass(UL size, UC* block)
 	}
 }
 
-void Crypt::execute_loadup(UC* block, UL size)
+void Crypt::execute_loadup(UC* block, int size)
 {
 	assert(size <= maxblock());
 	for (auto op : opers)
 		op.execute(block, size);
 }
 
-void Crypt::encrypt_block(UC* block, UL size)
+void Crypt::encrypt_block(UC* block, int size)
 {
 	assert(size <= maxblock());
 	opers.clear();
@@ -165,15 +165,15 @@ void Crypt::encrypt_block(UC* block, UL size)
 	opers.assign( opers.size(), Operator{} );
 }
 
-void Crypt::decrypt_block(UC* block, UL size)
+void Crypt::decrypt_block(UC* block, int size)
 {
 	assert(size <= maxblock());
 	loadup_big(size, block);
 }
 
-void Crypt::encrypt(UC* block, UL size)
+void Crypt::encrypt(UC* block, int size)
 {
-	UL max = maxblock();
+	int max = maxblock();
 	while (size)
 	{
 		if (size > max)
@@ -188,9 +188,9 @@ void Crypt::encrypt(UC* block, UL size)
 	}
 }
 
-void Crypt::decrypt(UC* block, UL size)
+void Crypt::decrypt(UC* block, int size)
 {
-	UL max = maxblock();
+	int max = maxblock();
 	while (size)
 	{
 		if (size > max)
@@ -213,9 +213,9 @@ encrypt_target::encrypt_target(const std::string& key, std::ostream& out)
 	block.reserve(cr.maxblock());
 }
 
-void encrypt_target::put(UL bits, UC bitcount)
+void encrypt_target::put(UL bits, int bitcount)
 {
-	assert( (cnt+bitcount) <= (sizeof(UL)*8) );
+	assert( (cnt+bitcount) <= ( (int)sizeof(UL)*8) );
 	
 	bsf <<= bitcount;
 	bsf |= bits;
@@ -262,7 +262,7 @@ decrypt_source::decrypt_source(const std::string& key, std::istream& in)
 	cnt = 0;
 }
 
-bool decrypt_source::have(UC bitcount)
+bool decrypt_source::have(int bitcount)
 {
 	make(bitcount);
 	if (cnt < bitcount)
@@ -272,7 +272,7 @@ bool decrypt_source::have(UC bitcount)
 	return cnt >= bitcount;
 }
 
-UL decrypt_source::get(UC bitcount)
+UL decrypt_source::get(int bitcount)
 {
 	assert(cnt >= bitcount);
 	UL ret = bsf >> (cnt - bitcount);
@@ -281,7 +281,7 @@ UL decrypt_source::get(UC bitcount)
 	return ret;
 }
 
-void decrypt_source::make(UC bitcount)
+void decrypt_source::make(int bitcount)
 {
 	TP t1, t2;
 	while (true)

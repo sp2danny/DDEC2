@@ -63,9 +63,9 @@ void LoadBMP(RGB_Image& img, std::istream& in)
 	while (stride%4) ++stride;
 	auto padding = stride - (w * 3);
 
-	for (auto y = 0ul; y < h; ++y)
+	for (auto y = 0; y < h; ++y)
 	{
-		for (auto x = 0ul; x < w; ++x)
+		for (auto x = 0; x < w; ++x)
 		{
 			RGB rgb;
 			if (!in.good())
@@ -75,8 +75,8 @@ void LoadBMP(RGB_Image& img, std::istream& in)
 				std::cerr << std::boolalpha << "eof  " << in.eof()  << std::endl;
 			}
 			in.read( (char*)&rgb.b, 1 );
-			in.read( (char*)&rgb.r, 1 );
 			in.read( (char*)&rgb.g, 1 );
+			in.read( (char*)&rgb.r, 1 );
 			img.pix[x+y*w] = rgb;
 		}
 		if (padding)
@@ -96,8 +96,8 @@ void SaveBMP(const RGB_Image& img, std::ostream& out)
 
 	memset( &ih, 0, sizeof(ih) );
 
-	unsigned long w = ih.biWidth  = img.w;
-	unsigned long h = ih.biHeight = img.h;
+	int w = ih.biWidth  = img.w;
+	int h = ih.biHeight = img.h;
 
 	ih.biSize          = sizeof(ih);
 	ih.biBitCount      = 24;
@@ -119,9 +119,9 @@ void SaveBMP(const RGB_Image& img, std::ostream& out)
 	out.write((char*)&fh, sizeof(fh));
 	out.write((char*)&ih, sizeof(ih));
 
-	for (auto y = 0ul; y < h; ++y)
+	for (int y = 0; y < h; ++y)
 	{
-		for (auto x = 0ul; x < w; ++x)
+		for (int x = 0; x < w; ++x)
 		{
 			RGB rgb = img.pix[x + y*w];
 			out.write((char*)&rgb.b, 1);
@@ -157,7 +157,7 @@ void FadeToBlack(RGB_Image& img, float amount)
 HSV RgbToHsv(RGB rgb)
 {
 	HSV hsv;
-	unsigned char rgbMin, rgbMax;
+	UC rgbMin, rgbMax;
 
 	rgbMin = rgb.r < rgb.g ? (rgb.r < rgb.b ? rgb.r : rgb.b) : (rgb.g < rgb.b ? rgb.g : rgb.b);
 	rgbMax = rgb.r > rgb.g ? (rgb.r > rgb.b ? rgb.r : rgb.b) : (rgb.g > rgb.b ? rgb.g : rgb.b);
@@ -190,7 +190,7 @@ HSV RgbToHsv(RGB rgb)
 RGB HsvToRgb(HSV hsv)
 {
 	RGB rgb;
-	unsigned char region, remainder, p, q, t;
+	UC region, remainder, p, q, t;
 
 	if (hsv.s == 0)
 	{
