@@ -28,6 +28,7 @@ struct Block
 };
 
 struct Frame;
+typedef Frame* FrameP;
 
 struct PredictBlock : Block
 {

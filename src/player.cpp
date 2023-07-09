@@ -17,9 +17,7 @@
 
 namespace
 {
-	Frame fr1;
-	Frame fr2;
-	
+	Frame fr1, fr2;
 	DiffFrame df;
 
 	std::string key = "abcdef123456"s;
@@ -35,8 +33,7 @@ namespace
 	TP t1, t2;
 	UL i;
 
-	Frame* curr;
-	Frame* prev;
+	FrameP curr, prev;
 
 	bool did_delta = false, want_more = true;
 }
@@ -48,13 +45,13 @@ using hrc = std::chrono::high_resolution_clock;
 
 void FromFrameSF(const Frame& frame, sf::Image& image)
 {
-	UL W = frame.w*10;
-	UL H = frame.h*10;
+	int W = frame.w*10;
+	int H = frame.h*10;
 	sf::Color c;
 
-	for (UL y = 0; y < H; ++y)
+	for (int y = 0; y < H; ++y)
 	{
-		for (UL x = 0; x < W; ++x)
+		for (int x = 0; x < W; ++x)
 		{
 			auto bl_x = UC(x / 10);
 			auto bl_y = UC(y / 10);
@@ -72,25 +69,16 @@ void FromFrameSF(const Frame& frame, sf::Image& image)
 	}
 }
 
-
 void Main()
 {
 	if (auto [ok, idx] = paramlookup("-key"); ok)
-	{
 		key = Params[idx+1];
-	}
 	if (auto [ok, idx] = paramlookup("-zds"); ok)
-	{
 		DICTSZ = atoi(Params[idx + 1].c_str());
-	}
 	if (auto [ok, idx] = paramlookup("-w"); ok)
-	{
 		W = (UC)std::stoi(Params[idx + 1]);
-	}
 	if (auto [ok, idx] = paramlookup("-h"); ok)
-	{
 		H = (UC)std::stoi(Params[idx + 1]);
-	}
 
 	const int WW = W*10, HH = H*10;
 
@@ -101,9 +89,7 @@ void Main()
 	df.resize(W, H);
 
 	if (auto [ok, idx] = paramlookup("-in"); ok)
-	{
 		crfn = Params[idx + 1];
-	}
 	std::cout << "attempting to load " << crfn << std::endl;
 
 	crypt_stream = std::make_unique<std::fstream>(crfn, std::fstream::binary | std::fstream::in);

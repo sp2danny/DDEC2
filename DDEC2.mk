@@ -35,7 +35,7 @@ PreprocessOnlySwitch   :=-E
 ObjectsFileList        :="DDEC2.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=mkdir -p
-LinkOptions            := -std=c++2a 
+LinkOptions            := -std=c++20 
 IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). 
 IncludePCH             := 
 RcIncludePath          := 
@@ -50,7 +50,7 @@ LibPath                :=
 AR       := /usr/bin/ar rcu
 CXX      := /usr/bin/clang++-14
 CC       := /usr/bin/clang-14
-CXXFLAGS := -std=c++2a -Wall -Wextra -Werror -Wno-multichar -O3 $(Preprocessors)
+CXXFLAGS := -std=c++20 -Wall -Wextra -Werror -pedantic -Wno-multichar -O3 $(Preprocessors)
 CFLAGS   :=  -O3 $(Preprocessors)
 ASFLAGS  := 
 AS       := /usr/bin/as

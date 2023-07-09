@@ -214,20 +214,15 @@ void Main(int argc, char** argv)
 			fr << "Frame " << num << " error " << std::setw(10) << std::right << acc << (did_delta ? "" : " (kf)") << std::endl << std::flush;
 		if (SAVE_AFTER_DIFF)
 		{
-			if (did_delta)
-			{
-				bitvector bv;
-				df.Save(bv);
-				bv.done();
-				auto fn = base / ("stage/03_mkdiff/img"s + num + ".df"s);
-				bv.write(OFS(fn));
+			auto fn = base / ("stage/03_mkdiff/img"s + num);
+			bitvector bv;
+			if (did_delta) {
+				df.Save(bv); fn += ".df"s;
 			} else {
-				bitvector bv;
-				curr->Save(bv);
-				bv.done();
-				auto fn = base / ("stage/03_mkdiff/img"s + num + ".f"s);
-				bv.write(OFS(fn));
+				curr->Save(bv); fn += ".f"s;
 			}
+			bv.done();
+			bv.write(OFS(fn));
 		}
 
 		if (LOAD_DIFF)
