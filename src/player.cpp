@@ -21,7 +21,7 @@ namespace
 	DiffFrame df;
 
 	std::string key = "abcdef123456"s;
-	auto crfn = base / "stream/64.czs"s;
+	std::string crfn;
 
 	UL DICTSZ = 65'000;
 
