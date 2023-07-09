@@ -184,18 +184,18 @@ UL lzv_decoder::get(int bitcount)
 
 void lzv_decoder::make(int nc)
 {
+	TP t;
+	if (pt) t = hrc::now();
+
 	while (true)
 	{
-		if (std::ssize(nibbles) >= nc) return;
+		if (std::ssize(nibbles) >= nc) break;
 
-		if (!source.have(current_bd)) return;
+		if (!source.have(current_bd)) break;
 
 		UL code = source.get(current_bd);
 		bool ok;
 		BVec bv;
-
-		TP t1;
-		if (pt) t1 = hrc::now();
 
 		if (code < next_token)
 		{
@@ -218,8 +218,6 @@ void lzv_decoder::make(int nc)
 					nibbles.put(pp[i], 4);
 			// no table growth after preset entry, just continue
 			have_prev = false;
-			if (pt)
-				pt->decompress += Dur(hrc::now()-t1);
 			continue;
 		}
 
@@ -228,8 +226,6 @@ void lzv_decoder::make(int nc)
 		if (next_token >= max_token)
 		{
 			have_prev = false;
-			if (pt)
-				pt->decompress += Dur(hrc::now() - t1);
 			continue;
 		}
 
@@ -248,9 +244,10 @@ void lzv_decoder::make(int nc)
 		have_prev = true;
 		prev_code = code;
 		//prev = std::move(bv);
-		if (pt)
-			pt->decompress += Dur(hrc::now() - t1);
 	}
+
+	if (pt)
+		pt->decompress += Dur(hrc::now() - t);
 
 }
 

@@ -660,8 +660,6 @@ void DiffFrame::resize(UC ww, UC hh)
 	}
 }
 
-
-
 DiffFrame::operator Frame()
 {
 	Frame f;

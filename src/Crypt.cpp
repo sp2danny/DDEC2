@@ -47,7 +47,7 @@ Crypt::Crypt(std::string key)
 
 	auto s = key.c_str();
 
-	auto n = key.length();
+	int n = std::ssize(key);
 	keys.clear();
 	while (n > 0)
 	{
@@ -62,15 +62,15 @@ Crypt::Crypt(std::string key)
 UL Crypt::next()
 {
 	UL ret = keys[kidx]();
-	kidx = (kidx + 1) % keys.size();
+	kidx = (kidx + 1) % std::ssize(keys);
 	return ret;
 }
 
 void Crypt::loadup_big(int size, UC* block)
 {
 	assert(size <= maxblock());
-	UL n = (UL)keys.size();
-	for (UL ks = 0; ks < n; ++ks)
+	int n = std::ssize(keys);
+	for (int ks = 0; ks < n; ++ks)
 	{
 		kidx = ks;
 		loadup_scramble(size, block);
@@ -266,10 +266,12 @@ decrypt_source::decrypt_source(std::string_view key, std::istream& in)
 bool decrypt_source::have(int bitcount)
 {
 	make(bitcount);
+	#ifndef NDEBUG
 	if (cnt < bitcount)
 	{
 		std::cerr << "did not have " << (int)bitcount << " bits" << std::endl;
 	}
+	#endif
 	return cnt >= bitcount;
 }
 
@@ -283,28 +285,28 @@ UL decrypt_source::get(int bitcount)
 }
 
 void decrypt_source::make(int bitcount)
-{
-	TP t1, t2;
+{	
+	struct Timer {
+		Timer() {
+			if (pt)
+				t = hrc::now();
+		}
+		~Timer() {
+			if (pt)
+				pt->decrypt += Dur(hrc::now() - t);
+		}
+	private:
+		TP t;
+	} timer;
+
 	while (true)
 	{
 		if (cnt >= bitcount) return;
 
 		if (pos >= blsz)
 		{
-			if (pt)
-				t1 = hrc::now();
 			UL max = cr.maxblock();
-			if (pt) {
-				t2 = hrc::now();
-				pt->decrypt += Dur(t2 - t1);
-				t1 = t2;
-			}
 			UL n = in.read((char*)block.data(), max) ? max : (UL)in.gcount();
-			if (pt) {
-				t2 = hrc::now();
-				pt->streamin += Dur(t2 - t1);
-				t1 = t2;
-			}
 			if (!n)
 			{
 				std::cerr << "could not read from in\n";
@@ -313,19 +315,11 @@ void decrypt_source::make(int bitcount)
 			blsz = n;
 			cr.decrypt_block(block.data(), n);
 			pos = 0;
-			if (pt)
-				pt->decrypt += Dur(hrc::now() - t1);
 		}
-
-		if (pt)
-			t1 = hrc::now();
 		UC c = block[pos++];
 		bsf <<= 8;
 		bsf |= c;
 		cnt += 8;
-		if (pt)
-			pt->decrypt += Dur(hrc::now() - t1);
-
 	}
 }
 
