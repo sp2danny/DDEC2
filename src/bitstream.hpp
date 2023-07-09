@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include "core.hpp"
-
 #include <iosfwd>
 #include <array>
 #include <deque>
+
+#include "core.hpp"
 
 struct bitsource
 {

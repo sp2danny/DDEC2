@@ -13,16 +13,20 @@ constexpr int H_SZ = 100 / (HDS*HDS);
 constexpr int S_SZ = 100 / (SDS*SDS);
 constexpr int V_SZ = 100 / (VDS*VDS);
 
-constexpr auto HBIT = 6;
-constexpr auto SBIT = 6;
-constexpr auto VBIT = 6;
+constexpr int HBIT = 6;
+constexpr int SBIT = 6;
+constexpr int VBIT = 6;
 
 struct Block
 {
 	UC h[H_SZ];
 	UC s[S_SZ];
 	UC v[V_SZ];
+
 	HSV Pix(int x, int y) const;
+
+	HSV operator[](int x, int y) const { return Pix(x,y); }
+
 	void Save(bittarget&) const;
 	bool Load(bitsource&);
 };
@@ -47,7 +51,6 @@ struct PredictBlock : Block
 
 	template<typename SRC>
 	bool ReadDiffT(SRC&);
-
 };
 
 struct Frame
@@ -65,7 +68,9 @@ struct Frame
 	}
 	std::vector<Block> blocks;
 	Block& pix(UC x, UC y) { return blocks[x + w * y]; }
+	Block& operator[](int x, int y) { return blocks[x + w * y]; }
 	const Block& pix(UC x, UC y) const { return blocks[x + w * y]; }
+	const Block& operator[](int x, int y) const { return blocks[x + w * y]; }
 	void Save(bittarget&) const;
 	bool Load(bitsource&);
 	void Black();
@@ -77,15 +82,18 @@ struct Frame
 struct DiffFrame
 {
 	std::vector<PredictBlock> blocks;
-	UC w, h;
+	int w, h;
 
 	DiffFrame() : w(0), h(0) {}
-	DiffFrame(UC,UC);
+	DiffFrame(UC, UC);
 
 	void resize(UC, UC);
 
-	PredictBlock& pix(UC x, UC y) { return blocks[x + w * y]; }
-	const PredictBlock& pix(UC x, UC y) const { return blocks[x + w * y]; }
+	PredictBlock& pix(int x, int y) { return _pix(x,y); }
+	const PredictBlock& pix(int x, int y) const { return _pix(x,y); }
+
+	PredictBlock& operator[](int x, int y) { return pix(x,y); }
+	const PredictBlock& operator[](int x, int y) const { return pix(x,y); }
 
 	operator Frame();
 
@@ -101,6 +109,9 @@ struct DiffFrame
 	void mkFrame(const Frame& prev);
 
 	void construct(const Frame& fr);
+
+private:
+	PredictBlock& _pix(int x, int y) const { return (PredictBlock&)blocks[x + w * y]; }
 };
 
 extern void LoadBMP(RGB_Image&, std::istream&);
@@ -112,14 +123,11 @@ extern void FromFrame(const Frame&, RGB_Image&);
 extern void assignBlock(Block& lhs, const Block& rhs);
 extern void assignFrame(Frame& lhs, const DiffFrame& rhs);
 
-
 template<typename SRC>
 bool DiffFrame::LoadT(SRC& bbr)
 {
-	for (UC y = 0; y < h; ++y)
-	{
-		for (UC x = 0; x < w; ++x)
-		{
+	for (int y = 0; y < h; ++y) {
+		for (int x = 0; x < w; ++x) {
 			PredictBlock& pbl = pix(x,y);
 			if (!pbl.ReadDiffT(bbr))
 				return false;

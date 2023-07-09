@@ -3,9 +3,9 @@
 
 #include "lzv.hpp"
 
-#include "perftimer.h"
+#include "perftimer.hpp"
 
-static_assert(std::numeric_limits<UC>::digits == 8);
+static_assert(std::numeric_limits<UC>::digits ==  8);
 static_assert(std::numeric_limits<UL>::digits == 32);
 
 void lzv_core::init(int max)
@@ -44,8 +44,6 @@ void lzv_encoder::encode(nibble_channel& src, bittarget& dst)
 		auto max_t = 1 << current_bd;
 		return (max_t - next_token) / NN;
 	};
-
-	//auto rst = [&]() -> UL { return nn - curr; };
 
 	auto mat = [&](UL p, UC* t) -> bool
 	{

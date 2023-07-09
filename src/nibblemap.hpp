@@ -1,12 +1,12 @@
 
 #pragma once
 
-#include "core.hpp"
-
 #include <utility>
 #include <vector>
 #include <list>
 #include <map>
+
+#include "core.hpp"
 
 struct map4
 {
@@ -22,7 +22,6 @@ struct map4
 	void init(int max);
 	int size() const;
 };
-
 
 struct fbct2
 {

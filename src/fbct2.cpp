@@ -30,7 +30,7 @@ auto fbct2::find(const BVec& bv) const -> findres
 	{
 		assert (c < 16);
 		idx = p->leafs[c];
-		if (idx==(UL)-1) return {false,0};
+		if (idx==(UL)-1) return {false, 0};
 		p = &all[idx];
 	}
 	return {true, p->idx};
@@ -47,10 +47,9 @@ bool fbct2::addh(UC c, UL hint)
 	return true;
 }
 
-
 bool fbct2::add(const BVec& bv)
 {
-	UL i, n = (UL)bv.size();
+	int i, n = std::ssize(bv);
 	Item* p = &head;
 	assert(p);
 	for (i = 0; i < (n - 1); ++i)
@@ -84,7 +83,7 @@ void fbct2::init(int max)
 	}
 }
 
-UL longest_sequence = 0;
+int longest_sequence = 0;
 
 bool fbct2::lookup(UL idx, BVec& bv)
 {
@@ -97,7 +96,7 @@ bool fbct2::lookup(UL idx, BVec& bv)
 		bv.push_back( all[p].me );
 		p = all[p].par;
 	}
-	UL sz = (UL)bv.size();
+	int sz = std::ssize(bv);
 	if (sz > longest_sequence)
 		longest_sequence = sz;
 	std::reverse(bv.begin(), bv.end());

@@ -5,10 +5,10 @@
 #include <cassert>
 #include <iostream>
 
-#include "Crypt.h"
+#include "Crypt.hpp"
 
 #include "core.hpp"
-#include "perftimer.h"
+#include "perftimer.hpp"
 
 static UL make_4b(const char* str)
 {
@@ -206,8 +206,8 @@ void Crypt::decrypt(UC* block, int size)
 	}
 }
 
-encrypt_target::encrypt_target(const std::string& key, std::ostream& out)
-	: cr(key)
+encrypt_target::encrypt_target(std::string_view key, std::ostream& out)
+	: cr(std::string{key})
 	, out(out)
 {
 	block.reserve(cr.maxblock());
@@ -215,8 +215,8 @@ encrypt_target::encrypt_target(const std::string& key, std::ostream& out)
 
 void encrypt_target::put(UL bits, int bitcount)
 {
-	assert( (cnt+bitcount) <= ( (int)sizeof(UL)*8) );
-	
+	assert( (cnt+bitcount) <= ((int)sizeof(UL)*8) );
+
 	bsf <<= bitcount;
 	bsf |= bits;
 	cnt += bitcount;
@@ -243,8 +243,8 @@ void encrypt_target::put(UL bits, int bitcount)
 void encrypt_target::done()
 {
 	while (cnt)
-		put(0,1);
-	UL sz = (UL)block.size();
+		put(0, 1);
+	int sz = block.size();
 	if (!sz) return;
 	cr.encrypt_block(block.data(), sz);
 	out.write((char*)block.data(), sz);
@@ -253,8 +253,9 @@ void encrypt_target::done()
 
 // ----------------------------------------------------------------------------
 
-decrypt_source::decrypt_source(const std::string& key, std::istream& in)
-	: in(in), cr(key)
+decrypt_source::decrypt_source(std::string_view key, std::istream& in)
+	: in(in)
+	, cr(std::string{key})
 {
 	blsz = 0;
 	pos = 0;

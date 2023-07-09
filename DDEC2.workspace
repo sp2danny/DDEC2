@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="DDEC2" Database="/home/sp2danny/extra/DDEC2/.codelite/DDEC2.tags" Version="10000">
-  <Project Name="DDEC2" Path="DDEC2.project" Active="Yes"/>
-  <Project Name="player" Path="player.project" Active="No"/>
+  <Project Name="DDEC2" Path="DDEC2.project" Active="No"/>
+  <Project Name="player" Path="player.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>

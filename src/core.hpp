@@ -33,7 +33,7 @@ struct RGB
 static_assert( sizeof(RGB) == 3 );
 static_assert( sizeof(HSV) == 3 );
 
-inline std::filesystem::path base = "./img/"s;
+inline std::filesystem::path base = "."s;
 
 inline std::vector<std::string> Params;
 
@@ -66,7 +66,7 @@ inline auto paramlookup(std::string_view str)
 	{
 		if (x == str) {
 			res = {true, i};
-			return res;
+			break;
 		}
 		++i;
 	}

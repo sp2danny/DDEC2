@@ -13,10 +13,10 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=daniel
-Date                   :=08/07/23
+Date                   :=09/07/23
 CodeLitePath           :=/home/daniel/.codelite
-LinkerName             :=/usr/bin/clang++-14
-SharedObjectLinkerName :=/usr/bin/clang++-14 -shared -fPIC
+LinkerName             :=/usr/bin/clang++-15
+SharedObjectLinkerName :=/usr/bin/clang++-15 -shared -fPIC
 ObjectSuffix           :=.o
 DependSuffix           :=.o.d
 PreprocessSuffix       :=.i
@@ -35,7 +35,7 @@ PreprocessOnlySwitch   :=-E
 ObjectsFileList        :="player.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=mkdir -p
-LinkOptions            := -std=c++20 
+LinkOptions            := -std=c++2b 
 IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). 
 IncludePCH             := 
 RcIncludePath          := 
@@ -48,9 +48,9 @@ LibPath                := $(LibraryPathSwitch).
 ## AR, CXX, CC, AS, CXXFLAGS and CFLAGS can be overriden using an environment variables
 ##
 AR       := /usr/bin/ar rcu
-CXX      := /usr/bin/clang++-14
-CC       := /usr/bin/clang-14
-CXXFLAGS := -std=c++20 -Wall -Wextra -Werror -pedantic -Wno-multichar -O2 $(Preprocessors)
+CXX      := /usr/bin/clang++-15
+CC       := /usr/bin/clang-15
+CXXFLAGS := -std=c++2b -Wall -Wextra -Werror -pedantic -Wno-multichar -Wno-pre-c++2b-compat -O2 $(Preprocessors)
 CFLAGS   :=  -O2 $(Preprocessors)
 ASFLAGS  := 
 AS       := /usr/bin/as

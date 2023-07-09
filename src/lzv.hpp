@@ -8,7 +8,7 @@
 
 #include "nibblemap.hpp"
 #include "bitstream.hpp"
-#include "perftimer.h"
+#include "perftimer.hpp"
 
 struct lzv_core
 {
@@ -33,7 +33,6 @@ struct lzv_encoder : lzv_core
 	}
 
 	void encode(nibble_channel&, bittarget& dst);
-
 };
 
 struct lzv_decoder : lzv_core, bitsource
@@ -77,10 +76,7 @@ private:
 
 };
 
-
-
 // ----------------------------------------------------------------------------
-
 
 template<typename SRC>
 lzv_decoder_template<SRC>::lzv_decoder_template(int max, SRC& src)
@@ -112,7 +108,6 @@ UL lzv_decoder_template<SRC>::get(int bitcount)
 
 extern UC pre1[5];
 extern const int NN;
-
 
 template<typename SRC>
 void lzv_decoder_template<SRC>::make(int nc)

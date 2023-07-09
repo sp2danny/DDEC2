@@ -4,6 +4,7 @@
 #include <random>
 #include <vector>
 #include <string>
+#include <string_view>
 #include <iosfwd>
 
 #include "core.hpp"
@@ -29,6 +30,9 @@ struct Crypt
 
 	void encrypt (UC* block, int size);
 	void decrypt (UC* block, int size);
+	
+	Crypt(const Crypt&) = delete;
+	Crypt(Crypt&&) = delete;
 
 private:
 	UL next();
@@ -47,7 +51,7 @@ private:
 
 struct encrypt_target : bittarget
 {
-	encrypt_target(const std::string& key, std::ostream& out);
+	encrypt_target(std::string_view key, std::ostream& out);
 
 	virtual void put(UL bits, int bitcount) override;
 	virtual void done() override;
@@ -62,7 +66,7 @@ private:
 
 struct decrypt_source : bitsource
 {
-	decrypt_source(const std::string& key, std::istream& in);
+	decrypt_source(std::string_view key, std::istream& in);
 
 	virtual bool have(int bitcount) override;
 	virtual UL get(int bitcount) override;

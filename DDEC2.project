@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="DDEC2" InternalType="Console" Version="11000">
   <VirtualDirectory Name="misc">
+    <File Name="decode.sh"/>
     <File Name="extract.sh"/>
     <File Name=".gitignore"/>
     <File Name="playit.sh"/>
@@ -9,8 +10,9 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="src/Crypt.hpp"/>
+    <File Name="src/perftimer.hpp"/>
     <File Name="src/Crypt.cpp"/>
-    <File Name="src/Crypt.h"/>
     <File Name="src/bitmap.cpp"/>
     <File Name="src/bitmap.hpp"/>
     <File Name="src/bitstream.cpp"/>
@@ -22,18 +24,17 @@
     <File Name="src/lzv.cpp"/>
     <File Name="src/lzv.hpp"/>
     <File Name="src/nibblemap.hpp"/>
-    <File Name="src/perftimer.h"/>
     <File Name="src/main.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
-      <Compiler Options="-std=c++20;-Wall;-Wextra;-Werror;-pedantic;-Wno-multichar" C_Options="" Assembler="">
+      <Compiler Options="-std=c++2b;-Wall;-Wextra;-Werror;-pedantic;-Wno-multichar;-Wno-pre-c++2b-compat" C_Options="" Assembler="">
         <IncludePath Value="."/>
       </Compiler>
-      <Linker Options="-std=c++20"/>
+      <Linker Options="-std=c++2b"/>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
-    <Configuration Name="Debug" CompilerType="clang-14" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Debug" CompilerType="clang-15" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-g;-Og" C_Options="-g;-Og" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
       </Compiler>
@@ -72,7 +73,7 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="Release" CompilerType="clang-14" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Release" CompilerType="clang-15" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-O3" C_Options="-O3" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="NDEBUG"/>

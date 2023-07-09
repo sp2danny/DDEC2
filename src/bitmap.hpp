@@ -18,6 +18,6 @@ extern void FadeToBlack(RGB_Image& img, float amount);
 extern HSV RgbToHsv(RGB rgb);
 extern RGB HsvToRgb(HSV hsv);
 
-extern void Resize(const RGB_Image& src, RGB_Image& dst, UL w, UL h);
+extern void Resize(const RGB_Image& src, RGB_Image& dst, int w, int h);
 extern void Resize(const RGB_Image& src, RGB_Image& dst, float scale);
 

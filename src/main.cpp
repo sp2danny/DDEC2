@@ -7,13 +7,14 @@
 #include <fstream>
 #include <memory>
 #include <limits>
+#include <type_traits>
+#include <filesystem>
 
 #include "frame.hpp"
 #include "lzv.hpp"
-#include "Crypt.h"
-#include "perftimer.h"
+#include "Crypt.hpp"
+#include "perftimer.hpp"
 
-#include <filesystem>
 namespace fs = std::filesystem;
 
 template<typename... Ts>
@@ -25,7 +26,7 @@ std::string to_string_f(const char* fmt, const Ts& ...ts)
 }
 
 template<typename T>
-T& unmove(T&& v) { return v; }
+auto unmove(T&& v) -> std::remove_reference_t<T>& { return static_cast<std::remove_reference_t<T>&>(v); }
 
 namespace
 {
@@ -39,7 +40,7 @@ namespace
 using hrc = std::chrono::high_resolution_clock;
 
 void Main(int argc, char** argv)
-{
+{	
 	DiffFrame df;
 
 	Params.insert(Params.begin(), argv+1, argv+argc);
@@ -69,7 +70,7 @@ void Main(int argc, char** argv)
 	if (!fs::exists(base / "stage/04_post"))       fs::create_directory(base / "stage/04_post");
 
 	std::string key = "abcdef123456"s;
-	std::string crfn = base / "stream/64.czs"s;
+	std::string crfn = base / "stage/out.czs"s;
 
 	if (auto [ok, idx] = paramlookup("-key"); ok)
 		key = Params[idx+1];
@@ -330,8 +331,8 @@ void Main(int argc, char** argv)
 		crypt_stream.reset();
 	}
 
-	extern UL longest_sequence;
-	extern UL maximum_nibble_channel_load;
+	extern int longest_sequence;
+	extern int maximum_nibble_channel_load;
 
 	if (TIME_IT)
 	{
@@ -347,7 +348,6 @@ void Main(int argc, char** argv)
 		std::cout << "rest         " << (dur-(perft.streamin+perft.decrypt+perft.decompress+perft.makeframe)).count() << " s\n";
 		std::cout << "longest seq  " << longest_sequence << "\n";
 		std::cout << "MNCL         " << maximum_nibble_channel_load << std::endl;
-		//fgetc(stdin);
 	}
 }
 
@@ -355,6 +355,4 @@ int main(int argc, char** argv)
 {
 	Main(argc, argv);
 }
-
-
 

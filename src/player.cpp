@@ -12,7 +12,7 @@
 
 #include "frame.hpp"
 #include "lzv.hpp"
-#include "Crypt.h"
+#include "Crypt.hpp"
 #include "bitmap.hpp"
 
 namespace
@@ -25,21 +25,18 @@ namespace
 
 	UL DICTSZ = 65'000;
 
-	UC W = 64, H = 48;
+	int W = 64, H = 48;
 
 	std::unique_ptr<decrypt_source> cr_s;
 	std::unique_ptr<std::iostream> crypt_stream;
 
 	TP t1, t2;
-	UL i;
+	int i;
 
 	FrameP curr, prev;
 
 	bool did_delta = false, want_more = true;
 }
-
-#define OFS(fn) unmove(std::ofstream{fn, std::fstream::binary | std::fstream::out})
-#define IFS(fn) unmove(std::ifstream{fn, std::fstream::binary | std::fstream::in})
 
 using hrc = std::chrono::high_resolution_clock;
 

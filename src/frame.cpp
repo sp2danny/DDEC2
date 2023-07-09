@@ -3,8 +3,7 @@
 #include <iostream>
 
 #include "frame.hpp"
-
-#include "perftimer.h"
+#include "perftimer.hpp"
 
 // ----------------------------------------------------------------------------
 
@@ -78,27 +77,6 @@ UC add_diff_4b(UC prev, UC diff, UC targbit)
 
 void WriteXY(bittarget& bbw, const signed short& dx, const signed short& dy)
 {
-	/*
-	bool current_zero = (dx == 0) && (dy == 0);
-	if (current_zero)
-	{
-		if (last_was_zero)
-		{
-			zero_count += 1;
-		} else {
-			last_was_zero = true;
-			zero_count = 1;
-		}
-	} else {
-		if (last_was_zero && zero_count)
-		{
-			std::cout << "string of " << zero_count << " zeros." << std::endl;
-		}
-		std::cout << "instance of " << dx << "," << dy << std::endl;
-		last_was_zero = false;
-	}
-	*/
-	
 	bbw.put(((UL)dx) & 0x0f, 4);
 	bbw.put(((UL)dy) & 0x0f, 4);
 }
@@ -166,28 +144,6 @@ void ReadXY(bitsource& bbr, signed short& dx, signed short& dy)
 {
 	dx = (signed short)(bbr.getS(4));
 	dy = (signed short)(bbr.getS(4));
-	
-	/*
-	bool current_zero = (dx == 0) && (dy == 0);
-	if (current_zero)
-	{
-		if (last_was_zero)
-		{
-			zero_count += 1;
-		} else {
-			last_was_zero = true;
-			zero_count = 1;
-		}
-	} else {
-		if (last_was_zero && zero_count)
-		{
-			std::cout << "string of " << zero_count << " zeros." << std::endl;
-		}
-		std::cout << "instance of " << dx << "," << dy << std::endl;
-		last_was_zero = false;
-	}
-	*/
-	
 }
 
 // ----------------------------------------------------------------------------
@@ -596,11 +552,11 @@ void FromFrame(const Frame& frame, RGB_Image& image)
 		{
 			int bl_x = x / 10;
 			int bl_y = y / 10;
-			auto& bl = frame.pix(bl_x, bl_y);
+			auto& bl = frame[bl_x, bl_y];
 			RGB& rgb = image.pix[x + y * W];
 			auto bl_ix = x % 10;
 			auto bl_iy = y % 10;
-			HSV hsv = bl.Pix(bl_ix, bl_iy);
+			HSV hsv = bl[bl_ix, bl_iy];
 			hsv.h = hsv.h << (8 - HBIT);
 			hsv.s = hsv.s << (8 - SBIT);
 			hsv.v = hsv.v << (8 - VBIT);

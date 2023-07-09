@@ -52,10 +52,12 @@ void streamsource::make(int bitcount)
 bool streamsource::have(int bitcount)
 {
 	make(bitcount);
+	#ifndef NDEBUG
 	if (cnt < bitcount)
 	{
-		std::cerr << "did not have " << (int)bitcount << " bits" << std::endl;
+		std::cerr << "did not have " << bitcount << " bits" << std::endl;
 	}
+	#endif
 	return cnt >= bitcount;
 }
 
@@ -74,14 +76,13 @@ bool nibble_channel::have(int bitcount)
 	assert((bitcount%4)==0);
 	if (std::ssize(nibbles) < (bitcount/4))
 	{
-		std::cerr << "did not have " << (int)bitcount << " bits" << std::endl;
+		std::cerr << "did not have " << bitcount << " bits" << std::endl;
 	}
 	return std::ssize(nibbles) >= (bitcount/4);
 }
 
-UL nibble_channel::get(int bitcount)
+UL nibble_channel::get([[maybe_unused]] int bitcount)
 {
-	(void)bitcount;
 	assert(bitcount == 4);
 	assert(!nibbles.empty());
 	UC c = nibbles.front();
@@ -89,9 +90,8 @@ UL nibble_channel::get(int bitcount)
 	return c;
 }
 
-void nibble_channel::put(UL bits, int bitcount)
+void nibble_channel::put(UL bits, [[maybe_unused]] int bitcount)
 {
-	(void)bitcount;
 	assert(bitcount==4);
 	nibbles.push_back((UC)bits);
 }
@@ -105,10 +105,12 @@ void nibble_channel::done()
 bool debv::have(int bitcount)
 {
 	int tbsf = std::ssize(vec) * 8 + cnt_in + cnt_ut;
+	#ifndef NDEBUG
 	if (tbsf < bitcount)
 	{
 		std::cerr << "did not have " << (int)bitcount << " bits" << std::endl;
 	}
+	#endif
 	return tbsf >= bitcount;
 }
 
@@ -159,12 +161,7 @@ void debv::done()
 
 // ----------------------------------------------------------------------------
 
-cyclic_nibble_channel::cyclic_nibble_channel()
-{
-	//N = 1 << 14;
-	//mask = N-1;
-	//nibbles.resize(N);
-}
+cyclic_nibble_channel::cyclic_nibble_channel() = default;
 
 bool cyclic_nibble_channel::have(int bitcount)
 {

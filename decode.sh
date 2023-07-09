@@ -1,0 +1,1 @@
+./DDEC2.out -sfc -base . -sn ./bunny.czs -w 48 -h 27 -max 9 -mf -pfb -key "det var en gång en liten pilt som hette pelle"
