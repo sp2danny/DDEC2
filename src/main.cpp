@@ -30,8 +30,7 @@ auto unmove(T&& v) -> std::remove_reference_t<T>& { return static_cast<std::remo
 
 namespace
 {
-	Frame fr1;
-	Frame fr2;
+	Frame fr1, fr2;
 }
 
 #define OFS(fn) unmove(std::ofstream{fn, std::fstream::binary | std::fstream::out})
@@ -102,13 +101,13 @@ void Main(int argc, char** argv)
 	if (auto [ok, idx] = paramlookup("-name"); ok)
 		nam = Params[idx + 1];
 
-	UC W = 64, H = 48;
+	int W = 64, H = 48;
 	if (auto [ok, idx] = paramlookup("-w"); ok)
-		W = (UC)std::stoi(Params[idx + 1]);
+		W = std::stoi(Params[idx + 1]);
 	if (auto [ok, idx] = paramlookup("-h"); ok)
-		H = (UC)std::stoi(Params[idx + 1]);
+		H = std::stoi(Params[idx + 1]);
 
-	int errlim = 165ul * W * H;
+	int errlim = 165 * W * H;
 	if (auto [ok, idx] = paramlookup("-errlim"); ok)
 		errlim = std::stoi(Params[idx + 1]);
 
