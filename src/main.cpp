@@ -18,10 +18,10 @@
 namespace fs = std::filesystem;
 
 template<typename... Ts>
-std::string to_string_f(const char* fmt, const Ts& ...ts)
+std::string to_string_f(std::string_view fmt, const Ts& ...ts)
 {
 	static char buff[256];
-	sprintf(buff, fmt, ts...);
+	sprintf(buff, fmt.data(), ts...);
 	return {buff};
 }
 
@@ -160,7 +160,7 @@ void Main(int argc, char** argv)
 
 		bool did_delta = i;
 
-		auto num = to_string_f(dig.c_str(), i+start);
+		auto num = to_string_f(dig, i+start);
 
 		std::cout << num << "\r" << std::flush;
 
