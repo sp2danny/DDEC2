@@ -228,7 +228,7 @@ void encrypt_target::put(UL bits, int bitcount)
 		cnt -= 8;
 		bsf &= ((1<<cnt)-1);
 
-		UL max = cr.maxblock();
+		constexpr UL max = cr.maxblock();
 		if (block.size() >= cr.maxblock())
 		{
 			assert(block.size() == cr.maxblock());
@@ -244,7 +244,7 @@ void encrypt_target::done()
 {
 	while (cnt)
 		put(0, 1);
-	int sz = block.size();
+	int sz = std::ssize(block);
 	if (!sz) return;
 	cr.encrypt_block(block.data(), sz);
 	out.write((char*)block.data(), sz);
@@ -255,6 +255,7 @@ void encrypt_target::done()
 
 decrypt_source::decrypt_source(std::string_view key, std::istream& in)
 	: in(in)
+	, block{}
 	, cr(std::string{key})
 {
 	blsz = 0;
@@ -305,7 +306,7 @@ void decrypt_source::make(int bitcount)
 
 		if (pos >= blsz)
 		{
-			UL max = cr.maxblock();
+			constexpr UL max = cr.maxblock();
 			UL n = in.read((char*)block.data(), max) ? max : (UL)in.gcount();
 			if (!n)
 			{

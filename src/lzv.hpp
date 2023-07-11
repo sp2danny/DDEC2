@@ -121,9 +121,6 @@ void lzv_decoder_template<SRC>::make(int nc)
 		UL code = source.get(current_bd);
 		bool ok;
 
-		TP t1;
-		if (pt) t1 = hrc::now();
-
 		if (code < next_token)
 		{
 			ok = m4.lookup(code, bv);
@@ -138,9 +135,6 @@ void lzv_decoder_template<SRC>::make(int nc)
 					nibbles.put(c, 4);
 			// no table growth after preset entry, just continue
 			have_prev = false;
-			if (pt)
-				//pt->decompress += Dur(hrc::now() - t1)
-				;
 			continue;
 		}
 
@@ -149,9 +143,6 @@ void lzv_decoder_template<SRC>::make(int nc)
 		if (next_token >= max_token)
 		{
 			have_prev = false;
-			if (pt)
-				//pt->decompress += Dur(hrc::now() - t1)
-				;
 			continue;
 		}
 
@@ -169,9 +160,6 @@ void lzv_decoder_template<SRC>::make(int nc)
 		have_prev = true;
 		prev_code = code;
 
-		if (pt)
-			//pt->decompress += Dur(hrc::now() - t1)
-			;
 	}
 
 }

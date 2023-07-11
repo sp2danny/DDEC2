@@ -52,7 +52,7 @@ void map4::init(int max)
 int map4::size() const
 {
 	assert( i2v.size() == v2i.size() );
-	return v2i.size();
+	return std::ssize(v2i);
 }
 
 

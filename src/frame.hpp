@@ -25,7 +25,7 @@ struct Block
 
 	HSV Pix(int x, int y) const;
 
-	HSV operator[](int x, int y) const { return Pix(x,y); }
+	//HSV operator[](int x, int y) const { return Pix(x,y); }
 
 	void Save(bittarget&) const;
 	bool Load(bitsource&);
@@ -68,9 +68,9 @@ struct Frame
 	}
 	std::vector<Block> blocks;
 	Block& pix(UC x, UC y) { return blocks[x + w * y]; }
-	Block& operator[](int x, int y) { return blocks[x + w * y]; }
+	//Block& operator[](int x, int y) { return blocks[x + w * y]; }
 	const Block& pix(UC x, UC y) const { return blocks[x + w * y]; }
-	const Block& operator[](int x, int y) const { return blocks[x + w * y]; }
+	//const Block& operator[](int x, int y) const { return blocks[x + w * y]; }
 	void Save(bittarget&) const;
 	bool Load(bitsource&);
 	void Black();
@@ -92,8 +92,8 @@ struct DiffFrame
 	PredictBlock& pix(int x, int y) { return _pix(x,y); }
 	const PredictBlock& pix(int x, int y) const { return _pix(x,y); }
 
-	PredictBlock& operator[](int x, int y) { return pix(x,y); }
-	const PredictBlock& operator[](int x, int y) const { return pix(x,y); }
+	//PredictBlock& operator[](int x, int y) { return pix(x,y); }
+	//const PredictBlock& operator[](int x, int y) const { return pix(x,y); }
 
 	operator Frame();
 

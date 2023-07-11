@@ -552,11 +552,11 @@ void FromFrame(const Frame& frame, RGB_Image& image)
 		{
 			int bl_x = x / 10;
 			int bl_y = y / 10;
-			auto& bl = frame[bl_x, bl_y];
+			auto& bl = frame.pix(bl_x, bl_y);
 			RGB& rgb = image.pix[x + y * W];
 			auto bl_ix = x % 10;
 			auto bl_iy = y % 10;
-			HSV hsv = bl[bl_ix, bl_iy];
+			HSV hsv = bl.Pix(bl_ix, bl_iy);
 			hsv.h = hsv.h << (8 - HBIT);
 			hsv.s = hsv.s << (8 - SBIT);
 			hsv.v = hsv.v << (8 - VBIT);

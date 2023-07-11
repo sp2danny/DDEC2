@@ -69,7 +69,7 @@ void Main(int argc, char** argv)
 	if (!fs::exists(base / "stage/04_post"))       fs::create_directory(base / "stage/04_post");
 
 	std::string key = "abcdef123456"s;
-	std::string crfn = base / "stage/out.czs"s;
+	auto crfn = base / "stage/out.czs"s;
 
 	if (auto [ok, idx] = paramlookup("-key"); ok)
 		key = Params[idx+1];
