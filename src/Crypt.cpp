@@ -228,7 +228,7 @@ void encrypt_target::put(UL bits, int bitcount)
 		cnt -= 8;
 		bsf &= ((1<<cnt)-1);
 
-		constexpr UL max = cr.maxblock();
+		constexpr UL max = Crypt::maxblock();
 		if (block.size() >= cr.maxblock())
 		{
 			assert(block.size() == cr.maxblock());
@@ -306,7 +306,7 @@ void decrypt_source::make(int bitcount)
 
 		if (pos >= blsz)
 		{
-			constexpr UL max = cr.maxblock();
+			constexpr UL max = Crypt::maxblock();
 			UL n = in.read((char*)block.data(), max) ? max : (UL)in.gcount();
 			if (!n)
 			{

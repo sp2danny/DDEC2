@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=daniel
-Date                   :=09/07/23
+Date                   :=12/07/23
 CodeLitePath           :=/home/daniel/.codelite
 LinkerName             :=/usr/bin/clang++-15
 SharedObjectLinkerName :=/usr/bin/clang++-15 -shared -fPIC
@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_lzv.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bitmap.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_fbct2.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_lzv.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_fbct2.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bitmap.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) 
 
 
 
@@ -97,6 +97,18 @@ $(IntermediateDirectory)/src_lzv.cpp$(ObjectSuffix): src/lzv.cpp
 $(IntermediateDirectory)/src_lzv.cpp$(PreprocessSuffix): src/lzv.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_lzv.cpp$(PreprocessSuffix) src/lzv.cpp
 
+$(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix): src/frame.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_frame.cpp$(DependSuffix) -MM src/frame.cpp
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/frame.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_frame.cpp$(PreprocessSuffix): src/frame.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_frame.cpp$(PreprocessSuffix) src/frame.cpp
+
+$(IntermediateDirectory)/src_fbct2.cpp$(ObjectSuffix): src/fbct2.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_fbct2.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_fbct2.cpp$(DependSuffix) -MM src/fbct2.cpp
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/fbct2.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_fbct2.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_fbct2.cpp$(PreprocessSuffix): src/fbct2.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_fbct2.cpp$(PreprocessSuffix) src/fbct2.cpp
+
 $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix): src/main.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_main.cpp$(DependSuffix) -MM src/main.cpp
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IncludePath)
@@ -120,18 +132,6 @@ $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix): src/Crypt.cpp
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/Crypt.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_Crypt.cpp$(PreprocessSuffix): src/Crypt.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_Crypt.cpp$(PreprocessSuffix) src/Crypt.cpp
-
-$(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix): src/frame.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_frame.cpp$(DependSuffix) -MM src/frame.cpp
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/frame.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_frame.cpp$(PreprocessSuffix): src/frame.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_frame.cpp$(PreprocessSuffix) src/frame.cpp
-
-$(IntermediateDirectory)/src_fbct2.cpp$(ObjectSuffix): src/fbct2.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_fbct2.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_fbct2.cpp$(DependSuffix) -MM src/fbct2.cpp
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/fbct2.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_fbct2.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_fbct2.cpp$(PreprocessSuffix): src/fbct2.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_fbct2.cpp$(PreprocessSuffix) src/fbct2.cpp
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
