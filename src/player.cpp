@@ -104,12 +104,12 @@ void Main()
 	bool pause = false;
 
 	while (want_more && window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed) {
-                window.close();
+	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed) {
+				window.close();
 				want_more = false;
 			}
 			if (event.type == sf::Event::KeyPressed) {
@@ -118,12 +118,12 @@ void Main()
 				if (event.key.code == sf::Keyboard::Escape)
 					want_more = false;
 			}
-        }
-		
+		}
+
 		if (!want_more) break;
 		
 		if (pause) {
-			usleep(100);
+			sf::sleep(sf::microseconds(100));
 			continue;
 		}
 
@@ -162,7 +162,7 @@ void Main()
 		t1 = t2;
 
 		window.clear();
-        window.draw(sf::Sprite(tex));
+		window.draw(sf::Sprite(tex));
 		window.display();
 	}
 }
