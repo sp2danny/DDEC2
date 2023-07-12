@@ -17,27 +17,6 @@
     <ClCompile Include="src\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\bitmap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\bitstream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Crypt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fbct2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\frame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lzv.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nibblemap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\lzv.hpp">
@@ -76,6 +55,9 @@
       <Filter>Library Files</Filter>
     </Library>
     <Library Include="..\..\Lib\SFML-2.5.1\lib\sfml-graphics.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="bin\x64\Release\ddec2lib.lib">
       <Filter>Library Files</Filter>
     </Library>
   </ItemGroup>

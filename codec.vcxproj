@@ -21,14 +21,10 @@
     <ClInclude Include="src\perftimer.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\bitmap.cpp" />
-    <ClCompile Include="src\bitstream.cpp" />
-    <ClCompile Include="src\Crypt.cpp" />
-    <ClCompile Include="src\fbct2.cpp" />
-    <ClCompile Include="src\frame.cpp" />
-    <ClCompile Include="src\lzv.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\nibblemap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="bin\x64\Release\ddec2lib.lib" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
