@@ -9,8 +9,8 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Library Files">
-      <UniqueIdentifier>{06658deb-4d2d-4732-90a6-8d18046edc88}</UniqueIdentifier>
+    <Filter Include="Misc">
+      <UniqueIdentifier>{c30d8050-7bd6-45c4-be1f-51c3bbef875d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -45,8 +45,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="bin\x64\Release\ddec2lib.lib">
-      <Filter>Library Files</Filter>
-    </Library>
+    <None Include="encode.sh">
+      <Filter>Misc</Filter>
+    </None>
+    <None Include="extract.sh">
+      <Filter>Misc</Filter>
+    </None>
+    <None Include="decode.sh">
+      <Filter>Misc</Filter>
+    </None>
   </ItemGroup>
 </Project>

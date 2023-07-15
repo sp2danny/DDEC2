@@ -206,6 +206,8 @@ void Crypt::decrypt(UC* block, int size)
 	}
 }
 
+// --------------------------------------------------------------------------------------------------------------------
+
 encrypt_target::encrypt_target(std::string_view key, std::ostream& out)
 	: cr(std::string{key})
 	, out(out)
@@ -251,7 +253,7 @@ void encrypt_target::done()
 	out.flush();
 }
 
-// ----------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 
 decrypt_source::decrypt_source(std::string_view key, std::istream& in)
 	: in(in)

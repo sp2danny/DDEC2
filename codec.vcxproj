@@ -24,7 +24,14 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="bin\x64\Release\ddec2lib.lib" />
+    <None Include="decode.sh" />
+    <None Include="encode.sh" />
+    <None Include="extract.sh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="ddec2lib.vcxproj">
+      <Project>{4dc5a97b-66ad-4290-bd45-50729b0aca6f}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -60,12 +67,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)/bin/$(Platform)/$(Configuration)/</OutDir>
-    <IntDir>$(SolutionDir)/bin/$(Platform)/$(Configuration)/</IntDir>
+    <OutDir>$(SolutionDir)bin/$(Platform)/$(Configuration)/$(ProjectName)/</OutDir>
+    <IntDir>$(SolutionDir)bin/$(Platform)/$(Configuration)/$(ProjectName)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)/bin/$(Platform)/$(Configuration)/</OutDir>
-    <IntDir>$(SolutionDir)/bin/$(Platform)/$(Configuration)/</IntDir>
+    <OutDir>$(SolutionDir)bin/$(Platform)/$(Configuration)/$(ProjectName)/</OutDir>
+    <IntDir>$(SolutionDir)bin/$(Platform)/$(Configuration)/$(ProjectName)/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -80,7 +87,11 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)$(TargetName)_dbg.exe"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -99,7 +110,11 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)$(TargetName)_rel.exe"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -75,9 +75,9 @@ void Main(int argc, char** argv)
 		key = Params[idx+1];
 
 	if (auto [ok, idx] = paramlookup("-sn"); ok)
-		crfn = Params[idx + 1];
+		crfn = base / Params[idx + 1];
 
-	std::string src = "src2";
+	std::string src = "tmp";
 	if (auto [ok, idx] = paramlookup("-src"); ok)
 		src = Params[idx + 1];
 
@@ -172,6 +172,8 @@ void Main(int argc, char** argv)
 			std::ifstream ifs{fn, std::fstream::binary | std::fstream::in};
 			if (!ifs) break;
 			LoadBMP(img, ifs);
+			if (img.w != (W*10)) std::cerr << "\nWarning: width mismatch\n";
+			if (img.h != (H*10)) std::cerr << "\nWarning: height mismatch\n";
 		}
 
 		if (SAVE_AFTER_LOAD)

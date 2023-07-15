@@ -59,7 +59,7 @@ struct Frame
 	Frame(UC w, UC h)
 		: w(w), h(h)
 	{
-		blocks.resize(w*h);
+		blocks.resize(int(w)*int(h));
 	}
 	void resize(UC ww, UC hh)
 	{

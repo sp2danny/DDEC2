@@ -78,8 +78,17 @@ void Main()
 		H = (UC)std::stoi(Params[idx + 1]);
 
 	const int WW = W*10, HH = H*10;
+	int DH = HH, DW = WW;
 
-	sf::RenderWindow window(sf::VideoMode(WW, HH), "ddec2 player");
+	sf::Vector2f scal = {1,1};
+	sf::Vector2f ofs = {0,0};
+
+	if (auto [ok, idx] = paramlookup("-dbl"); ok) {
+		DH*=2; DW*=2;
+		scal = {2,2};
+	}
+
+	sf::RenderWindow window(sf::VideoMode(DW, DH), "ddec2 player");
 
 	fr1.resize(W, H);
 	fr2.resize(W, H);
@@ -101,21 +110,35 @@ void Main()
 	sf::Texture tex;
 	tex.create(WW, HH);
 
+	sf::View view;
+	view.reset(sf::FloatRect(0, 0, DW, DH));
+	window.setView(view);
+
 	bool pause = false;
 
 	while (want_more && window.isOpen())
 	{
-		sf::Event event;
-		while (window.pollEvent(event))
+		sf::Event ev;
+		while (window.pollEvent(ev))
 		{
-			if (event.type == sf::Event::Closed) {
+			if (ev.type == sf::Event::Resized) {
+				view.reset(sf::FloatRect(0, 0, ev.size.width, ev.size.height)); window.setView(view);
+				float xs = ev.size.width  / (float)WW;
+				float ys = ev.size.height / (float)HH;
+				float ms = std::min(xs, ys);
+				scal = {ms,ms};
+				float xofs = (ev.size.width - ms*WW)/2; if (xofs<1.5f) xofs=0;
+				float yofs = (ev.size.height - ms*HH)/2; if (yofs<1.5f) yofs=0;
+				ofs = {xofs, yofs};
+			}
+			else if (ev.type == sf::Event::Closed) {
 				window.close();
 				want_more = false;
 			}
-			if (event.type == sf::Event::KeyPressed) {
-				if (event.key.code == sf::Keyboard::Space)
+			else if (ev.type == sf::Event::KeyPressed) {
+				if (ev.key.code == sf::Keyboard::Space)
 					pause = !pause;
-				if (event.key.code == sf::Keyboard::Escape)
+				if (ev.key.code == sf::Keyboard::Escape)
 					want_more = false;
 			}
 		}
@@ -162,7 +185,8 @@ void Main()
 		t1 = t2;
 
 		window.clear();
-		window.draw(sf::Sprite(tex));
+		auto s = sf::Sprite(tex); s.setScale(scal); s.setPosition(ofs);
+		window.draw(s);
 		window.display();
 	}
 }

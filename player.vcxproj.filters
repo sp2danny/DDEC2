@@ -57,8 +57,5 @@
     <Library Include="..\..\Lib\SFML-2.5.1\lib\sfml-graphics.lib">
       <Filter>Library Files</Filter>
     </Library>
-    <Library Include="bin\x64\Release\ddec2lib.lib">
-      <Filter>Library Files</Filter>
-    </Library>
   </ItemGroup>
 </Project>
