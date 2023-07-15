@@ -108,9 +108,6 @@ void SaveBMP(const RGB_Image& img, std::ostream& out)
 	ih.biBitCount      = 24;
 	ih.biPlanes        = 1;
 	ih.biCompression   = 0;
-	
-	ih.biXPelsPerMeter = 72;
-	ih.biYPelsPerMeter = 72;
 
 	auto stride = w * 3;
 	while (stride % 4) ++stride;

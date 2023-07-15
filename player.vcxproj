@@ -68,12 +68,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)bin/$(Platform)/$(Configuration)/$(ProjectName)/</OutDir>
-    <IntDir>$(SolutionDir)bin/$(Platform)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)bin/$(Platform)/$(Configuration)/$(ProjectName)/</OutDir>
-    <IntDir>$(SolutionDir)bin/$(Platform)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -92,7 +92,7 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>echo copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)$(TargetName)_dbg.exe"</Command>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)$(TargetName)_dbg.exe"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -116,7 +116,7 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>echo copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)$(TargetName)_rel.exe"</Command>
+      <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)$(TargetName).exe"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
