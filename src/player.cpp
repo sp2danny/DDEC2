@@ -132,8 +132,8 @@ void Main()
 		std::ifstream in(snd, std::fstream::binary);
 		audio = readWave(in, data);
 		if (audio) {
-			std::ofstream tmp("tmp.dat");
-			tmp.write((char*)data.data(), data.size()*2);
+			//std::ofstream tmp("tmp.dat");
+			//tmp.write((char*)data.data(), data.size()*2);
 			buffer.loadFromSamples(data.data(), data.size(), 1, 22050);
 			sound.setBuffer(buffer);
 			sound.play();

@@ -1,5 +1,5 @@
 
-#include "Core.hpp"
+#include "core.hpp"
 
 #include "wave.hpp"
 

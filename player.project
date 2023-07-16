@@ -3,6 +3,8 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="src/wave.hpp"/>
+    <File Name="src/wave.cpp"/>
     <File Name="src/Crypt.hpp"/>
     <File Name="src/Crypt.cpp"/>
     <File Name="src/bitstream.cpp"/>
@@ -29,6 +31,7 @@
         <Library Value="sfml-graphics"/>
         <Library Value="sfml-window"/>
         <Library Value="sfml-system"/>
+        <Library Value="sfml-audio"/>
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
