@@ -9,11 +9,13 @@
 #include <filesystem>
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include "frame.hpp"
 #include "lzv.hpp"
 #include "Crypt.hpp"
 #include "bitmap.hpp"
+#include "wave.hpp"
 
 namespace
 {
@@ -77,6 +79,10 @@ void Main()
 	if (auto [ok, idx] = paramlookup("-h"); ok)
 		H = (UC)std::stoi(Params[idx + 1]);
 
+	std::string snd;
+	if (auto [ok, idx] = paramlookup("-snd"); ok)
+		snd = Params[idx + 1];
+
 	const int WW = W*10, HH = H*10;
 	int DH = HH, DW = WW;
 
@@ -116,6 +122,24 @@ void Main()
 
 	bool pause = false;
 
+	bool audio = false;
+	std::vector<short> data;
+	sf::SoundBuffer buffer;
+	sf::Sound sound;
+	bool first = true;
+
+	if (!snd.empty()) {
+		std::ifstream in(snd, std::fstream::binary);
+		audio = readWave(in, data);
+		if (audio) {
+			std::ofstream tmp("tmp.dat");
+			tmp.write((char*)data.data(), data.size()*2);
+			buffer.loadFromSamples(data.data(), data.size(), 1, 22050);
+			sound.setBuffer(buffer);
+			sound.play();
+		}
+	}
+
 	while (want_more && window.isOpen())
 	{
 		sf::Event ev;
@@ -136,8 +160,11 @@ void Main()
 				want_more = false;
 			}
 			else if (ev.type == sf::Event::KeyPressed) {
-				if (ev.key.code == sf::Keyboard::Space)
+				if (ev.key.code == sf::Keyboard::Space) {
 					pause = !pause;
+					if (pause) sound.pause();
+					else { sound.play(); t1 = hrc::now(); i = (i % 2); }
+				}
 				if (ev.key.code == sf::Keyboard::Escape)
 					want_more = false;
 			}
@@ -153,11 +180,12 @@ void Main()
 		curr = (i % 2) ? &fr1 : &fr2;
 		prev = (i % 2) ? &fr2 : &fr1;
 
-		if (i)
+		if (!first)
 		{
 			if (!cr_s->have(1)) { want_more=false; break; }
 			did_delta = cr_s->get(1);
 		}
+		first = false;
 		if (did_delta)
 		{
 			lzv_decoder_template lz(DICTSZ, *cr_s);
@@ -171,7 +199,7 @@ void Main()
 		}
 
 		++i;
-		std::cout << i << "\r" << std::flush;
+		std::cout << i << "    \r" << std::flush;
 
 		FromFrameSF(*curr, sfimg);
 
@@ -180,9 +208,9 @@ void Main()
 		while (true)
 		{
 			t2 = hrc::now();
-			if ((t2-t1) > 35ms) break;
+			if ((t2-t1) > (41.6667ms * i)) break;
 		}
-		t1 = t2;
+		//t1 += 41.666ms;
 
 		window.clear();
 		auto s = sf::Sprite(tex); s.setScale(scal); s.setPosition(ofs);

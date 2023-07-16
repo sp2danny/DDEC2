@@ -57,5 +57,8 @@
     <Library Include="..\..\Lib\SFML-2.5.1\lib\sfml-graphics.lib">
       <Filter>Library Files</Filter>
     </Library>
+    <Library Include="..\..\Lib\SFML-2.5.1\lib\sfml-audio.lib">
+      <Filter>Library Files</Filter>
+    </Library>
   </ItemGroup>
 </Project>

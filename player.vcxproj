@@ -24,6 +24,7 @@
     <ClInclude Include="src\perftimer.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Library Include="..\..\Lib\SFML-2.5.1\lib\sfml-audio.lib" />
     <Library Include="..\..\Lib\SFML-2.5.1\lib\sfml-graphics.lib" />
     <Library Include="..\..\Lib\SFML-2.5.1\lib\sfml-main.lib" />
     <Library Include="..\..\Lib\SFML-2.5.1\lib\sfml-system.lib" />

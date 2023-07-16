@@ -19,6 +19,7 @@
     <ClInclude Include="src\lzv.hpp" />
     <ClInclude Include="src\nibblemap.hpp" />
     <ClInclude Include="src\perftimer.hpp" />
+    <ClInclude Include="src\wave.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bitmap.cpp" />
@@ -28,6 +29,7 @@
     <ClCompile Include="src\frame.cpp" />
     <ClCompile Include="src\lzv.cpp" />
     <ClCompile Include="src\nibblemap.cpp" />
+    <ClCompile Include="src\wave.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

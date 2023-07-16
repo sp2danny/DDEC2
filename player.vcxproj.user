@@ -5,7 +5,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>-w 42 -h 24 -dbl -in ".\bunny - kopia.czs"</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-dbl -w 42 -h 24 -in ".\bunny.czs" -key "det var en gång en liten pilt som hette pelle" -snd bbb.wav</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>
