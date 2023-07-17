@@ -5,6 +5,8 @@
 #include <vector>
 #include <iostream>
 
+#include "bitstream.hpp"
+
 #pragma pack(push, 1)
 
 struct RiffHdr
@@ -32,4 +34,7 @@ struct RiffHdr
 
 extern bool readWave(std::istream&, std::vector<short>&);
 
+extern void wavCompress(short* b, short* e, bittarget&);
+
+extern void wavDecompress(bitsource&, std::vector<short>&);
 
