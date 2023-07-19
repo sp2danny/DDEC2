@@ -46,7 +46,7 @@ bool readWave(std::istream& in, std::vector<short>& data)
 
 void wavCompress(short* b, short* e, bittarget& dst)
 {
-	int i, n= (e-b);
+	int n= (e-b);
 	if (!n) return;
 	
 	float primary = 22050.0f;
