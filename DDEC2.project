@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="DDEC2" InternalType="Console" Version="11000">
+  <VirtualDirectory Name="fft">
+    <File Name="fft/pffft.h"/>
+    <File Name="fft/pffft.c"/>
+  </VirtualDirectory>
   <VirtualDirectory Name="misc">
     <File Name="decode.sh"/>
     <File Name="extract.sh"/>
@@ -10,6 +14,8 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="src/wave.hpp"/>
+    <File Name="src/wave.cpp"/>
     <File Name="src/Crypt.hpp"/>
     <File Name="src/perftimer.hpp"/>
     <File Name="src/Crypt.cpp"/>
@@ -40,7 +46,7 @@
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(ProjectName)_dbg.out" IntermediateDirectory="./bin/Debug" Command="$(ProjectName)_dbg.out" CommandArguments="-errlim 350000 -bmp -stc -base . -src img -sn ./out.czs -dig 4 -name b -w 48 -h 27 -start 1 -md -mf -fr -key &quot;det var en gång en liten pilt som hette pelle&quot;&#xA;" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="." PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(ProjectName)_dbg.out" IntermediateDirectory="./bin/Debug" Command="$(ProjectName)_dbg.out" CommandArguments="-errlim 350000 -bmp -stc -base . -src img -sn ./out.czs -dig 4 -name i -w 48 -h 27 -start 997 -md -mf -fr -key &quot;det var en gång en liten pilt som hette pelle&quot; -snd bbb.wav" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="." PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
