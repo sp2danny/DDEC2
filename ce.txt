@@ -1,1 +1,1 @@
-./bin/Debug/src_ce.cpp.o
+./bin/Release/src_Crypt.cpp.o ./bin/Release/src_bitstream.cpp.o ./bin/Release/src_ce.cpp.o

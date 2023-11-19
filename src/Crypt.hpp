@@ -33,6 +33,8 @@ struct Crypt
 	
 	Crypt(const Crypt&) = delete;
 	Crypt(Crypt&&) = delete;
+	
+	int passcount() const { return std::ssize(keys); }
 
 private:
 	UL next();
@@ -55,6 +57,8 @@ struct encrypt_target : bittarget
 
 	virtual void put(UL bits, int bitcount) override;
 	virtual void done() override;
+	
+	int passcount() const { return cr.passcount(); }
 
 private:
 	std::vector<UC> block;

@@ -3,6 +3,10 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <VirtualDirectory Name="lib">
+      <File Name="src/Crypt.cpp"/>
+      <File Name="src/bitstream.cpp"/>
+    </VirtualDirectory>
     <File Name="src/ce.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">

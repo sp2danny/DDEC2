@@ -312,7 +312,9 @@ void decrypt_source::make(int bitcount)
 			UL n = in.read((char*)block.data(), max) ? max : (UL)in.gcount();
 			if (!n)
 			{
+				#ifndef NDEBUG
 				std::cerr << "could not read from in\n";
+				#endif
 				return;
 			}
 			blsz = n;
