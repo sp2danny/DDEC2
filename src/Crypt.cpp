@@ -162,7 +162,7 @@ void Crypt::encrypt_block(UC* block, int size)
 	loadup_big(size);
 	std::reverse(opers.begin(), opers.end());
 	execute_loadup(block, size);
-	opers.assign( opers.size(), Operator{} );
+	opers.assign( opers.size(), Operator{} ); // ???
 }
 
 void Crypt::decrypt_block(UC* block, int size)
@@ -289,6 +289,7 @@ UL decrypt_source::get(int bitcount)
 
 void decrypt_source::make(int bitcount)
 {	
+	#ifndef NDEBUG
 	struct Timer {
 		Timer() {
 			if (pt)
@@ -301,6 +302,7 @@ void decrypt_source::make(int bitcount)
 	private:
 		TP t;
 	} timer;
+	#endif
 
 	while (true)
 	{
