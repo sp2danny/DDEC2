@@ -2,18 +2,18 @@
 ## Auto Generated makefile by CodeLite IDE
 ## any manual changes will be erased      
 ##
-## Debug
-ProjectName            :=ce
-ConfigurationName      :=Debug
+## Release
+ProjectName            :=de
+ConfigurationName      :=Release
 WorkspacePath          :=/home/daniel/project/ddec2
 ProjectPath            :=/home/daniel/project/ddec2
-IntermediateDirectory  :=./bin/Debug
+IntermediateDirectory  :=./bin/Release
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=daniel
-Date                   :=20/11/23
+Date                   :=26/11/23
 CodeLitePath           :=/home/daniel/.codelite
 LinkerName             :=/usr/bin/clang++-15
 SharedObjectLinkerName :=/usr/bin/clang++-15 -shared -fPIC
@@ -27,12 +27,12 @@ OutputSwitch           :=-o
 LibraryPathSwitch      :=-L
 PreprocessorSwitch     :=-D
 SourceSwitch           :=-c 
-OutputFile             :=$(ProjectName)_dbg.out
-Preprocessors          :=
+OutputFile             :=$(ProjectName).out
+Preprocessors          :=$(PreprocessorSwitch)NDEBUG 
 ObjectSwitch           :=-o 
 ArchiveOutputSwitch    := 
 PreprocessOnlySwitch   :=-E
-ObjectsFileList        :="ce.txt"
+ObjectsFileList        :="de.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=mkdir -p
 LinkOptions            := -std=c++2b 
@@ -50,8 +50,8 @@ LibPath                := $(LibraryPathSwitch).
 AR       := /usr/bin/ar rcu
 CXX      := /usr/bin/clang++-15
 CC       := /usr/bin/clang-15
-CXXFLAGS := -std=c++2b -Wall -Wextra -Werror -pedantic -Wno-multichar -Wno-pre-c++2b-compat -g -Og $(Preprocessors)
-CFLAGS   :=  -g -Og $(Preprocessors)
+CXXFLAGS := -std=c++2b -Wall -Wextra -Werror -pedantic -Wno-multichar -Wno-pre-c++2b-compat -O3 $(Preprocessors)
+CFLAGS   :=  -O3 $(Preprocessors)
 ASFLAGS  := 
 AS       := /usr/bin/as
 
@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ce.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_de.cpp$(ObjectSuffix) 
 
 
 
@@ -79,11 +79,11 @@ $(OutputFile): $(IntermediateDirectory)/.d $(Objects)
 	$(LinkerName) $(OutputSwitch)$(OutputFile) @$(ObjectsFileList) $(LibPath) $(Libs) $(LinkOptions)
 
 MakeIntermediateDirs:
-	@test -d ./bin/Debug || $(MakeDirCommand) ./bin/Debug
+	@test -d ./bin/Release || $(MakeDirCommand) ./bin/Release
 
 
 $(IntermediateDirectory)/.d:
-	@test -d ./bin/Debug || $(MakeDirCommand) ./bin/Debug
+	@test -d ./bin/Release || $(MakeDirCommand) ./bin/Release
 
 PreBuild:
 
@@ -103,11 +103,11 @@ $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix): src/Crypt.cpp
 $(IntermediateDirectory)/src_Crypt.cpp$(PreprocessSuffix): src/Crypt.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_Crypt.cpp$(PreprocessSuffix) src/Crypt.cpp
 
-$(IntermediateDirectory)/src_ce.cpp$(ObjectSuffix): src/ce.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ce.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ce.cpp$(DependSuffix) -MM src/ce.cpp
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/ce.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ce.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_ce.cpp$(PreprocessSuffix): src/ce.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ce.cpp$(PreprocessSuffix) src/ce.cpp
+$(IntermediateDirectory)/src_de.cpp$(ObjectSuffix): src/de.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_de.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_de.cpp$(DependSuffix) -MM src/de.cpp
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/de.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_de.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_de.cpp$(PreprocessSuffix): src/de.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_de.cpp$(PreprocessSuffix) src/de.cpp
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
@@ -115,6 +115,6 @@ $(IntermediateDirectory)/src_ce.cpp$(PreprocessSuffix): src/ce.cpp
 ## Clean
 ##
 clean:
-	$(RM) -r ./bin/Debug/
+	$(RM) -r ./bin/Release/
 
 

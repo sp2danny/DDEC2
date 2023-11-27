@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="ce" Version="11000" InternalType="Console">
+<CodeLite_Project Name="de" Version="11000" InternalType="Console">
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="src/de.cpp"/>
     <VirtualDirectory Name="lib">
       <File Name="src/Crypt.cpp"/>
       <File Name="src/bitstream.cpp"/>
     </VirtualDirectory>
-    <File Name="src/ce.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
