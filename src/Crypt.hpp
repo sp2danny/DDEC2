@@ -21,9 +21,9 @@ struct Operator
 
 struct Crypt
 {
-	Crypt(std::string);
+	Crypt(std::string, bool=true);
 
-	static constexpr int maxblock() { return 65536; }
+	static constexpr int maxblock() { return MXBLK; }
 
 	void encrypt_block  (UC* block, int size);
 	void decrypt_block  (UC* block, int size);
@@ -33,16 +33,27 @@ struct Crypt
 	
 	Crypt(const Crypt&) = delete;
 	Crypt(Crypt&&) = delete;
-	
+
 	int passcount() const { return std::ssize(keys); }
+	int nextcount() const { return ncnt; }
+
+private:
+	static const int MXBLK = 1<<16;
+	static const int MASK = MXBLK-1;
 
 private:
 	UL next();
+	UC next8();
+	UL next16(), next32();
+	int have = 0;
+	UL bits;
+	bool old;
+	int ncnt = 0;
 
 	void loadup_big(int size, UC* block = nullptr);
 	void loadup_scramble(int size, UC* block = nullptr);
 	void loadup_xorpass(int size, UC* block = nullptr);
-	void loadup_mixpass(int size, UC* block = nullptr);
+	//void loadup_mixpass(int size, UC* block = nullptr);
 	void execute_loadup(UC* block, int size);
 
 private:
@@ -57,7 +68,7 @@ struct encrypt_target : bittarget
 
 	virtual void put(UL bits, int bitcount) override;
 	virtual void done() override;
-	
+
 	int passcount() const { return cr.passcount(); }
 
 private:

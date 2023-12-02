@@ -40,7 +40,8 @@ void Operator::execute(UC* block, [[maybe_unused]] int size)
 	}
 }
 
-Crypt::Crypt(std::string key)
+Crypt::Crypt(std::string key, bool old)
+	: old(old)
 {
 	while (key.length()%4)
 		key += ' ';
@@ -59,10 +60,40 @@ Crypt::Crypt(std::string key)
 	kidx = 0;
 }
 
+UC Crypt::next8()
+{
+	if (!have)
+	{
+		bits = next();
+		have = 4;
+	}
+	UC ret = bits & 0xFF;
+	have -= 1;
+	bits = bits >> 8;
+	return ret;
+}
+
+UL Crypt::next16()
+{
+	UL r = next8();
+	r = r << 8;
+	r = r | next8();
+	return r;
+}
+
+UL Crypt::next32()
+{
+	UL r = next16();
+	r = r << 16;
+	r = r | next16();
+	return r;
+}
+
 UL Crypt::next()
 {
 	UL ret = keys[kidx]();
 	kidx = (kidx + 1) % std::ssize(keys);
+	++ncnt;
 	return ret;
 }
 
@@ -81,72 +112,124 @@ void Crypt::loadup_big(int size, UC* block)
 void Crypt::loadup_scramble(int size, UC* block)
 {
 	assert(size <= maxblock());
-
-	if (block && (size == 65536))
+	
+	if (old)
 	{
-		for (int i = 0; i < 65536; ++i)
+
+		if (block && (size == MXBLK))
 		{
-			UL k = next() & 0xffff;
-			std::swap(block[i], block[k]);
+			for (int i = 0; i < MXBLK; ++i)
+			{
+				UL k = next() & MASK;
+				std::swap(block[i], block[k]);
+			}
+		} else {
+			for (int i = 0; i < size; ++i)
+			{
+				UL k;
+				if (size==MXBLK)
+					k = next() & MASK;
+				else
+					k = next() % size;
+				Operator op{Operator::op_swap, (UL)i, k};
+				if (block)
+					op.execute(block, size);
+				else
+					opers.push_back(op);
+			}
 		}
-		return;
-	}
 
-	for (int i = 0; i < size; ++i)
-	{
-		UL k;
-		if (size==65536)
-			k = next() & 0xffff;
-		else
-			k = next() % size;
-		Operator op{Operator::op_swap, (UL)i, k};
-		if (block)
-			op.execute(block, size);
-		else
-			opers.push_back(op);
-	}
+	} else { // !old
+		if (block && (size == MXBLK))
+		{
+			for (int i = 0; i < MXBLK; ++i)
+			{
+				UL k = next16();
+				std::swap(block[i], block[k]);
+			}
+		} else {
+			for (int i = 0; i < size; ++i)
+			{
+				UL k;
+				if (size==MXBLK)
+					k = next16();
+				else
+					k = next16() % size;
+				Operator op{Operator::op_swap, (UL)i, k};
+				if (block)
+					op.execute(block, size);
+				else
+					opers.push_back(op);
+			}
+		}
+	}	
 }
 
 void Crypt::loadup_xorpass(int size, UC* block)
 {
 	assert(size <= maxblock());
-
-	if (block)
+	
+	if (old)
 	{
-		for (int i = 0; i < size; ++i)
-		{
-			UL k = next() & 0xff;
-			block[i] ^= k;
-		}
-		return;
-	}
 
-	for (int i = 0; i < size; ++i)
-	{
-		UC k = next() % 256;
-		Operator op{Operator::op_xor, (UL)i, k};
 		if (block)
-			op.execute(block, size);
-		else
-			opers.push_back(op);
+		{
+			for (int i = 0; i < size; ++i)
+			{
+				UC k = next() & 0xff;
+				block[i] ^= k;
+			}
+		} else {
+			for (int i = 0; i < size; ++i)
+			{
+				UC k = next() & 0xFF;
+				Operator op{Operator::op_xor, (UL)i, k};
+				opers.push_back(op);
+			}
+		}
+	
+	} else { // !old
+		if (block)
+		{
+			for (int i = 0; i < size; ++i)
+			{
+				UC k = next8();
+				block[i] ^= k;
+			}
+		} else {
+			for (int i = 0; i < size; ++i)
+			{
+				UC k = next8();
+				Operator op{Operator::op_xor, (UL)i, k};
+				opers.push_back(op);
+			}
+		}
 	}
 }
 
-void Crypt::loadup_mixpass(int size, UC* block)
+/*
+[[deprecated]]
+void Crypt::loadup_mixpass(int size, UC* block) 
 {
 	assert(size <= maxblock());
 	for (int i = 0; i < size; ++i)
 	{
-		UL nxt = next();
-		UL idx = (nxt/256) % size;
-		UC k = nxt % 256;
-		Operator op{Operator::op_xor, idx, k};
-		if (block)
-			op.execute(block, size);
-		else
-			opers.push_back(op);
+		if (old)
+		{
+			UL nxt = next();
+			UL idx = (nxt/256) % size;
+			UC k = nxt % 256;
+			Operator op{Operator::op_xor, idx, k};
+			if (block)
+				op.execute(block, size);
+			else
+				opers.push_back(op);
+		} else {
+			
+		}
 	}
 }
+*/
 
 void Crypt::execute_loadup(UC* block, int size)
 {
@@ -198,8 +281,7 @@ void Crypt::decrypt(UC* block, int size)
 			decrypt_block(block, max);
 			size -= max;
 			block += max;
-		}
-		else {
+		} else {
 			decrypt_block(block, size);
 			break;
 		}

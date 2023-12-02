@@ -5,6 +5,9 @@
   <VirtualDirectory Name="src">
     <File Name="src/de.cpp"/>
     <VirtualDirectory Name="lib">
+      <File Name="src/perftimer.hpp"/>
+      <File Name="src/Crypt.hpp"/>
+      <File Name="src/core.hpp"/>
       <File Name="src/Crypt.cpp"/>
       <File Name="src/bitstream.cpp"/>
     </VirtualDirectory>

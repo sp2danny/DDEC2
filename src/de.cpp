@@ -18,6 +18,7 @@ int usage()
 }
 
 std::string pwd;
+bool old = true;
 
 void getpwd()
 {
@@ -25,14 +26,14 @@ void getpwd()
 	pwd = s;
 }
 
-void encrypt(const std::string& str, const std::string& target)
+int encrypt(const std::string& str, const std::string& target)
 {
 	std::ifstream ifs{str, std::fstream::binary};
 	std::ofstream ofs{target+"/"+str+".encrypt", std::fstream::binary};
 	
-	Crypt cr{pwd};
+	Crypt cr{pwd, old};
 
-	std::cout << "passes " << cr.passcount() << "\n";
+	//std::cout << "passes " << cr.passcount() << "\n";
 	
 	auto rem = std::filesystem::file_size(str);
 	auto sz = rem;
@@ -58,9 +59,10 @@ void encrypt(const std::string& str, const std::string& target)
 		}
 	}
 	std::cout << str << "        \n";
+	return cr.nextcount();
 }
 
-void decrypt(const std::string& str, const std::string& target)
+int decrypt(const std::string& str, const std::string& target)
 {
 	std::ifstream ifs{str, std::fstream::binary};
 
@@ -72,9 +74,9 @@ void decrypt(const std::string& str, const std::string& target)
 
 	std::ofstream ofs{nfn, std::fstream::binary};
 
-	Crypt cr{pwd};
+	Crypt cr{pwd, old};
 
-	std::cout << "passes " << cr.passcount() << "\n";
+	//std::cout << "passes " << cr.passcount() << "\n";
 
 	auto rem = std::filesystem::file_size(str);
 	auto sz = rem;
@@ -107,6 +109,7 @@ void decrypt(const std::string& str, const std::string& target)
 		}
 	}
 	std::cout << str << "        " << std::endl;
+	return cr.nextcount();
 }
 
 int main(int argc, char** argv)
@@ -121,6 +124,10 @@ int main(int argc, char** argv)
 		} else if (argv[i]=="-p"s) {
 			pwd = argv[++i];
 			hp = true;
+		} else if (argv[i]=="-o"s) {
+			old = true;
+		} else if (argv[i]=="-n"s) {
+			old = false;
 		} else if (!have) {
 			if (argv[i]=="d"s) {
 				have = true;
@@ -143,6 +150,11 @@ int main(int argc, char** argv)
 	if (!hp)
 		getpwd();
 
+	std::cout << "passes " << Crypt{pwd}.passcount() << "\n";
+
+	long long acc = 0;
 	for (auto&& f : files)
-		(de?decrypt:encrypt)(f, target);
+		acc += (de?decrypt:encrypt)(f, target);
+		
+	std::cout << "tokens " << acc << std::endl;
 }
