@@ -5,6 +5,7 @@
   <VirtualDirectory Name="src">
     <File Name="src/de.cpp"/>
     <VirtualDirectory Name="lib">
+      <File Name="src/pop.hpp"/>
       <File Name="src/perftimer.hpp"/>
       <File Name="src/Crypt.hpp"/>
       <File Name="src/core.hpp"/>
@@ -28,7 +29,7 @@
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(ProjectName)_dbg.out" IntermediateDirectory="./bin/Debug" Command="$(ProjectName)_dbg.out" CommandArguments="e bun33s.mp4" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="." PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(ProjectName)_dbg.out" IntermediateDirectory="./bin/Debug" Command="$(ProjectName)_dbg.out" CommandArguments="-t -  -p qwerty e -" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="." PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>

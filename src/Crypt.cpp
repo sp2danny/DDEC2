@@ -115,7 +115,6 @@ void Crypt::loadup_scramble(int size, UC* block)
 	
 	if (old)
 	{
-
 		if (block && (size == MXBLK))
 		{
 			for (int i = 0; i < MXBLK; ++i)
@@ -151,7 +150,7 @@ void Crypt::loadup_scramble(int size, UC* block)
 			for (int i = 0; i < size; ++i)
 			{
 				UL k;
-				if (size==MXBLK)
+				if (size == MXBLK)
 					k = next16();
 				else
 					k = next16() % size;
@@ -171,7 +170,6 @@ void Crypt::loadup_xorpass(int size, UC* block)
 	
 	if (old)
 	{
-
 		if (block)
 		{
 			for (int i = 0; i < size; ++i)
@@ -187,7 +185,6 @@ void Crypt::loadup_xorpass(int size, UC* block)
 				opers.push_back(op);
 			}
 		}
-	
 	} else { // !old
 		if (block)
 		{

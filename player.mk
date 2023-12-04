@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=daniel
-Date                   :=19/07/23
+Date                   :=04/12/23
 CodeLitePath           :=/home/daniel/.codelite
 LinkerName             :=/usr/bin/clang++-15
 SharedObjectLinkerName :=/usr/bin/clang++-15 -shared -fPIC
@@ -50,8 +50,8 @@ LibPath                := $(LibraryPathSwitch).
 AR       := /usr/bin/ar rcu
 CXX      := /usr/bin/clang++-15
 CC       := /usr/bin/clang-15
-CXXFLAGS := -std=c++2b -Wall -Wextra -Werror -pedantic -Wno-multichar -Wno-pre-c++2b-compat -O2 $(Preprocessors)
-CFLAGS   :=  -O2 $(Preprocessors)
+CXXFLAGS := -std=c++2b -Wall -Wextra -Werror -pedantic -Wno-multichar -Wno-pre-c++2b-compat -O3 $(Preprocessors)
+CFLAGS   :=  -O3 $(Preprocessors)
 ASFLAGS  := 
 AS       := /usr/bin/as
 
@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_fbct2.cpp$(ObjectSuffix) $(IntermediateDirectory)/fft_pffft.c$(ObjectSuffix) $(IntermediateDirectory)/src_player.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_wave.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bitmap.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_lzv.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_nibblemap.cpp$(ObjectSuffix) \
+Objects0=$(IntermediateDirectory)/src_fbct2.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_player.cpp$(ObjectSuffix) $(IntermediateDirectory)/fft_pffft.c$(ObjectSuffix) $(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_wave.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bitmap.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_nibblemap.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_lzv.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) \
 	
 
 
@@ -98,17 +98,17 @@ $(IntermediateDirectory)/src_fbct2.cpp$(ObjectSuffix): src/fbct2.cpp
 $(IntermediateDirectory)/src_fbct2.cpp$(PreprocessSuffix): src/fbct2.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_fbct2.cpp$(PreprocessSuffix) src/fbct2.cpp
 
-$(IntermediateDirectory)/fft_pffft.c$(ObjectSuffix): fft/pffft.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/fft_pffft.c$(ObjectSuffix) -MF$(IntermediateDirectory)/fft_pffft.c$(DependSuffix) -MM fft/pffft.c
-	$(CC) $(SourceSwitch) "/home/daniel/project/ddec2/fft/pffft.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/fft_pffft.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/fft_pffft.c$(PreprocessSuffix): fft/pffft.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/fft_pffft.c$(PreprocessSuffix) fft/pffft.c
-
 $(IntermediateDirectory)/src_player.cpp$(ObjectSuffix): src/player.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_player.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_player.cpp$(DependSuffix) -MM src/player.cpp
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/player.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_player.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_player.cpp$(PreprocessSuffix): src/player.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_player.cpp$(PreprocessSuffix) src/player.cpp
+
+$(IntermediateDirectory)/fft_pffft.c$(ObjectSuffix): fft/pffft.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/fft_pffft.c$(ObjectSuffix) -MF$(IntermediateDirectory)/fft_pffft.c$(DependSuffix) -MM fft/pffft.c
+	$(CC) $(SourceSwitch) "/home/daniel/project/ddec2/fft/pffft.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/fft_pffft.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/fft_pffft.c$(PreprocessSuffix): fft/pffft.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/fft_pffft.c$(PreprocessSuffix) fft/pffft.c
 
 $(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix): src/frame.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_frame.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_frame.cpp$(DependSuffix) -MM src/frame.cpp
@@ -134,6 +134,12 @@ $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix): src/Crypt.cpp
 $(IntermediateDirectory)/src_Crypt.cpp$(PreprocessSuffix): src/Crypt.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_Crypt.cpp$(PreprocessSuffix) src/Crypt.cpp
 
+$(IntermediateDirectory)/src_nibblemap.cpp$(ObjectSuffix): src/nibblemap.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_nibblemap.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_nibblemap.cpp$(DependSuffix) -MM src/nibblemap.cpp
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/nibblemap.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_nibblemap.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_nibblemap.cpp$(PreprocessSuffix): src/nibblemap.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_nibblemap.cpp$(PreprocessSuffix) src/nibblemap.cpp
+
 $(IntermediateDirectory)/src_lzv.cpp$(ObjectSuffix): src/lzv.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_lzv.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_lzv.cpp$(DependSuffix) -MM src/lzv.cpp
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/lzv.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_lzv.cpp$(ObjectSuffix) $(IncludePath)
@@ -145,12 +151,6 @@ $(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix): src/bitstream.cpp
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/bitstream.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_bitstream.cpp$(PreprocessSuffix): src/bitstream.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_bitstream.cpp$(PreprocessSuffix) src/bitstream.cpp
-
-$(IntermediateDirectory)/src_nibblemap.cpp$(ObjectSuffix): src/nibblemap.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_nibblemap.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_nibblemap.cpp$(DependSuffix) -MM src/nibblemap.cpp
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/nibblemap.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_nibblemap.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_nibblemap.cpp$(PreprocessSuffix): src/nibblemap.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_nibblemap.cpp$(PreprocessSuffix) src/nibblemap.cpp
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

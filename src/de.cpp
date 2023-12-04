@@ -7,7 +7,10 @@
 #include <filesystem>
 #include <iomanip>
 
+
 #include <unistd.h>
+
+#include "pop.hpp"
 
 #include "Crypt.hpp"
 
@@ -20,69 +23,115 @@ int usage()
 std::string pwd;
 bool old = true;
 
-void getpwd()
+void getpwd(const char* msg)
 {
-	auto s = getpass("password:");
+	auto s = getpass(msg);
 	pwd = s;
 }
 
-int encrypt(const std::string& str, const std::string& target)
-{
-	std::ifstream ifs{str, std::fstream::binary};
-	std::ofstream ofs{target+"/"+str+".encrypt", std::fstream::binary};
-	
+long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog, const std::string& str)
+{	
 	Crypt cr{pwd, old};
-
-	//std::cout << "passes " << cr.passcount() << "\n";
 	
-	auto rem = std::filesystem::file_size(str);
 	auto sz = rem;
 	auto i = sz-sz;
 	const UL BL = cr.maxblock();
 	std::vector<std::byte> buff;
 	buff.resize(BL);
 	
+	if (!rem) {
+		while (true) {
+			is.read((char*)buff.data(), BL);
+			auto rd = is.gcount();
+			if (rd) {
+				cr.encrypt_block((UC*)buff.data(), rd);
+				os.write((char*)buff.data(), rd);
+			}
+			if (rd<BL)
+				return cr.nextcount();
+		}
+	}
+
 	while (rem > 0)
 	{
 		if (rem >= BL) {
-			ifs.read((char*)buff.data(), BL);
+			is.read((char*)buff.data(), BL);
 			cr.encrypt_block((UC*)buff.data(), BL);
-			ofs.write((char*)buff.data(), BL);
+			os.write((char*)buff.data(), BL);
 			i += BL;
 			rem -= BL;
-			std::cout << str << " : " << ((i*100)/sz) << " %\r";
+			if (prog) std::cout << str << " : " << ((i*100)/sz) << " %\r";
 		} else {
-			ifs.read((char*)buff.data(), rem);
+			is.read((char*)buff.data(), rem);
 			cr.encrypt_block((UC*)buff.data(), rem);
-			ofs.write((char*)buff.data(), rem);
+			os.write((char*)buff.data(), rem);
 			break;
 		}
 	}
-	std::cout << str << "        \n";
+	if (prog) std::cout << str << "        \n";
 	return cr.nextcount();
 }
 
-int decrypt(const std::string& str, const std::string& target)
-{
-	std::ifstream ifs{str, std::fstream::binary};
 
+long long encrypt(const std::string& str, const std::string& target)
+{	
+	bool report = true;
+	std::size_t rem = 0;
 	std::string nfn;
-	if (str.ends_with(".encrypt"))
-		nfn = target + "/" + str.substr(0, str.length()-8);
-	else
-		nfn = target + "/" + str + ".decrypt";
 
-	std::ofstream ofs{nfn, std::fstream::binary};
+	pop<std::istream> ifs;
+	pop<std::ostream> ofs;
 
+	if (str == "-"s) {
+		ifs.borrow(&std::cin);
+		report = false;
+	} else {
+		ifs.create<std::ifstream>(str, std::fstream::binary);
+		rem = std::filesystem::file_size(str);
+	}
+	
+	if (target == "-"s) {
+		ofs.borrow(&std::cout);
+		report = false;
+	} else {
+		if (str == "-"s)
+			nfn = target + "/" + "output.decrypt";
+		else
+			nfn = target + "/" + str + ".encrypt";
+		ofs.create<std::ofstream>(nfn, std::fstream::binary);
+	}
+
+	if (ifs.have() && ofs.have())
+	{
+		return encrypt(*ifs, *ofs, rem, report, str);
+	} else {
+		std::cerr << "error\n";
+		return 0;
+	}
+
+}
+
+long long decrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog, const std::string& str)
+{
 	Crypt cr{pwd, old};
 
-	//std::cout << "passes " << cr.passcount() << "\n";
-
-	auto rem = std::filesystem::file_size(str);
 	auto sz = rem;
 	const UL BL = cr.maxblock();
 	std::vector<std::byte> buff;
 	buff.resize(BL);
+	
+	if (!rem) {
+		while (true) {
+			is.read((char*)buff.data(), BL);
+			auto rd = is.gcount();
+			if (rd) {
+				cr.decrypt_block((UC*)buff.data(), rd);
+				os.write((char*)buff.data(), rd);
+			}
+			if (rd<BL)
+				return cr.nextcount();
+		}
+	}
 	
 	int i=0, sh=0, m=1;
 	while (true) {
@@ -94,22 +143,63 @@ int decrypt(const std::string& str, const std::string& target)
 	while (rem > 0)
 	{
 		if (rem >= BL) {
-			ifs.read((char*)buff.data(), BL);
+			is.read((char*)buff.data(), BL);
 			cr.decrypt_block((UC*)buff.data(), BL);
-			ofs.write((char*)buff.data(), BL);
+			os.write((char*)buff.data(), BL);
 			rem -= BL;
 			if ((i&m)==0) [[unlikely]]
-				std::cout << str << " : " << (((sz-rem)*100)/sz) << " %\r" << std::flush;
+				if (prog) std::cout << str << " : " << (((sz-rem)*100)/sz) << " %\r" << std::flush;
 			++i;
 		} else {
-			ifs.read((char*)buff.data(), rem);
+			is.read((char*)buff.data(), rem);
 			cr.decrypt_block((UC*)buff.data(), rem);
-			ofs.write((char*)buff.data(), rem);
+			os.write((char*)buff.data(), rem);
 			break;
 		}
 	}
-	std::cout << str << "        " << std::endl;
+	if (prog) std::cout << str << "        " << std::endl;
 	return cr.nextcount();
+}
+
+long long decrypt(const std::string& str, const std::string& target)
+{
+	bool report = true;
+	std::size_t rem = 0;
+	std::string nfn;
+
+	pop<std::istream> ifs;
+	pop<std::ostream> ofs;
+
+	if (str == "-"s) {
+		ifs.borrow(&std::cin);
+		report = false;
+	} else {
+		ifs.create<std::ifstream>(str, std::fstream::binary);
+		rem = std::filesystem::file_size(str);
+	}
+	
+	if (target == "-"s) {
+		ofs.borrow(&std::cout);
+		report = false;
+	} else {
+		if (str == "-"s)
+			nfn = target + "/" + "output.decrypt";
+		else
+			if (str.ends_with(".encrypt"))
+				nfn = target + "/" + str.substr(0, str.length()-8);
+			else
+				nfn = target + "/" + str + ".decrypt";
+		ofs.create<std::ofstream>(nfn, std::fstream::binary);
+	}
+
+	if (ifs.have() && ofs.have())
+	{
+		return decrypt(*ifs, *ofs, rem, report, str);
+	} else {
+		std::cerr << "error\n";
+		return 0;
+	}
+
 }
 
 int main(int argc, char** argv)
@@ -148,13 +238,19 @@ int main(int argc, char** argv)
 		return usage();
 
 	if (!hp)
-		getpwd();
+		getpwd( (target=="-") ? "" : "Password:" );
 
-	std::cout << "passes " << Crypt{pwd}.passcount() << "\n";
+	if (target != "-"s)
+		std::cout << "passes " << Crypt{pwd}.passcount() << "\n";
 
 	long long acc = 0;
-	for (auto&& f : files)
-		acc += (de?decrypt:encrypt)(f, target);
-		
-	std::cout << "tokens " << acc << std::endl;
+	for (auto&& f : files) {
+		if (de)
+			acc += decrypt(f, target);
+		else
+			acc += encrypt(f, target);
+	}
+
+	if (target != "-"s)
+		std::cout << "tokens " << acc << std::endl;
 }

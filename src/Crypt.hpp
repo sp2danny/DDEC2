@@ -35,7 +35,7 @@ struct Crypt
 	Crypt(Crypt&&) = delete;
 
 	int passcount() const { return std::ssize(keys); }
-	int nextcount() const { return ncnt; }
+	long long nextcount() const { return ncnt; }
 
 private:
 	static const int MXBLK = 1<<16;
@@ -48,7 +48,7 @@ private:
 	int have = 0;
 	UL bits;
 	bool old;
-	int ncnt = 0;
+	long long ncnt = 0;
 
 	void loadup_big(int size, UC* block = nullptr);
 	void loadup_scramble(int size, UC* block = nullptr);
