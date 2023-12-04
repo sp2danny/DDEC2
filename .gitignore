@@ -5,6 +5,7 @@ img/
 stage/
 FrameReport.txt
 *.mp4
+*.mkv
 *.czs
 *.exe
 *.dll
