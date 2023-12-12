@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "player", "player.vcxproj", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ddec2lib", "ddec2lib.vcxproj", "{4DC5A97B-66AD-4290-BD45-50729B0ACA6F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "de", "de.vcxproj", "{91CD13EA-C167-44CB-9FB8-4E48DB82AC21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,12 @@ Global
 		{4DC5A97B-66AD-4290-BD45-50729B0ACA6F}.Release|x64.ActiveCfg = Release|x64
 		{4DC5A97B-66AD-4290-BD45-50729B0ACA6F}.Release|x64.Build.0 = Release|x64
 		{4DC5A97B-66AD-4290-BD45-50729B0ACA6F}.Release|x86.ActiveCfg = Release|x64
+		{91CD13EA-C167-44CB-9FB8-4E48DB82AC21}.Debug|x64.ActiveCfg = Debug|x64
+		{91CD13EA-C167-44CB-9FB8-4E48DB82AC21}.Debug|x64.Build.0 = Debug|x64
+		{91CD13EA-C167-44CB-9FB8-4E48DB82AC21}.Debug|x86.ActiveCfg = Debug|x64
+		{91CD13EA-C167-44CB-9FB8-4E48DB82AC21}.Release|x64.ActiveCfg = Release|x64
+		{91CD13EA-C167-44CB-9FB8-4E48DB82AC21}.Release|x64.Build.0 = Release|x64
+		{91CD13EA-C167-44CB-9FB8-4E48DB82AC21}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

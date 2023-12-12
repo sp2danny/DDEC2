@@ -14,7 +14,7 @@
 #include "lzv.hpp"
 #include "Crypt.hpp"
 #include "perftimer.hpp"
-#include "wave.hpp"
+//#include "wave.hpp"
 
 namespace fs = std::filesystem;
 
@@ -59,7 +59,7 @@ void Main(int argc, char** argv)
 	bool FRAME_REPORT       = hasparam("-fr");
 	bool FAST_DIFF          = hasparam("-fast");
 	bool SAVE_LOAD_LZV      = hasparam("-sll");
-	bool HAVE_SOUND         = hasparam("-snd");
+	//bool HAVE_SOUND         = hasparam("-snd");
 	
 
 	if (auto [ok, idx] = paramlookup("-base"); ok)
@@ -100,6 +100,7 @@ void Main(int argc, char** argv)
 	if (auto [ok, idx] = paramlookup("-max"); ok)
 		maxcnt = std::stoi(Params[idx + 1]);
 
+	/*
 	std::vector<short> sndvec;
 	std::string snd = "";
 	if (HAVE_SOUND) {
@@ -111,6 +112,7 @@ void Main(int argc, char** argv)
 		bitvector bv;
 		wavCompress(sndvec.data(), sndvec.data()+n, bv);
 	}
+	*/
 
 	auto nam = "img"s;
 	if (auto [ok, idx] = paramlookup("-name"); ok)

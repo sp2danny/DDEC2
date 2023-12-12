@@ -7,9 +7,6 @@
 #include <filesystem>
 #include <iomanip>
 
-
-#include <unistd.h>
-
 #include "pop.hpp"
 
 #include "Crypt.hpp"
@@ -23,11 +20,39 @@ int usage()
 std::string pwd;
 bool old = true;
 
+#ifdef _MSC_VER
+
+#include <windows.h> 
+
+void getpwd(const char* msg)
+{
+	std::cout << msg;
+
+	HANDLE hStdInput = GetStdHandle(STD_INPUT_HANDLE);
+	DWORD mode = 0; 
+
+	GetConsoleMode(hStdInput, &mode);
+
+	SetConsoleMode(hStdInput, mode & (~ENABLE_ECHO_INPUT));
+
+	std::getline(std::cin, pwd);
+
+	std::cout << std::endl;
+
+	SetConsoleMode(hStdInput, mode);
+} 
+
+#else
+
+#include <unistd.h>
+
 void getpwd(const char* msg)
 {
 	auto s = getpass(msg);
 	pwd = s;
 }
+
+#endif
 
 long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog, const std::string& str)
 {	
@@ -63,7 +88,7 @@ long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 			if (prog) std::cout << str << " : " << ((i*100)/sz) << " %\r";
 		} else {
 			is.read((char*)buff.data(), rem);
-			cr.encrypt_block((UC*)buff.data(), rem);
+			cr.encrypt_block((UC*)buff.data(), (int)rem);
 			os.write((char*)buff.data(), rem);
 			break;
 		}
@@ -152,7 +177,7 @@ long long decrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 			++i;
 		} else {
 			is.read((char*)buff.data(), rem);
-			cr.decrypt_block((UC*)buff.data(), rem);
+			cr.decrypt_block((UC*)buff.data(), (int)rem);
 			os.write((char*)buff.data(), rem);
 			break;
 		}
