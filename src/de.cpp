@@ -55,7 +55,7 @@ void getpwd(const char* msg)
 #endif
 
 long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog, const std::string& str)
-{	
+{
 	Crypt cr{pwd, old};
 	
 	auto sz = rem;
