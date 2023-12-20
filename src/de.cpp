@@ -20,11 +20,13 @@ int usage()
 std::string pwd;
 bool old = true;
 
+extern void getpwd(const char*, bool);
+
 #ifdef _MSC_VER
 
 #include <windows.h> 
 
-void getpwd(const char* msg)
+void getpwd(const char* msg, bool endl)
 {
 	std::cout << msg;
 
@@ -37,7 +39,8 @@ void getpwd(const char* msg)
 
 	std::getline(std::cin, pwd);
 
-	std::cout << std::endl;
+	if (endl)
+		std::cout << std::endl;
 
 	SetConsoleMode(hStdInput, mode);
 } 
@@ -46,10 +49,9 @@ void getpwd(const char* msg)
 
 #include <unistd.h>
 
-void getpwd(const char* msg)
+void getpwd(const char* msg, bool)
 {
-	auto s = getpass(msg);
-	pwd = s;
+	pwd = getpass(msg);
 }
 
 #endif
@@ -97,7 +99,6 @@ long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 	return cr.nextcount();
 }
 
-
 long long encrypt(const std::string& str, const std::string& target)
 {	
 	bool report = true;
@@ -125,8 +126,8 @@ long long encrypt(const std::string& str, const std::string& target)
 			nfn = target + "/" + str + ".encrypt";
 		ofs.create<std::ofstream>(nfn, std::fstream::binary);
 	}
-
-	if (ifs.have() && ofs.have())
+	
+	if (ifs && ofs)
 	{
 		return encrypt(*ifs, *ofs, rem, report, str);
 	} else {
@@ -217,7 +218,7 @@ long long decrypt(const std::string& str, const std::string& target)
 		ofs.create<std::ofstream>(nfn, std::fstream::binary);
 	}
 
-	if (ifs.have() && ofs.have())
+	if (ifs && ofs)
 	{
 		return decrypt(*ifs, *ofs, rem, report, str);
 	} else {
@@ -262,8 +263,12 @@ int main(int argc, char** argv)
 	if (!have)
 		return usage();
 
-	if (!hp)
-		getpwd( (target=="-") ? "" : "Password:" );
+	if (!hp) {
+		if (target=="-"s)
+			getpwd("", false);
+		else
+			getpwd("Password:", true);
+	}
 
 	if (target != "-"s)
 		std::cout << "passes " << Crypt{pwd}.passcount() << "\n";
