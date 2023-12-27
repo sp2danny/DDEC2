@@ -59,13 +59,13 @@ void getpwd(const char* msg, bool)
 long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog, const std::string& str)
 {
 	Crypt cr{pwd, old};
-	
+
 	auto sz = rem;
 	auto i = sz-sz;
 	const UL BL = cr.maxblock();
 	std::vector<std::byte> buff;
 	buff.resize(BL);
-	
+
 	if (!rem) {
 		while (true) {
 			is.read((char*)buff.data(), BL);
@@ -87,7 +87,7 @@ long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 			os.write((char*)buff.data(), BL);
 			i += BL;
 			rem -= BL;
-			if (prog) std::cout << str << " : " << ((i*100)/sz) << " %\r";
+			if (prog) std::cout << str << " : " << ((i*100)/sz) << " %\r" << std::flush;
 		} else {
 			is.read((char*)buff.data(), rem);
 			cr.encrypt_block((UC*)buff.data(), (int)rem);
@@ -145,7 +145,7 @@ long long decrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 	const UL BL = cr.maxblock();
 	std::vector<std::byte> buff;
 	buff.resize(BL);
-	
+
 	if (!rem) {
 		while (true) {
 			is.read((char*)buff.data(), BL);
@@ -158,7 +158,7 @@ long long decrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 				return cr.nextcount();
 		}
 	}
-	
+
 	int i=0, sh=0, m=1;
 	while (true) {
 		if (((sz/BL)>>sh) < 400) break;
@@ -203,7 +203,7 @@ long long decrypt(const std::string& str, const std::string& target)
 		ifs.create<std::ifstream>(str, std::fstream::binary);
 		rem = std::filesystem::file_size(str);
 	}
-	
+
 	if (target == "-"s) {
 		ofs.borrow(&std::cout);
 		report = false;
@@ -225,7 +225,25 @@ long long decrypt(const std::string& str, const std::string& target)
 		std::cerr << "error\n";
 		return 0;
 	}
+}
 
+std::string pritty(long long i, const char* token = "'")
+{
+	if (!i) return "0"s;
+	std::string ss = "";
+	bool neg = false;
+	if (i<0) { i=-i; neg = true; }
+	int a=0;
+	while (true)
+	{
+		if (!i) break;
+		if ((a!=0) && ((a%3)==0)) ss = token + ss;
+		ss = "0123456789"[i%10] + ss;
+		i /= 10;
+		++a;
+	}
+	if (neg) ss = "-" + ss;
+	return ss;
 }
 
 int main(int argc, char** argv)
@@ -280,7 +298,12 @@ int main(int argc, char** argv)
 		else
 			acc += encrypt(f, target);
 	}
+	
+	for (auto& c : pwd) c = 0;
 
 	if (target != "-"s)
-		std::cout << "tokens " << acc << std::endl;
+		std::cout << "tokens " << pritty(acc) << std::endl;
 }
+
+
+
