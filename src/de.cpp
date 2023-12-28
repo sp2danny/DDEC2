@@ -99,7 +99,18 @@ long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 	return cr.nextcount();
 }
 
-long long encrypt(const std::string& str, const std::string& target)
+[[nodiscard]] std::string replace_ext(const std::string& fn, const std::string ext)
+{
+	auto p = fn.find_first_of("."s);
+	if (p==std::string::npos)
+	{
+		return fn + "."s + ext;
+	} else {
+		return fn.substr(0, p) + "."s + ext;
+	}
+}
+
+long long encrypt(const std::string& str, const std::string& target, const std::string& ext)
 {	
 	bool report = true;
 	std::size_t rem = 0;
@@ -124,6 +135,8 @@ long long encrypt(const std::string& str, const std::string& target)
 			nfn = target + "/" + "output.decrypt";
 		else
 			nfn = target + "/" + str + ".encrypt";
+		if (!ext.empty())
+			nfn = replace_ext(nfn, ext);
 		ofs.create<std::ofstream>(nfn, std::fstream::binary);
 	}
 	
@@ -187,7 +200,7 @@ long long decrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 	return cr.nextcount();
 }
 
-long long decrypt(const std::string& str, const std::string& target)
+long long decrypt(const std::string& str, const std::string& target, const std::string ext)
 {
 	bool report = true;
 	std::size_t rem = 0;
@@ -215,6 +228,8 @@ long long decrypt(const std::string& str, const std::string& target)
 				nfn = target + "/" + str.substr(0, str.length()-8);
 			else
 				nfn = target + "/" + str + ".decrypt";
+		if (!ext.empty())
+			nfn = replace_ext(nfn, ext);
 		ofs.create<std::ofstream>(nfn, std::fstream::binary);
 	}
 
@@ -252,9 +267,12 @@ int main(int argc, char** argv)
 	bool de, have = false, hp = false;
 	std::vector<std::string> files;
 	std::string target = ".";
+	std::string ext;
 	for (int i=1; i<argc; ++i) {
 		if (argv[i]=="-t"s) {
 			target = argv[++i];
+		} else if (argv[i]=="-e"s) {
+			ext = argv[++i];
 		} else if (argv[i]=="-p"s) {
 			pwd = argv[++i];
 			hp = true;
@@ -294,9 +312,9 @@ int main(int argc, char** argv)
 	long long acc = 0;
 	for (auto&& f : files) {
 		if (de)
-			acc += decrypt(f, target);
+			acc += decrypt(f, target, ext);
 		else
-			acc += encrypt(f, target);
+			acc += encrypt(f, target, ext);
 	}
 	
 	for (auto& c : pwd) c = 0;
