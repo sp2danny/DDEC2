@@ -66,6 +66,13 @@ long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 	const UL BL = cr.maxblock();
 	std::vector<std::byte> buff;
 	buff.resize(BL);
+	
+	int sh=0, m=1;
+	while (true) {
+		if (((sz/BL)>>sh) < 400) break;
+		++sh;
+		m = (m << 1) | 1;
+	}
 
 	if (!rem) {
 		while (true) {
@@ -80,15 +87,17 @@ long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 		}
 	}
 
+	i = 0;
 	while (rem > 0)
 	{
 		if (rem >= BL) {
 			is.read((char*)buff.data(), BL);
 			cr.encrypt_block((UC*)buff.data(), BL);
 			os.write((char*)buff.data(), BL);
-			i += BL;
 			rem -= BL;
-			if (prog) std::cout << str << " : " << ((i*100)/sz) << " %\r" << std::flush;
+			if ((i&m)==0) [[unlikely]]
+				if (prog) std::cout << str << " : " << (((sz-rem)*100)/sz) << " %\r" << std::flush;
+			++i;
 		} else {
 			is.read((char*)buff.data(), rem);
 			cr.encrypt_block((UC*)buff.data(), (int)rem);
@@ -102,12 +111,24 @@ long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 
 [[nodiscard]] std::string replace_ext(const std::string& fn, const std::string ext)
 {
-	auto p = fn.find_first_of("."s);
-	if (p==std::string::npos)
-	{
-		return fn + "."s + ext;
+	auto p1 = fn.find_last_of('/');
+	if (p1 != std::string::npos) {
+		auto p2 = fn.find_first_of('.', p1);
+		if (p2 == std::string::npos)
+		{
+			return fn + "."s + ext;
+		} else {
+			return fn.substr(0, p2) + "."s + ext;
+		}
+		
 	} else {
-		return fn.substr(0, p) + "."s + ext;
+		auto p2 = fn.find_first_of("."s);
+		if (p2 == std::string::npos)
+		{
+			return fn + "."s + ext;
+		} else {
+			return fn.substr(0, p2) + "."s + ext;
+		}
 	}
 }
 
