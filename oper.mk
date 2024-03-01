@@ -3,7 +3,7 @@
 ## any manual changes will be erased      
 ##
 ## Release
-ProjectName            :=de
+ProjectName            :=oper
 ConfigurationName      :=Release
 WorkspacePath          :=/home/daniel/project/ddec2
 ProjectPath            :=/home/daniel/project/ddec2
@@ -32,7 +32,7 @@ Preprocessors          :=$(PreprocessorSwitch)NDEBUG
 ObjectSwitch           :=-o 
 ArchiveOutputSwitch    := 
 PreprocessOnlySwitch   :=-E
-ObjectsFileList        :="de.txt"
+ObjectsFileList        :="oper.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=mkdir -p
 LinkOptions            := -std=c++2b 
@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_de.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_oper.cpp$(ObjectSuffix) 
 
 
 
@@ -91,23 +91,11 @@ PreBuild:
 ##
 ## Objects
 ##
-$(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix): src/bitstream.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_bitstream.cpp$(DependSuffix) -MM src/bitstream.cpp
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/bitstream.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_bitstream.cpp$(PreprocessSuffix): src/bitstream.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_bitstream.cpp$(PreprocessSuffix) src/bitstream.cpp
-
-$(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix): src/Crypt.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_Crypt.cpp$(DependSuffix) -MM src/Crypt.cpp
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/Crypt.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_Crypt.cpp$(PreprocessSuffix): src/Crypt.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_Crypt.cpp$(PreprocessSuffix) src/Crypt.cpp
-
-$(IntermediateDirectory)/src_de.cpp$(ObjectSuffix): src/de.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_de.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_de.cpp$(DependSuffix) -MM src/de.cpp
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/de.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_de.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_de.cpp$(PreprocessSuffix): src/de.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_de.cpp$(PreprocessSuffix) src/de.cpp
+$(IntermediateDirectory)/src_oper.cpp$(ObjectSuffix): src/oper.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_oper.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_oper.cpp$(DependSuffix) -MM src/oper.cpp
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/oper.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_oper.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_oper.cpp$(PreprocessSuffix): src/oper.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_oper.cpp$(PreprocessSuffix) src/oper.cpp
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

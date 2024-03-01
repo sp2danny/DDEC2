@@ -6,6 +6,7 @@
 #include <string_view>
 #include <filesystem>
 #include <iomanip>
+#include <limits>
 
 #include "pop.hpp"
 
@@ -261,8 +262,12 @@ std::string pritty(long long i, const char* token = "'")
 	return ss;
 }
 
+
+
+
 int main(int argc, char** argv)
 {
+	
 	using namespace std::literals;
 	bool de, have = false, hp = false;
 	std::vector<std::string> files;
@@ -316,7 +321,7 @@ int main(int argc, char** argv)
 		else
 			acc += encrypt(f, target, ext);
 	}
-	
+
 	for (auto& c : pwd) c = 0;
 
 	if (target != "-"s)
