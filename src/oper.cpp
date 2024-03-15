@@ -51,6 +51,12 @@ void do_stuff(const std::filesystem::directory_entry& de, const std::vector<unsi
 	if (oper == "nand") fp = +[](UC c1, UC c2) -> UC { return  ~(c1 & c2); };
 	if (oper == "rotr") fp = +[](UC c1, UC c2) -> UC { return (c1+c2)%256; };
 	if (oper == "rotl") fp = +[](UC c1, UC c2) -> UC { return (c1+256-c2)%256; };
+	
+	if (oper == "app") {
+		std::fstream fs(de.path(), std::ios_base::out | std::ios_base::binary | std::ios_base::app );
+		fs.write((char*)data.data(), data.size());
+		return;
+	}
 
 	std::fstream fs(de.path(), std::ios_base::in | std::ios_base::out | std::ios_base::binary);
 	std::vector<unsigned char> buff;
@@ -64,30 +70,8 @@ void do_stuff(const std::filesystem::directory_entry& de, const std::vector<unsi
 	fs.write((char*)buff.data(), data.size());
 }
 
-struct Reporter
-{
-	Reporter() { std::cerr << "default construction\n"; }
-	Reporter(const Reporter&) { std::cerr << "copy construction\n"; }
-	Reporter(Reporter&&) { std::cerr << "move construction\n"; }
-	Reporter& operator=(const Reporter&) { std::cerr << "copy assignment\n"; return *this; }
-	Reporter& operator=(Reporter&&) { std::cerr << "move assignment\n"; return *this; }
-	~Reporter() { std::cerr << "death tractor\n"; }
-};
-
 int main(int argc, char** argv)
 {
-	{
-		struct IR : Reporter
-		{
-			IR(int i) : i(i) {}
-			int i;
-		};
-		IR a{1}, b{2}, c{3};
-		std::vector<std::reference_wrapper<const IR>> all = {a,b,c};
-		for (auto&& x : all)
-			std::cout << x.get().i << std::endl;
-	}
-
 	if ((argc==2) && (argv[1]=="--help"s))
 	{
 		std::cout << "operands : oper, mask, dir, source, size" << std::endl;
@@ -159,3 +143,6 @@ int main(int argc, char** argv)
 	}
 
 }
+
+// 3897173
+
