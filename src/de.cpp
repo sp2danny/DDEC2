@@ -14,7 +14,7 @@
 
 int usage()
 {
-	std::cerr << "usage: de [-t target] d|e file[s]\n";
+	std::cerr << "usage: de [-t target] [-e ext] d|e file[s]\n";
 	return -1;
 }
 
@@ -63,10 +63,10 @@ long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 
 	auto sz = rem;
 	auto i = sz-sz;
-	const UL BL = cr.maxblock();
+	constexpr UL BL = cr.maxblock();
 	std::vector<std::byte> buff;
 	buff.resize(BL);
-	
+
 	int sh=0, m=1;
 	while (true) {
 		if (((sz/BL)>>sh) < 400) break;
@@ -177,7 +177,7 @@ long long decrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 	Crypt cr{pwd, old};
 
 	auto sz = rem;
-	const UL BL = cr.maxblock();
+	constexpr UL BL = cr.maxblock();
 	std::vector<std::byte> buff;
 	buff.resize(BL);
 
