@@ -148,8 +148,8 @@ public:
 
 	void clear() noexcept(UnderlyingNoexceptDestructor)
 	{
-		#pragma clang diagnostic push
-		#pragma clang diagnostic ignored "-Wdelete-abstract-non-virtual-dtor"
+		//#pragma clang diagnostic push
+		//#pragma clang diagnostic ignored "-Wdelete-abstract-non-virtual-dtor"
 		if (m_ptr && m_own) {
 			if (m_ref) {
 				auto val = --*m_ref;
@@ -167,7 +167,7 @@ public:
 					delete m_ptr;
 			}
 		}
-		#pragma clang diagnostic pop
+		//#pragma clang diagnostic pop
 		m_ptr = nullptr;
 		m_own = false;
 		m_del = nullptr;
