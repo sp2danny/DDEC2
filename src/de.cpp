@@ -14,7 +14,7 @@
 
 int usage()
 {
-	std::cerr << "usage: de [-t target] d|e file[s]\n";
+	std::cerr << "usage: de [-t target] [-e ext] d|e file[s]\n";
 	return -1;
 }
 

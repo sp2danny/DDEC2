@@ -70,6 +70,14 @@ void do_stuff(const std::filesystem::directory_entry& de, const std::vector<unsi
 	fs.write((char*)buff.data(), data.size());
 }
 
+std::ostream& breakline(std::ostream& stream)
+{
+	stream << "\n";
+	stream << "----------------------------------------------";
+	stream << "\n";
+	return stream;
+}
+
 int main(int argc, char** argv)
 {
 	if ((argc==2) && (argv[1]=="--help"s))
@@ -134,14 +142,17 @@ int main(int argc, char** argv)
 	}
 
 	auto di = std::filesystem::directory_iterator{dir};
+	int cnt = 0;
 	for (auto const& de : di)
 	{
 		if (!de.is_regular_file()) continue;
 		auto fn = de.path().filename().c_str();
 		if (!strmat(fn, mask.c_str())) continue;
 		do_stuff(de, data, oper);
+		++cnt;
 	}
 
+	std::cout << cnt << " files affected" << breakline;
 }
 
 // 3897173

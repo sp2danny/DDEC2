@@ -2,10 +2,10 @@
 <CodeLite_Workspace Name="DDEC2" Database="/home/sp2danny/extra/DDEC2/.codelite/DDEC2.tags" Version="10000">
   <Project Name="DDEC2" Path="DDEC2.project" Active="No"/>
   <Project Name="player" Path="player.project" Active="No"/>
-  <Project Name="patest" Path="patest.project" Active="Yes"/>
+  <Project Name="patest" Path="patest.project" Active="No"/>
   <Project Name="de" Path="de.project" Active="No"/>
   <Project Name="fft" Path="fft.project" Active="No"/>
-  <Project Name="oper" Path="oper.project" Active="No"/>
+  <Project Name="oper" Path="oper.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
