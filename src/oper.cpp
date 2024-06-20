@@ -39,7 +39,6 @@ bool strmat(const char* str, const char* pat)
 	}
 }
 
-
 using UC = unsigned char;
 using fpt = auto (*)(UC, UC) -> UC;
 using UCV = std::vector<UC>;
@@ -58,13 +57,12 @@ fpt get_f(const std::string& oper)
 	return fp;
 }
 
-
 void do_stuff(std::istream& in, std::ostream& out, bool loop, const UCV& data, const std::string& oper)
 {
 	fpt fp = get_f(oper);
 	
 	std::vector<unsigned char> buff;
-	int sz = std::ssize(data);
+	int sz = (int)std::ssize(data);
 	buff.resize(sz);
 	
 	auto pass_apply = [&]() -> bool {
@@ -214,7 +212,11 @@ int main(int argc, char** argv)
 	for (auto const& de : di)
 	{
 		if (!de.is_regular_file()) continue;
-		auto fn = de.path().filename().c_str();
+		auto fnn = de.path().filename().c_str();
+
+		//std::cout << fnn << endl;
+
+		const char* fn = (const char*)fnn;
 		if (!strmat(fn, mask.c_str())) continue;
 		do_stuff(de, data, oper);
 		++cnt;
