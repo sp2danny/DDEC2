@@ -231,6 +231,6 @@ private:
 	T* m_ptr = nullptr;
 	bool m_own = false;
 	deleter_f m_del = nullptr;
-	mutable std::atomic<int>* m_ref; //  = nullptr;
+	mutable std::atomic<int>* m_ref = nullptr;
 };
 
