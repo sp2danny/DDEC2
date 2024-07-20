@@ -15,7 +15,7 @@
 #include "lzv.hpp"
 #include "Crypt.hpp"
 #include "bitmap.hpp"
-#include "wave.hpp"
+//#include "wave.hpp"
 
 namespace
 {
@@ -128,17 +128,17 @@ void Main()
 	sf::Sound sound;
 	bool first = true;
 
-	if (!snd.empty()) {
-		std::ifstream in(snd, std::fstream::binary);
-		audio = readWave(in, data);
-		if (audio) {
-			//std::ofstream tmp("tmp.dat");
-			//tmp.write((char*)data.data(), data.size()*2);
-			buffer.loadFromSamples(data.data(), data.size(), 1, 22050);
-			sound.setBuffer(buffer);
-			sound.play();
-		}
-	}
+	//if (!snd.empty()) {
+	//	std::ifstream in(snd, std::fstream::binary);
+	//	audio = readWave(in, data);
+	//	if (audio) {
+	//		//std::ofstream tmp("tmp.dat");
+	//		//tmp.write((char*)data.data(), data.size()*2);
+	//		buffer.loadFromSamples(data.data(), data.size(), 1, 22050);
+	//		sound.setBuffer(buffer);
+	//		sound.play();
+	//	}
+	//}
 
 	while (want_more && window.isOpen())
 	{

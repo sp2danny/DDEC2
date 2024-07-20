@@ -36,7 +36,7 @@ void getpwd(const char* msg, bool endl)
 
 	GetConsoleMode(hStdInput, &mode);
 
-	SetConsoleMode(hStdInput, mode & (~ENABLE_ECHO_INPUT));
+	SetConsoleMode(hStdInput, mode & ~ENABLE_ECHO_INPUT);
 
 	std::getline(std::cin, pwd);
 

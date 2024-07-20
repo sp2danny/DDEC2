@@ -212,12 +212,8 @@ int main(int argc, char** argv)
 	for (auto const& de : di)
 	{
 		if (!de.is_regular_file()) continue;
-		auto fnn = de.path().filename().c_str();
-
-		//std::cout << fnn << endl;
-
-		const char* fn = (const char*)fnn;
-		if (!strmat(fn, mask.c_str())) continue;
+		auto fn = de.path().filename().string();
+		if (!strmat(fn.c_str(), mask.c_str())) continue;
 		do_stuff(de, data, oper);
 		++cnt;
 	}

@@ -7,7 +7,7 @@
 
 #include "wave.hpp"
 
-#include "fft/pffft.h"
+//#include "fft/pffft.h"
 
 static bool cmp4(const char* s1, const char* s2)
 {
