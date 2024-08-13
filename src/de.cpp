@@ -81,7 +81,7 @@ long long encrypt
 )
 {
 	Crypt cr{pwd, old};
-	pwd.assign('\0', pwd.size());
+	pwd.assign(pwd.size(), '\0');
 
 	auto sz = rem;
 	auto i = sz-sz;
@@ -139,15 +139,15 @@ long long encrypt
 	std::size_t p2, p1 = fn.find_last_of('/');
 
 	std::string ret;
+	ret.reserve(fn.size()+ext.size()+2);
 
 	if (p1 != std::string::npos) {
 		p2 = fn.find_first_of('.', p1);
 	} else {
-		p2 = fn.find_first_of("."s);		
+		p2 = fn.find_first_of("."s);
 	}
 
-	if (p2 == std::string::npos)
-	{
+	if (p2 == std::string::npos) {
 		ret += fn;
 	} else {
 		ret += fn.substr(0, p2);
@@ -157,7 +157,6 @@ long long encrypt
 	ret += ext;
 
 	return ret;
-
 }
 
 long long encrypt(const std::string& str, const std::string& target, const std::string& ext)
@@ -202,7 +201,7 @@ long long encrypt(const std::string& str, const std::string& target, const std::
 long long decrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog, const std::string& str)
 {
 	Crypt cr{pwd, old};
-	pwd.assign('\0', pwd.size());
+	pwd.assign(pwd.size(), '\0');
 
 	auto sz = rem;
 	constexpr UL BL = cr.maxblock();
