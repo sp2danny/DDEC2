@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_de.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_lz.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_de.cpp$(ObjectSuffix) 
 
 
 
@@ -96,6 +96,12 @@ $(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix): src/bitstream.cpp
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/bitstream.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_bitstream.cpp$(PreprocessSuffix): src/bitstream.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_bitstream.cpp$(PreprocessSuffix) src/bitstream.cpp
+
+$(IntermediateDirectory)/src_lz.cpp$(ObjectSuffix): src/lz.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_lz.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_lz.cpp$(DependSuffix) -MM src/lz.cpp
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/lz.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_lz.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_lz.cpp$(PreprocessSuffix): src/lz.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_lz.cpp$(PreprocessSuffix) src/lz.cpp
 
 $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix): src/Crypt.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_Crypt.cpp$(DependSuffix) -MM src/Crypt.cpp
