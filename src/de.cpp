@@ -1,4 +1,5 @@
 
+///*
 #include <string>
 #include <vector>
 #include <iostream>
@@ -7,6 +8,11 @@
 #include <filesystem>
 #include <iomanip>
 #include <limits>
+#include <memory>
+#include <utility>
+//*/
+
+//import std;
 
 #include "pop.hpp"
 
@@ -29,7 +35,8 @@ extern void getpwd(const char*, bool);
 
 void getpwd(const char* msg, bool endl)
 {
-	std::cout << msg;
+	if (msg)
+		std::cout << msg;
 
 	HANDLE hStdInput = GetStdHandle(STD_INPUT_HANDLE);
 	DWORD mode = 0; 
@@ -52,7 +59,13 @@ void getpwd(const char* msg, bool endl)
 
 void getpwd(const char* msg, bool)
 {
-	pwd = getpass(msg);
+	char* gp = getpass(msg);
+	pwd = gp;
+	while (*gp)
+	{
+		(*gp) = 0;
+		++gp;
+	}
 }
 
 #endif
@@ -68,6 +81,7 @@ long long encrypt
 )
 {
 	Crypt cr{pwd, old};
+	pwd.assign('\0', pwd.size());
 
 	auto sz = rem;
 	auto i = sz-sz;
@@ -183,12 +197,12 @@ long long encrypt(const std::string& str, const std::string& target, const std::
 		std::cerr << "error\n";
 		return 0;
 	}
-
 }
 
 long long decrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog, const std::string& str)
 {
 	Crypt cr{pwd, old};
+	pwd.assign('\0', pwd.size());
 
 	auto sz = rem;
 	constexpr UL BL = cr.maxblock();
@@ -299,7 +313,6 @@ std::string pritty(long long i, const char* token = "'")
 
 int main(int argc, char** argv)
 {
-	
 	using namespace std::literals;
 	bool de, have = false, hp = false;
 	std::vector<std::string> files;
@@ -359,5 +372,6 @@ int main(int argc, char** argv)
 	if (target != "-"s)
 		std::cout << "tokens " << pritty(acc) << std::endl;
 }
+
 
 

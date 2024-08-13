@@ -16,7 +16,7 @@
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
-      <Compiler Options="-std=c++2b;-Wall;-Wextra;-Werror;-pedantic;-Wno-multichar;-Wno-pre-c++2b-compat" C_Options="" Assembler="">
+      <Compiler Options="-std=c++2b;-fmodules;-Wall;-Wextra;-Werror;-pedantic;-Wno-multichar;-Wno-pre-c++2b-compat" C_Options="" Assembler="">
         <IncludePath Value="."/>
       </Compiler>
       <Linker Options="-std=c++2b">
