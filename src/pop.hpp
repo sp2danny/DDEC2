@@ -63,7 +63,7 @@ public:
 	{
 		own(p);
 	}
-	
+
 	template<typename... Args>
 	pop(to_create, Args&& ...args) noexcept
 		: pop()
