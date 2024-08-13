@@ -56,7 +56,7 @@ public:
 	{
 		borrow(p);
 	}
-	
+
 	template<DestructCompatible<T> TT>
 	pop(to_own, TT* p) noexcept
 		: pop()
@@ -122,6 +122,14 @@ public:
 	{
 		clear();
 		m_ptr = p;
+		m_own = false;
+	}
+
+	template<PointerCompatible<T> TT>
+	void borrow(TT& p) noexcept(UnderlyingNoexceptDestructor)
+	{
+		clear();
+		m_ptr = &p;
 		m_own = false;
 	}
 

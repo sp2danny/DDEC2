@@ -1,8 +1,8 @@
 .PHONY: clean All
 
 All:
-	@echo "----------Building project:[ oper - Release ]----------"
-	@"$(MAKE)" -f  "oper.mk"
+	@echo "----------Building project:[ de - Release ]----------"
+	@"$(MAKE)" -f  "de.mk"
 clean:
-	@echo "----------Cleaning project:[ oper - Release ]----------"
-	@"$(MAKE)" -f  "oper.mk" clean
+	@echo "----------Cleaning project:[ de - Release ]----------"
+	@"$(MAKE)" -f  "de.mk" clean

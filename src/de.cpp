@@ -57,7 +57,15 @@ void getpwd(const char* msg, bool)
 
 #endif
 
-long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog, const std::string& str)
+long long encrypt
+(
+	std::istream& is,
+	std::ostream& os,
+	std::size_t rem,
+	bool prog,
+	//const std::string& str
+	std::string_view str
+)
 {
 	Crypt cr{pwd, old};
 
@@ -109,27 +117,33 @@ long long encrypt(std::istream& is, std::ostream& os, std::size_t rem, bool prog
 	return cr.nextcount();
 }
 
-[[nodiscard]] std::string replace_ext(const std::string& fn, const std::string ext)
+[[nodiscard]] std::string replace_ext(
+	std::string_view fn, // const std::string& fn,
+	std::string_view ext // const std::string ext
+)
 {
-	auto p1 = fn.find_last_of('/');
+	std::size_t p2, p1 = fn.find_last_of('/');
+
+	std::string ret;
+
 	if (p1 != std::string::npos) {
-		auto p2 = fn.find_first_of('.', p1);
-		if (p2 == std::string::npos)
-		{
-			return fn + "."s + ext;
-		} else {
-			return fn.substr(0, p2) + "."s + ext;
-		}
-		
+		p2 = fn.find_first_of('.', p1);
 	} else {
-		auto p2 = fn.find_first_of("."s);
-		if (p2 == std::string::npos)
-		{
-			return fn + "."s + ext;
-		} else {
-			return fn.substr(0, p2) + "."s + ext;
-		}
+		p2 = fn.find_first_of("."s);		
 	}
+
+	if (p2 == std::string::npos)
+	{
+		ret += fn;
+	} else {
+		ret += fn.substr(0, p2);
+	}
+
+	ret += "."s;
+	ret += ext;
+
+	return ret;
+
 }
 
 long long encrypt(const std::string& str, const std::string& target, const std::string& ext)
@@ -142,15 +156,15 @@ long long encrypt(const std::string& str, const std::string& target, const std::
 	pop<std::ostream> ofs;
 
 	if (str == "-"s) {
-		ifs.borrow(&std::cin);
+		ifs.borrow(std::cin);
 		report = false;
 	} else {
 		ifs.create<std::ifstream>(str, std::fstream::binary);
 		rem = std::filesystem::file_size(str);
 	}
-	
+
 	if (target == "-"s) {
-		ofs.borrow(&std::cout);
+		ofs.borrow(std::cout);
 		report = false;
 	} else {
 		if (str == "-"s)
@@ -161,7 +175,7 @@ long long encrypt(const std::string& str, const std::string& target, const std::
 			nfn = replace_ext(nfn, ext);
 		ofs.create<std::ofstream>(nfn, std::fstream::binary);
 	}
-	
+
 	if (ifs && ofs)
 	{
 		return encrypt(*ifs, *ofs, rem, report, str);
@@ -232,7 +246,7 @@ long long decrypt(const std::string& str, const std::string& target, const std::
 	pop<std::ostream> ofs;
 
 	if (str == "-"s) {
-		ifs.borrow(&std::cin);
+		ifs.borrow(std::cin);
 		report = false;
 	} else {
 		ifs.create<std::ifstream>(str, std::fstream::binary);
@@ -240,7 +254,7 @@ long long decrypt(const std::string& str, const std::string& target, const std::
 	}
 
 	if (target == "-"s) {
-		ofs.borrow(&std::cout);
+		ofs.borrow(std::cout);
 		report = false;
 	} else {
 		if (str == "-"s)
@@ -282,9 +296,6 @@ std::string pritty(long long i, const char* token = "'")
 	if (neg) ss = "-" + ss;
 	return ss;
 }
-
-
-
 
 int main(int argc, char** argv)
 {
