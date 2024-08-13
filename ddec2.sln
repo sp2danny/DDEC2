@@ -73,14 +73,12 @@ Global
 		{6EA90A38-79F5-42B1-95E4-EAA024827A34}.Debug|Any CPU.Build.0 = Debug|x64
 		{6EA90A38-79F5-42B1-95E4-EAA024827A34}.Debug|x64.ActiveCfg = Debug|x64
 		{6EA90A38-79F5-42B1-95E4-EAA024827A34}.Debug|x64.Build.0 = Debug|x64
-		{6EA90A38-79F5-42B1-95E4-EAA024827A34}.Debug|x86.ActiveCfg = Debug|Win32
-		{6EA90A38-79F5-42B1-95E4-EAA024827A34}.Debug|x86.Build.0 = Debug|Win32
+		{6EA90A38-79F5-42B1-95E4-EAA024827A34}.Debug|x86.ActiveCfg = Debug|x64
 		{6EA90A38-79F5-42B1-95E4-EAA024827A34}.Release|Any CPU.ActiveCfg = Release|x64
 		{6EA90A38-79F5-42B1-95E4-EAA024827A34}.Release|Any CPU.Build.0 = Release|x64
 		{6EA90A38-79F5-42B1-95E4-EAA024827A34}.Release|x64.ActiveCfg = Release|x64
 		{6EA90A38-79F5-42B1-95E4-EAA024827A34}.Release|x64.Build.0 = Release|x64
-		{6EA90A38-79F5-42B1-95E4-EAA024827A34}.Release|x86.ActiveCfg = Release|Win32
-		{6EA90A38-79F5-42B1-95E4-EAA024827A34}.Release|x86.Build.0 = Release|Win32
+		{6EA90A38-79F5-42B1-95E4-EAA024827A34}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
