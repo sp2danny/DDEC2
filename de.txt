@@ -1,1 +1,1 @@
-./bin/Release/src_bitstream.cpp.o ./bin/Release/src_Crypt.cpp.o ./bin/Release/src_de.cpp.o
+./bin/Release/src_bitstream.cpp.o ./bin/Release/src_Crypt.cpp.o ./bin/Release/src_lz.cpp.o ./bin/Release/src_de.cpp.o

@@ -40,6 +40,14 @@ void Operator::execute(UC* block, [[maybe_unused]] int size)
 	}
 }
 
+void Crypt::clear()
+{
+	for (auto& x : keys)
+		x.seed(0);
+	for (auto& x : opers)
+		x = Operator{};
+}
+
 Crypt::Crypt(std::string key, bool old)
 	: old(old)
 {

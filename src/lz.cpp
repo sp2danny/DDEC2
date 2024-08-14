@@ -10,9 +10,9 @@ typedef LookupEntry* LEP;
 struct LookupEntry
 {
 	int code;
-	std::LZ token;
+	UC token;
 	LEP next[256];
-}
+};
 
 struct Table
 {
@@ -30,14 +30,14 @@ void Table::init()
 }
 
 [[nodiscard]]
-vb compress(const vb& in)
+VB compress(const VB& )
 {
 	return {};
 }
 
 
 [[nodiscard]]
-vb decompress(const vb& in)
+VB decompress(const VB& )
 {
 	return {};
 }

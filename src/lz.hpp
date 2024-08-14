@@ -13,10 +13,10 @@ typedef std::uint8_t UC;
 typedef std::vector<UC> VB;
 
 [[nodiscard]]
-extern vb compress(const VB&);
+extern VB compress(const VB&);
 
 [[nodiscard]]
-extern vb decompress(const VB&);
+extern VB decompress(const VB&);
 
 }
 

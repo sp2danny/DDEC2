@@ -3,9 +3,10 @@
   <Project Name="DDEC2" Path="DDEC2.project" Active="No"/>
   <Project Name="player" Path="player.project" Active="No"/>
   <Project Name="patest" Path="patest.project" Active="No"/>
-  <Project Name="de" Path="de.project" Active="Yes"/>
+  <Project Name="de" Path="de.project" Active="No"/>
   <Project Name="fft" Path="fft.project" Active="No"/>
   <Project Name="oper" Path="oper.project" Active="No"/>
+  <Project Name="fd" Path="fd.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
@@ -16,6 +17,7 @@
       <Project Name="de" ConfigName="Debug"/>
       <Project Name="fft" ConfigName="Debug"/>
       <Project Name="oper" ConfigName="Debug"/>
+      <Project Name="fd" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
@@ -26,6 +28,7 @@
       <Project Name="de" ConfigName="Release"/>
       <Project Name="fft" ConfigName="Release"/>
       <Project Name="oper" ConfigName="Release"/>
+      <Project Name="fd" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

@@ -22,6 +22,10 @@ struct Operator
 struct Crypt
 {
 	Crypt(std::string, bool=true);
+	Crypt(const Crypt&) = default;
+	Crypt(Crypt&&) = default;
+	
+	~Crypt() { clear(); }
 
 	static constexpr int maxblock() { return MXBLK; }
 
@@ -30,12 +34,11 @@ struct Crypt
 
 	void encrypt (UC* block, int size);
 	void decrypt (UC* block, int size);
-	
-	Crypt(const Crypt&) = delete;
-	Crypt(Crypt&&) = delete;
 
 	int passcount() const { return std::ssize(keys); }
 	long long nextcount() const { return ncnt; }
+	
+	void clear();
 
 private:
 	static const int MXBLK = 1<<16;
