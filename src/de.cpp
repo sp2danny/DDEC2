@@ -133,15 +133,15 @@ long long encrypt
 	std::size_t p2, p1 = fn.find_last_of('/');
 
 	std::string ret;
+	ret.reserve(fn.size()+ext.size()+2);
 
 	if (p1 != std::string::npos) {
 		p2 = fn.find_first_of('.', p1);
 	} else {
-		p2 = fn.find_first_of("."s);		
+		p2 = fn.find_first_of("."s);
 	}
 
-	if (p2 == std::string::npos)
-	{
+	if (p2 == std::string::npos) {
 		ret += fn;
 	} else {
 		ret += fn.substr(0, p2);
