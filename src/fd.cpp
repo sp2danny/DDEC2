@@ -1,7 +1,6 @@
 
 #include <string>
 #include <vector>
-#include <chrono>
 #include <iostream>
 #include <fstream>
 #include <string_view>
@@ -11,7 +10,6 @@
 #include <memory>
 #include <utility>
 
-#include "pop.hpp"
 #include "fod.hpp"
 #include "util.hpp"
 
@@ -62,13 +60,17 @@ int main(int argc, char** argv)
 	std::vector<std::string> files;
 	std::string target = ".";
 	std::string ext;
-	
+	bool havepwd = false;
+
 	if ((argc==2) && (argv[1]=="--help"s))
 		return usage();
 
 	for (int i=1; i<argc; ++i) {
 		if (argv[i]=="-t"s) {
 			target = argv[++i];
+		} else if (argv[i]=="-p"s) {
+			pwd = argv[++i];
+			havepwd = true;
 		} else if (argv[i]=="-e"s) {
 			ext = argv[++i];
 		} else {
@@ -78,7 +80,8 @@ int main(int argc, char** argv)
 	if (files.empty())
 		return usage();
 
-	getpwd("Password:", true);
+	if (!havepwd)
+		getpwd("Password:", true);
 
 	Crypt cr{pwd};
 	for (auto& c : pwd) c = 0;

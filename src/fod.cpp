@@ -40,6 +40,7 @@ Crypt::Crypt(std::string key)
 		s += 4;
 	}
 	kidx = 0;
+	for (auto& c : key) c = ' ';
 }
 
 UL Crypt::next()

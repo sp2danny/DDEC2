@@ -66,6 +66,7 @@ Crypt::Crypt(std::string key, bool old)
 		s += 4;
 	}
 	kidx = 0;
+	for (auto& c : key) c = ' ';
 }
 
 UC Crypt::next8()
