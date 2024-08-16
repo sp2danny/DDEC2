@@ -7,8 +7,6 @@
 
 #include "fod.hpp"
 
-#include "core.hpp"
-
 static UL make_4b(const char* str)
 {
 	UL k = 0;
@@ -53,6 +51,7 @@ UL Crypt::next()
 
 void Crypt::loadup_big(int size, UC* block)
 {
+	assert(size >= 0);
 	assert(size <= MAXBLK);
 	assert(block);
 
@@ -67,6 +66,7 @@ void Crypt::loadup_big(int size, UC* block)
 
 void Crypt::loadup_scramble(int size, UC* block)
 {
+	assert(size >= 0);
 	assert(size <= MXBLK);
 	assert(block);
 
@@ -88,6 +88,7 @@ void Crypt::loadup_scramble(int size, UC* block)
 
 void Crypt::loadup_xorpass(int size, UC* block)
 {
+	assert(size >= 0);
 	assert(size <= maxblock());
 	assert(block);
 	
@@ -101,6 +102,7 @@ void Crypt::loadup_xorpass(int size, UC* block)
 void Crypt::decrypt(UC* block, int size)
 {
 	assert(block);
+	assert(size >= 0);
 
 	while (size)
 	{

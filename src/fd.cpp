@@ -31,13 +31,10 @@ void decrypt(Crypt cr, const std::string& str, const std::string& target, const 
 	std::ifstream ifs(str, std::fstream::binary);
 	sz = std::filesystem::file_size(str);
 
-	if (str == "-"s)
-		nfn = target + "/" + "output.decrypt";
+	if (str.ends_with(".encrypt"))
+		nfn = target + "/" + str.substr(0, str.length()-8);
 	else
-		if (str.ends_with(".encrypt"))
-			nfn = target + "/" + str.substr(0, str.length()-8);
-		else
-			nfn = target + "/" + str + ".decrypt";
+		nfn = target + "/" + str + ".decrypt";
 	if (!ext.empty())
 		nfn = replace_ext(nfn, ext);
 	std::ofstream ofs(nfn, std::fstream::binary);
@@ -53,7 +50,7 @@ void decrypt(Crypt cr, const std::string& str, const std::string& target, const 
 		return;
 	}
 	
-	cr.decrypt((UC*)data.data(), data.size());
+	cr.decrypt(data.data(), std::ssize(data));
 	
 	ofs.write((char*)data.data(), sz);
 }
@@ -81,10 +78,7 @@ int main(int argc, char** argv)
 	if (files.empty())
 		return usage();
 
-	if (target=="-"s)
-		getpwd("", false);
-	else
-		getpwd("Password:", true);
+	getpwd("Password:", true);
 
 	Crypt cr{pwd};
 	for (auto& c : pwd) c = 0;
@@ -92,8 +86,7 @@ int main(int argc, char** argv)
 	int i=0, n=std::ssize(files);
 	
 	for (auto&& f : files) {
-		if (target!="-"s)
-			std::cout << ++i << "/" << n << " : " << f << "          \r" << std::flush;
+		std::cout << ++i << "/" << n << " : " << f << "          \r" << std::flush;
 		decrypt(cr, f, target, ext);
 	}
 
