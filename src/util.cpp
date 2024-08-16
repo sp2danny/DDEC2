@@ -1,4 +1,6 @@
 
+#include <iostream>
+
 #include "util.hpp"
 
 using namespace std::literals;
@@ -73,7 +75,7 @@ void getpwd(const char* msg, bool)
 	return ret;
 }
 
-std::string pritty(long long i, const char* token)
+[[nodiscard]] std::string pritty(long long i, const char* token)
 {
 	if (!i) return "0"s;
 	std::string ss = "";

@@ -12,11 +12,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\de.cpp" />
+    <ClCompile Include="src\util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ddec2lib.vcxproj">
       <Project>{4dc5a97b-66ad-4290-bd45-50729b0aca6f}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Crypt.hpp" />
+    <ClInclude Include="src\pop.hpp" />
+    <ClInclude Include="src\util.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
