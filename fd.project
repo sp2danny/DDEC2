@@ -4,7 +4,10 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <VirtualDirectory Name="lib">
-      <File Name="src/Crypt.cpp"/>
+      <File Name="src/fod.cpp"/>
+      <File Name="src/fod.hpp"/>
+      <File Name="src/util.cpp"/>
+      <File Name="src/util.hpp"/>
       <File Name="src/bitstream.cpp"/>
     </VirtualDirectory>
     <File Name="src/fd.cpp"/>

@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=daniel
-Date                   :=14/08/24
+Date                   :=16/08/24
 CodeLitePath           :=/home/daniel/.codelite
 LinkerName             :=/usr/bin/clang++-15
 SharedObjectLinkerName :=/usr/bin/clang++-15 -shared -fPIC
@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_fd.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_fod.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_util.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_fd.cpp$(ObjectSuffix) 
 
 
 
@@ -91,17 +91,23 @@ PreBuild:
 ##
 ## Objects
 ##
+$(IntermediateDirectory)/src_fod.cpp$(ObjectSuffix): src/fod.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_fod.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_fod.cpp$(DependSuffix) -MM src/fod.cpp
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/fod.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_fod.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_fod.cpp$(PreprocessSuffix): src/fod.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_fod.cpp$(PreprocessSuffix) src/fod.cpp
+
 $(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix): src/bitstream.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_bitstream.cpp$(DependSuffix) -MM src/bitstream.cpp
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/bitstream.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_bitstream.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_bitstream.cpp$(PreprocessSuffix): src/bitstream.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_bitstream.cpp$(PreprocessSuffix) src/bitstream.cpp
 
-$(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix): src/Crypt.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_Crypt.cpp$(DependSuffix) -MM src/Crypt.cpp
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/Crypt.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_Crypt.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_Crypt.cpp$(PreprocessSuffix): src/Crypt.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_Crypt.cpp$(PreprocessSuffix) src/Crypt.cpp
+$(IntermediateDirectory)/src_util.cpp$(ObjectSuffix): src/util.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_util.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_util.cpp$(DependSuffix) -MM src/util.cpp
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/daniel/project/ddec2/src/util.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_util.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_util.cpp$(PreprocessSuffix): src/util.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_util.cpp$(PreprocessSuffix) src/util.cpp
 
 $(IntermediateDirectory)/src_fd.cpp$(ObjectSuffix): src/fd.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_fd.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_fd.cpp$(DependSuffix) -MM src/fd.cpp

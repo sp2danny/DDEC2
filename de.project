@@ -6,6 +6,8 @@
     <File Name="src/misc.hpp"/>
     <File Name="src/de.cpp"/>
     <VirtualDirectory Name="lib">
+      <File Name="src/util.hpp"/>
+      <File Name="src/util.cpp"/>
       <File Name="src/lz.cpp"/>
       <File Name="src/lz.hpp"/>
       <File Name="src/pop.hpp"/>
