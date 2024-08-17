@@ -21,22 +21,22 @@ bool strmat(const char* str, const char* pat)
 	bool ate_str = (str_c == 0);
 	bool ate_pat = (pat_c == 0);
 
-	if (!ate_pat)
-		if ((pat_c=='*') && (pat[1] == 0)) return true;
+	if (!ate_pat) {
+		if (pat_c=='*') {
+			if (ate_str)
+				return strmat(str, pat+1);
+			else
+				return strmat(str+1, pat) || strmat(str, pat+1);
+		}
+	}
 
 	if (ate_str && ate_pat) return true;
 	if (ate_str || ate_pat) return false;
 
-	switch (pat_c)
-	{
-		case '?':
-			return strmat(str+1, pat+1);
-		case '*':
-			return strmat(str+1, pat) || strmat(str, pat+1);
-		default:
-			if (str_c != pat_c) return false;
-			return strmat(str+1, pat+1);
-	}
+	if (pat_c != '?')
+		if (str_c != pat_c) return false;
+
+	return strmat(str+1, pat+1);
 }
 
 using UC = unsigned char;
@@ -75,7 +75,7 @@ void do_stuff(std::istream& in, std::ostream& out, bool loop, const UCV& data, c
 		out.write((char*)buff.data(), len);
 		return (len<sz);
 	};
-	
+
 	auto pass_copy = [&]() -> bool {
 		in.read((char*)buff.data(), sz);
 		auto len = in.gcount();
