@@ -4,6 +4,7 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <VirtualDirectory Name="lib">
+      <File Name="src/mersenne-twister.cpp"/>
       <File Name="src/fod.cpp"/>
       <File Name="src/fod.hpp"/>
       <File Name="src/util.cpp"/>

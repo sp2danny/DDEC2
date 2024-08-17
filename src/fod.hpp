@@ -14,7 +14,11 @@ static_assert( sizeof(UL) == 4 );
 
 typedef std::vector<UC> BVec;
 
-typedef std::mt19937 Eng;
+#include "mersenne-twister.hpp"
+
+typedef MT Eng;
+
+// typedef std::mt19937 Eng;
 
 struct Crypt
 {

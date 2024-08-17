@@ -13,3 +13,4 @@ FrameReport.txt
 *.wav
 *.dat
 data/
+tmp/
