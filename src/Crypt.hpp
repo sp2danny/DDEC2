@@ -9,8 +9,11 @@
 
 #include "core.hpp"
 #include "bitstream.hpp"
+#include "mersenne-twister.hpp"
 
-typedef std::mt19937 Eng;
+// typedef std::mt19937 Eng;
+
+typedef MT Eng;
 
 struct Operator
 {

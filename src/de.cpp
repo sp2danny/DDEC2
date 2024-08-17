@@ -14,6 +14,8 @@
 #include "Crypt.hpp"
 #include "util.hpp"
 
+#include "mersenne-twister.hpp"
+
 int usage()
 {
 	std::cerr << "usage: de [-t target] [-e ext] d|e file[s]\n";

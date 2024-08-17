@@ -17,6 +17,7 @@
     <ClInclude Include="src\Crypt.hpp" />
     <ClInclude Include="src\frame.hpp" />
     <ClInclude Include="src\lzv.hpp" />
+    <ClInclude Include="src\mersenne-twister.hpp" />
     <ClInclude Include="src\nibblemap.hpp" />
     <ClInclude Include="src\perftimer.hpp" />
     <ClInclude Include="src\wave.hpp" />
@@ -28,6 +29,7 @@
     <ClCompile Include="src\fbct2.cpp" />
     <ClCompile Include="src\frame.cpp" />
     <ClCompile Include="src\lzv.cpp" />
+    <ClCompile Include="src\mersenne-twister.cpp" />
     <ClCompile Include="src\nibblemap.cpp" />
     <ClCompile Include="src\wave.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

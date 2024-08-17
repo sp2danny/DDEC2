@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\de.cpp" />
+    <ClCompile Include="src\mersenne-twister.cpp" />
     <ClCompile Include="src\util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -21,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Crypt.hpp" />
+    <ClInclude Include="src\mersenne-twister.hpp" />
     <ClInclude Include="src\pop.hpp" />
     <ClInclude Include="src\util.hpp" />
   </ItemGroup>
