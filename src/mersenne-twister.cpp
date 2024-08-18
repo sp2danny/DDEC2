@@ -1,9 +1,9 @@
 
 #include "mersenne-twister.hpp"
 
-static const std::size_t   SIZE   = MT::SIZE;
+static const std::size_t   SIZE   = MT::SIZE; // 624
 static const std::size_t   PERIOD = 397;
-static const std::size_t   DIFF   = SIZE - PERIOD;
+static const std::size_t   DIFF   = SIZE - PERIOD; // 227
 static const std::uint32_t MAGIC  = 0x9908b0df;
 
 #define M32(x) (0x80000000 & x) // 32nd MSB
