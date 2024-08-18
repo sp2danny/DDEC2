@@ -1,8 +1,6 @@
 
 #include "mersenne-twister.hpp"
 
-// #define MT_UNROLL_MORE
-
 #define M32(x) (0x80000000 & x) // 32nd MSB
 #define L31(x) (0x7FFFFFFF & x) // 31 LSBs
 
@@ -18,27 +16,10 @@ void MT::generate_numbers()
 
 	while ( i < DIFF ) {
 		UNROLL(i+PERIOD);
-
-#ifdef MT_UNROLL_MORE
-		UNROLL(i+PERIOD);
-#endif
 	}
 
 	while ( i < SIZE -1 ) {
 		UNROLL(i-DIFF);
-
-#ifdef MT_UNROLL_MORE
-		UNROLL(i-DIFF);
-		UNROLL(i-DIFF);
-		UNROLL(i-DIFF);
-		UNROLL(i-DIFF);
-		UNROLL(i-DIFF);
-		UNROLL(i-DIFF);
-		UNROLL(i-DIFF);
-		UNROLL(i-DIFF);
-		UNROLL(i-DIFF);
-		UNROLL(i-DIFF);
-#endif
 	}
 
 	{
@@ -65,7 +46,7 @@ void MT::seed(std::uint32_t value)
 	state.MT[0] = value;
 	state.index = SIZE;
 
-	for ( std::uint_fast32_t i=1; i<SIZE; ++i )
+	for (std::uint_fast32_t i=1; i<SIZE; ++i)
 		state.MT[i] = 0x6c078965*(state.MT[i-1] ^ state.MT[i-1]>>30) + i;
 }
 
