@@ -1,7 +1,10 @@
 
 #include "mersenne-twister.hpp"
 
-// #define MT_UNROLL_MORE
+static const std::size_t   SIZE   = MT::SIZE;
+static const std::size_t   PERIOD = 397;
+static const std::size_t   DIFF   = SIZE - PERIOD;
+static const std::uint32_t MAGIC  = 0x9908b0df;
 
 #define M32(x) (0x80000000 & x) // 32nd MSB
 #define L31(x) (0x7FFFFFFF & x) // 31 LSBs
