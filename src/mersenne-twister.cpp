@@ -21,7 +21,6 @@ static const std::uint32_t MAGIC  = 0x9908b0df;
 	y ^= y >> 18; \
 	state.MT_TEMPERED[i] = y
 
-
 void MT::generate_numbers()
 {
 	std::size_t i = 0;
@@ -29,26 +28,23 @@ void MT::generate_numbers()
 
 	while ( i < DIFF ) {
 		UNROLL(i, i+1, i+PERIOD);
-		TEMPER(i);
 		++i;
 	}
 
 	while ( i < SIZE -1 ) {
 		UNROLL(i, i+1, i-DIFF);
-		TEMPER(i);
 		++i;
 	}
 
 	{
 		// i = 623, last step rolls over
 		UNROLL(SIZE-1, 0, PERIOD-1);
-		TEMPER(i);
 	}
 
-	// dont Temper all numbers in a batch
-	//for (i = 0; i < SIZE; ++i) {
-	//	TEMPER(i);
-	//}
+	// Temper all numbers in a batch
+	for (i = 0; i < SIZE; ++i) {
+		TEMPER(i);
+	}
 
 	state.index = 0;
 }
