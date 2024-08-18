@@ -62,7 +62,6 @@ std::uint32_t MT::rand_u32()
 {
 	if ( state.index == SIZE ) {
 		generate_numbers();
-		state.index = 0;
 	}
 
 	auto rnd = state.MT_TEMPERED[state.index++];
