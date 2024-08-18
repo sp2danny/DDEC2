@@ -9,10 +9,18 @@ static const std::uint32_t MAGIC  = 0x9908b0df;
 #define M32(x) (0x80000000 & x) // 32nd MSB
 #define L31(x) (0x7FFFFFFF & x) // 31 LSBs
 
-#define UNROLL(expr) \
-	y = M32(state.MT[i]) | L31(state.MT[i+1]); \
-	state.MT[i] = state.MT[expr] ^ (y >> 1) ^ (((std::int32_t(y) << 31) >> 31) & MAGIC); \
-	++i;
+#define UNROLL(a,b,expr) \
+	y = M32(state.MT[a]) | L31(state.MT[b]); \
+	state.MT[i] = state.MT[expr] ^ (y >> 1) ^ (((std::int32_t(y) << 31) >> 31) & MAGIC)
+
+#define TEMPER(i) \
+	y = state.MT[i]; \
+	y ^= y >> 11; \
+	y ^= y << 7  & 0x9d2c5680; \
+	y ^= y << 15 & 0xefc60000; \
+	y ^= y >> 18; \
+	state.MT_TEMPERED[i] = y
+
 
 void MT::generate_numbers()
 {
@@ -20,28 +28,27 @@ void MT::generate_numbers()
 	std::uint32_t y;
 
 	while ( i < DIFF ) {
-		UNROLL(i+PERIOD);
+		UNROLL(i, i+1, i+PERIOD);
+		TEMPER(i);
+		++i;
 	}
 
 	while ( i < SIZE -1 ) {
-		UNROLL(i-DIFF);
+		UNROLL(i, i+1, i-DIFF);
+		TEMPER(i);
+		++i;
 	}
 
 	{
 		// i = 623, last step rolls over
-		y = M32(state.MT[SIZE-1]) | L31(state.MT[0]);
-		state.MT[SIZE-1] = state.MT[PERIOD-1] ^ (y >> 1) ^ (((int32_t(y) << 31) >> 31) & MAGIC);
+		UNROLL(SIZE-1, 0, PERIOD-1);
+		TEMPER(i);
 	}
 
-	// Temper all numbers in a batch
-	for (size_t i = 0; i < SIZE; ++i) {
-		y = state.MT[i];
-		y ^= y >> 11;
-		y ^= y << 7  & 0x9d2c5680;
-		y ^= y << 15 & 0xefc60000;
-		y ^= y >> 18;
-		state.MT_TEMPERED[i] = y;
-	}
+	// dont Temper all numbers in a batch
+	//for (i = 0; i < SIZE; ++i) {
+	//	TEMPER(i);
+	//}
 
 	state.index = 0;
 }
@@ -62,5 +69,8 @@ std::uint32_t MT::rand_u32()
 		state.index = 0;
 	}
 
-	return state.MT_TEMPERED[state.index++];
+	auto rnd = state.MT_TEMPERED[state.index++];
+
+	return rnd;
 }
+
