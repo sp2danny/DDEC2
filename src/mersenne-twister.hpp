@@ -2,29 +2,30 @@
 #pragma once
 
 #include <cstdint>
-#include <cstddef>
 
 class MT
 {
 public:
-	std::uint32_t rand_u32();
+	typedef std::uint32_t u32;
 
-	void seed(std::uint32_t seed_value);
+	u32 rand();
 
-	std::uint32_t operator()() { return rand_u32(); }
+	void seed(u32);
 
-	static const std::size_t SIZE = 624;
+	u32 operator()() { return rand(); }
+
+	static const u32 SIZE = 624;
 
 private:
 
-	void generate_numbers();
+	void generate();
 
-	struct MTState {
-	  std::uint32_t MT[SIZE];
-	  std::uint32_t MT_TEMPERED[SIZE];
-	  std::size_t index = SIZE;
+	struct State {
+		u32 RAW[SIZE] = {0};
+		u32 TMP[SIZE] = {0};
+		u32 at = SIZE;
 	};
 
-	MTState state;
+	State state;
 };
 

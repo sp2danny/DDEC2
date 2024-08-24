@@ -9,6 +9,7 @@
 #include <limits>
 #include <memory>
 #include <utility>
+#include <random>
 
 #include "pop.hpp"
 #include "Crypt.hpp"
@@ -213,6 +214,8 @@ long long decrypt(Crypt cr, const std::string& str, const std::string& target, c
 
 int main(int argc, char** argv)
 {
+	//extern void dummytest(); dummytest();
+
 	using namespace std::literals;
 	bool de, have = false, hp = false;
 	std::vector<std::string> files;
@@ -276,3 +279,25 @@ int main(int argc, char** argv)
 
 
 
+void dummytest()
+{
+	MT mt1;
+	std::mt19937 mt2;
+
+
+	mt1.seed(77);
+	mt2.seed(77);
+
+	for (int i=0; i<1'000'000; ++i)
+	{
+		auto a = mt1();
+		auto b = mt2();
+
+		if (a!=b)
+		{
+			std::cout << "diff at step " << i << std::endl;
+		}
+	}
+
+
+}
