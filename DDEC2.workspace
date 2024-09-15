@@ -8,7 +8,7 @@
   <Project Name="oper" Path="oper.project" Active="No"/>
   <Project Name="fd" Path="fd.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="no">
+    <WorkspaceConfiguration Name="Debug">
       <Environment/>
       <Project Name="DDEC2" ConfigName="Debug"/>
       <Project Name="player" ConfigName="Debug"/>
@@ -19,7 +19,7 @@
       <Project Name="oper" ConfigName="Debug"/>
       <Project Name="fd" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="yes">
+    <WorkspaceConfiguration Name="Release">
       <Environment/>
       <Project Name="DDEC2" ConfigName="Release"/>
       <Project Name="player" ConfigName="Release"/>
