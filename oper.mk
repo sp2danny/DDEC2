@@ -5,6 +5,7 @@
 ## Release
 ProjectName            :=oper
 ConfigurationName      :=Release
+WorkspaceConfiguration :=Release
 WorkspacePath          :=/home/daniel/project/ddec2
 ProjectPath            :=/home/daniel/project/ddec2
 IntermediateDirectory  :=./bin/Release
@@ -13,7 +14,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=daniel
-Date                   :=17/08/24
+Date                   :=30/09/24
 CodeLitePath           :=/home/daniel/.codelite
 LinkerName             :=/usr/bin/clang++-15
 SharedObjectLinkerName :=/usr/bin/clang++-15 -shared -fPIC
@@ -27,6 +28,7 @@ OutputSwitch           :=-o
 LibraryPathSwitch      :=-L
 PreprocessorSwitch     :=-D
 SourceSwitch           :=-c 
+OutputDirectory        :=
 OutputFile             :=$(ProjectName).out
 Preprocessors          :=$(PreprocessorSwitch)NDEBUG 
 ObjectSwitch           :=-o 
@@ -35,7 +37,7 @@ PreprocessOnlySwitch   :=-E
 ObjectsFileList        :="oper.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=mkdir -p
-LinkOptions            := -std=c++2b 
+LinkOptions            :=  
 IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). 
 IncludePCH             := 
 RcIncludePath          := 
@@ -45,12 +47,12 @@ LibPath                := $(LibraryPathSwitch).
 
 ##
 ## Common variables
-## AR, CXX, CC, AS, CXXFLAGS and CFLAGS can be overriden using an environment variables
+## AR, CXX, CC, AS, CXXFLAGS and CFLAGS can be overridden using an environment variable
 ##
 AR       := /usr/bin/ar rcu
 CXX      := /usr/bin/clang++-15
 CC       := /usr/bin/clang-15
-CXXFLAGS := -std=c++2b -Wall -Wextra -Werror -pedantic -Wno-multichar -Wno-pre-c++2b-compat -O3 $(Preprocessors)
+CXXFLAGS := -std=c++20 -Wall -Wextra -Werror -pedantic -Wno-multichar -Wno-pre-c++2b-compat -O3 $(Preprocessors)
 CFLAGS   :=  -O3 $(Preprocessors)
 ASFLAGS  := 
 AS       := /usr/bin/as
