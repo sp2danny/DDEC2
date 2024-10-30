@@ -8,6 +8,7 @@
 #include <ranges>
 #include <initializer_list>
 #include <utility>
+#include <cstddef>
 
 using namespace std::literals;
 
@@ -164,6 +165,13 @@ int main(int argc, char** argv)
 			looping = true;
 		}
 	}
+	
+	if ((oper=="rnd") && !dir.empty() && !size.empty())
+	{
+		extern void dorand(const std::string&, ssize_t );
+		dorand(dir, std::stol(size));
+		return 0;
+	}
 
 	{
 		auto is_empty = [](const std::string& str) { return str.empty(); };
@@ -223,3 +231,21 @@ int main(int argc, char** argv)
 
 // 3897173
 
+
+#include <sstream>
+#include <iomanip>
+
+void dorand(const std::string& dir, ssize_t sz)
+{
+
+	fs::path p = dir;
+	for (ssize_t i=1; i<=sz; ++i)
+	{
+		std::stringstream ss;
+		ss << std::setw(10) << std::setfill('0') << i;
+		auto fn = ss.str() + ".tmp";
+		std::ofstream ofs{p / fn};
+		for (int j=0; j<1'000'000; ++j)
+			ofs << (char)rand();
+	}
+}

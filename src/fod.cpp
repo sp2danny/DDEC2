@@ -53,7 +53,7 @@ UL Crypt::next()
 void Crypt::loadup_big(int size, UC* block)
 {
 	assert(size >= 0);
-	assert(size <= MAXBLK);
+	assert(size <= MXBLK);
 	assert(block);
 
 	int n = std::ssize(keys);
