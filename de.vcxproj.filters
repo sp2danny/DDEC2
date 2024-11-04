@@ -33,7 +33,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\mersenne-twister.hpp">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
