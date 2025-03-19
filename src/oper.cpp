@@ -10,6 +10,8 @@
 #include <utility>
 #include <cstddef>
 
+using ssize_t = long;
+
 using namespace std::literals;
 
 namespace fs = std::filesystem;
