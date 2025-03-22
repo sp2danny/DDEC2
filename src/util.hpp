@@ -12,4 +12,5 @@ extern void getpwd(const char*, bool);
 
 [[nodiscard]] extern std::string pritty(long long i, const char* token = "'");
 
+[[nodiscard]] extern bool strmat(const std::string& pattern, const std::string& string);
 

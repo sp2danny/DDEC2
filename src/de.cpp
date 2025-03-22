@@ -177,6 +177,23 @@ long long decrypt(Crypt cr, std::istream& is, std::ostream& os, std::size_t rem,
 
 long long decrypt(Crypt cr, const std::string& str, const std::string& target, const std::string ext)
 {
+	if (str.find_first_of("*?") != std::string::npos)
+	{
+		long long acc = 0;
+
+		for (const auto& entry : std::filesystem::directory_iterator(".")) {
+
+			auto p = entry.path();
+
+			if (strmat(str, p.filename().string()))
+				acc += decrypt(cr, p.filename().string(), target, ext);
+
+		}
+
+		return acc;
+	}
+
+
 	bool report = true;
 	std::size_t rem = 0;
 	std::string nfn;

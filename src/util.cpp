@@ -94,3 +94,34 @@ void getpwd(const char* msg, bool)
 	return ss;
 }
 
+[[nodiscard]] static bool strmat(const char* pattern, const char* string)
+{
+	bool ate_p = *pattern == 0;
+	bool ate_s = *string == 0;
+
+	if (ate_s && ate_p) return true;
+	if (ate_p) return false;
+	char pc = *pattern;
+	if (ate_s) {
+		if (pc == '*')
+			return strmat(pattern + 1, string);
+		else
+			return false;
+	}
+	switch (pc)
+	{
+	case '*':
+		return strmat(pattern + 1, string) || strmat(pattern, string + 1);
+	case '?':
+		return strmat(pattern + 1, string + 1);
+	default:
+		if (pc != *string) return false;
+		return strmat(pattern + 1, string + 1);
+	}
+}
+
+[[nodiscard]] bool strmat(const std::string& pattern, const std::string& string)
+{
+	return strmat(pattern.c_str(), string.c_str());
+}
+
