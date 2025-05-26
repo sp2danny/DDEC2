@@ -175,7 +175,7 @@ long long decrypt(Crypt cr, std::istream& is, std::ostream& os, std::size_t rem,
 	return cr.nextcount();
 }
 
-long long decrypt(Crypt cr, const std::string& str, const std::string& target, const std::string ext)
+long long decrypt(Crypt cr, const std::string& str, const std::string& target, const std::string& ext)
 {
 	if (str.find_first_of("*?") != std::string::npos)
 	{
