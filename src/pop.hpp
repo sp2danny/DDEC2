@@ -1,14 +1,9 @@
 
 #pragma once
 
-#include <utility>
+import std;
+
 #include <cassert>
-#include <type_traits>
-#include <compare>
-#include <new>
-#include <memory>
-#include <atomic>
-#include <optional>
 
 template<typename TT, typename T>
 concept PointerAssignable = requires(TT* ttp, T* tp) {

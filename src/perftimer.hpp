@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <chrono>
+import std;
 
 using hrc = std::chrono::high_resolution_clock;
 

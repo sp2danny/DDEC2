@@ -1,8 +1,7 @@
 
 #pragma once
 
-#include <string>
-#include <string_view>
+import std;
 
 extern std::string pwd;
 

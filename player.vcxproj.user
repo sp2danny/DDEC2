@@ -3,9 +3,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerCommandArguments>-w 42 -h 24 -dbl -in ".\bunny - kopia.czs"</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArgumentsHistory>-w 42 -h 24 -dbl -in ".\bunny - kopia.czs"|</LocalDebuggerCommandArgumentsHistory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerCommandArguments>-dbl -w 42 -h 24 -in ".\bunny.czs" -key "det var en gång en liten pilt som hette pelle" -snd bbb.wav</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArgumentsHistory>-dbl -w 42 -h 24 -in ".\bunny.czs" -key "det var en gång en liten pilt som hette pelle" -snd bbb.wav|</LocalDebuggerCommandArgumentsHistory>
   </PropertyGroup>
 </Project>

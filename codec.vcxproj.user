@@ -3,9 +3,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerCommandArguments>-bmp -stc -base . -src img -sn bunny.czs -name i -dig 6 -start 99991 -w 42 -h 24 -md -mf -fr -key "det var en gång en liten pilt som hette pelle"</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArgumentsHistory>-bmp -stc -base . -src img -sn bunny.czs -name i -dig 6 -start 99991 -w 42 -h 24 -md -mf -fr -key "det var en gång en liten pilt som hette pelle"|</LocalDebuggerCommandArgumentsHistory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerCommandArguments>-bmp -stc -base . -src img -sn bunny.czs -name i -dig 6 -start 99991 -w 42 -h 24 -md -mf -fr -key "det var en gång en liten pilt som hette pelle"</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArgumentsHistory>-bmp -stc -base . -src img -sn bunny.czs -name i -dig 6 -start 99991 -w 42 -h 24 -md -mf -fr -key "det var en gång en liten pilt som hette pelle"|</LocalDebuggerCommandArgumentsHistory>
   </PropertyGroup>
 </Project>

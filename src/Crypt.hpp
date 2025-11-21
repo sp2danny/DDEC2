@@ -1,11 +1,7 @@
 
 #pragma once
 
-#include <random>
-#include <vector>
-#include <string>
-#include <string_view>
-#include <iosfwd>
+import std;
 
 #include "core.hpp"
 #include "bitstream.hpp"

@@ -1,8 +1,9 @@
 
 #pragma once
 
+import std;
+
 #include <cassert>
-#include <chrono>
 
 #include "core.hpp"
 

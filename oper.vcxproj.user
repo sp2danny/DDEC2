@@ -5,5 +5,6 @@
     <LocalDebuggerWorkingDirectory>D:\GitHub\DDEC2\data\rabbit</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommandArguments>-oper xor -mask ud.mkv -dir .\tmp\ -source ..\..\bun33s.mp4 -size 1k</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArgumentsHistory>-oper xor -mask ud.mkv -dir .\tmp\ -source ..\..\bun33s.mp4 -size 1k|</LocalDebuggerCommandArgumentsHistory>
   </PropertyGroup>
 </Project>

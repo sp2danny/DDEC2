@@ -1,10 +1,7 @@
 
 #pragma once
 
-#include <utility>
-#include <vector>
-#include <list>
-#include <map>
+import std;
 
 #include "core.hpp"
 

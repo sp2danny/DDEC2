@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <cstdint>
+import std;
 
 class MT
 {

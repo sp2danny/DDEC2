@@ -1,9 +1,7 @@
 
 #pragma once
 
-#include <iosfwd>
-#include <array>
-#include <deque>
+import std;
 
 #include "core.hpp"
 

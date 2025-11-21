@@ -1,10 +1,7 @@
 
 #pragma once
 
-#include <vector>
-#include <string>
-#include <string_view>
-#include <filesystem>
+import std;
 
 using namespace std::literals;
 
