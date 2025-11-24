@@ -1,7 +1,8 @@
 
 import std;
 
-#include "pop.hpp"
+import pop;
+
 #include "Crypt.hpp"
 #include "util.hpp"
 
@@ -208,6 +209,8 @@ long long decrypt(
 
 	pop<std::istream> ifs;
 	pop<std::ostream> ofs;
+
+	pop<std::size_t> pi{ to_borrow{}, &rem };
 
 	if (str == "-"s) {
 		ifs.borrow(std::cin);
