@@ -323,11 +323,12 @@ Result Main(const std::vector<std::string>& args)
 	return {};
 }
 
-int main(int argc, char** argv)
+int main([[maybe_unused]]int argc, [[maybe_unused]]char** argv)
 {
-	//extern void test();
-	//test();
-
+	extern void test();
+	test();
+	return 0;
+	/*
 	std::vector<std::string> args;
 	for (int i = 1; i < argc; ++i)
 		args.push_back(argv[i]);
@@ -335,6 +336,7 @@ int main(int argc, char** argv)
 	auto res = Main(args);
 	res.PrintIf(std::cerr);
 	return res.Ok() ? 0 : -1;
+	*/
 }
 
 

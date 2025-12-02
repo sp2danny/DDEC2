@@ -3,11 +3,6 @@ export module pop;
 
 import std;
 
-#pragma warning( push )
-#pragma warning( disable : 5244 )
-#include <cassert>
-#pragma warning( pop )
-
 template<typename TT, typename T>
 concept PointerAssignable = requires(TT * ttp, T * tp) {
 	{ tp = ttp };
@@ -201,13 +196,13 @@ public:
 
 	T& operator*() const
 	{
-		assert(have());
+		//contract_assert(have());
 		return *m_ptr;
 	}
 
 	T* operator->() const
 	{
-		assert(have());
+		//contract_assert(have());
 		return m_ptr;
 	}
 

@@ -1,43 +1,52 @@
 
 import std;
 
-template<typename It, typename Snt>
-concept Iter = requires(It& it, Snt snt)
+class linseq
 {
-	{ ++it } -> std::convertible_to<It&>;
-	*it;
-	{ it != snt } -> std::convertible_to<bool>;
+public:
+	linseq(int start, int stop) : start(start), stop(stop) {}
+
+	struct iterator {
+		int operator*() { return val; }
+		iterator& operator++() { ++val; return *this; }
+		auto operator<=>(const iterator&) const = default;
+	friend
+		class linseq;
+	private:
+		iterator(int val) : val(val) {}
+		int val;
+	};
+
+	iterator begin() const { return {start}; }
+	iterator end() const { return {stop+1}; }
+
+private:
+	int start, stop;
 };
-
-auto odds() -> std::generator<int>
-{
-	int i = 1;
-	while (true)
-	{
-		co_yield i;
-		i += 2;
-	}
-}
-
-template<typename It, typename Snt>
-	requires Iter<It, Snt>
-void printem(It it, Snt end, int num)
-{
-	for (int i = 0; i < num; ++i)
-	{
-		if (it == end) break;
-		auto j = *it;
-		std::print("{} ", j);
-		++it;
-	}
-	std::println();
-}
 
 void test()
 {
-	auto g = odds();
+	const int start = 0;
+	const int stop = 64;
 
-	printem(g.begin(), g.end(), 10);
+	linseq seq(start, stop);
+
+	int bsf = -1;
+	for (int a : seq)
+		for (int b : seq)
+			for (int c : seq)
+				for (int d : seq)
+				{
+					int sum = a + b + c + d;
+					if (sum != 63) continue;
+					int tst = a*b + b*c + c*d;
+					if (tst > bsf)
+					{
+						bsf = tst;
+						std::println("{},{},{},{} : {}", a, b, c, d, tst);
+					}
+				}
+
 }
 
 
