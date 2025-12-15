@@ -1,6 +1,13 @@
 
 export module pop;
 
+#ifdef __cpp_contracts
+  #define Assert(x) contract_assert(c)
+#else
+  import <cassert>;
+  #define Assert(x) assert(x)
+#endif
+
 import std;
 
 template<typename TT, typename T>
@@ -196,13 +203,14 @@ public:
 
 	T& operator*() const
 	{
+		Assert(have());
 		//contract_assert(have());
 		return *m_ptr;
 	}
 
 	T* operator->() const
 	{
-		//contract_assert(have());
+		Assert(have());
 		return m_ptr;
 	}
 

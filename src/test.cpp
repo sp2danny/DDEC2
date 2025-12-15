@@ -1,6 +1,7 @@
 
 import std;
 
+
 class linseq
 {
 public:
