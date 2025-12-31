@@ -1,0 +1,14 @@
+
+# CommandType { UserInput, FromFile, PipeStage, Execute, Mock, DumpError }
+
+UserInput;Source File:;%file%
+
+
+PipeStage;./cat.exe %file%
+
+PipeStage;./outfile.exe out-%file%
+
+Mock
+
+Execute
+

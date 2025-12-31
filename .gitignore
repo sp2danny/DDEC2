@@ -15,3 +15,5 @@ FrameReport.txt
 *.dat
 data/
 tmp/
+*/x64/
+*.pdb

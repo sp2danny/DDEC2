@@ -7,9 +7,9 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>-t r:\ -e mkv -s data d *.me</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-t data -e me -s data -p qwerty e bun.mkv </LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArgumentsHistory>-t r:\ -e mkv d *.me|-t r:\ -e mkv -s data d *.me|</LocalDebuggerCommandArgumentsHistory>
+    <LocalDebuggerCommandArgumentsHistory>-t r:\ -e mkv d *.me|-t r:\ -e mkv -s data d *.me|-t data -e me -s data -p qwerty e bun.mkv |</LocalDebuggerCommandArgumentsHistory>
   </PropertyGroup>
 </Project>

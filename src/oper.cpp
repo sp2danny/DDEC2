@@ -10,6 +10,10 @@
 #include <utility>
 #include <cstddef>
 
+#include <fcntl.h>
+#include <io.h>
+#include <stdio.h>
+
 using ssize_t = long;
 
 using namespace std::literals;
@@ -56,6 +60,7 @@ fpt get_f(const std::string& oper)
 	if (oper == "nand") fp = +[](UC c1, UC c2) -> UC { return  ~(c1 & c2); };
 	if (oper == "rotr") fp = +[](UC c1, UC c2) -> UC { return (c1+c2)%256; };
 	if (oper == "rotl") fp = +[](UC c1, UC c2) -> UC { return (c1+256-c2)%256; };
+	//if (oper == "noop") fp = +[](UC c1, UC c2) -> UC { return (c1 + 256 - c2) % 256; };
 	
 	return fp;
 }
@@ -141,6 +146,13 @@ int main(int argc, char** argv)
 		return 0;
 	}
 
+	std::cin.setf(std::ios_base::binary);
+	_setmode(_fileno(stdin), _O_BINARY);
+
+	std::cout.setf(std::ios_base::binary);
+	_setmode(_fileno(stdout), _O_BINARY);
+
+
 	std::string oper, mask, dir, source, size;
 	bool streamed = false;
 	bool looping = false;
@@ -174,6 +186,8 @@ int main(int argc, char** argv)
 		dorand(dir, std::stol(size));
 		return 0;
 	}
+
+	//if ((oper=="noop") )
 
 	{
 		auto is_empty = [](const std::string& str) { return str.empty(); };
@@ -213,6 +227,8 @@ int main(int argc, char** argv)
 	if (streamed)
 	{
 		//void do_stuff(std::istream& in, std::ostream& out, bool loop, const UCV& data, const std::string& oper)
+
+
 		do_stuff(std::cin, std::cout, looping, data, oper);
 		return 0;
 	}
@@ -228,7 +244,13 @@ int main(int argc, char** argv)
 		++cnt;
 	}
 
+	//std::cout.setf(0);
+	//_setmode(_fileno(stdout), 0);
+
 	std::cout << cnt << " files affected" << breakline;
+
+
+
 }
 
 // 3897173

@@ -1,0 +1,17 @@
+
+# CommandType { UserInput, FromFile, PipeStage, Execute, Mock, DumpError }
+
+UserInput;Coded File:;%file%
+
+UserInput;Oper File:;%source%
+
+UserInputNE;Password:;%pwd%
+
+PipeStage;./de.exe -t - -p %pwd% d %file%
+
+PipeStage;./oper.exe -oper xor -source %source% -size 1k -stream
+
+PipeStage;ffplay -
+
+Execute
+

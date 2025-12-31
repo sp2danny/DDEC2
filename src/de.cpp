@@ -6,6 +6,10 @@ import pop;
 #include "Crypt.hpp"
 #include "util.hpp"
 
+#include <fcntl.h>
+#include <io.h>
+#include <stdio.h>
+
 class Result
 {
 public:
@@ -94,7 +98,25 @@ long long encrypt(
 	const std::string& source,
 	const std::string& target, 
 	const std::string& ext)
-{	
+{
+	if (str.find_first_of("*?") != std::string::npos)
+	{
+		long long acc = 0;
+
+		for (const auto& entry : std::filesystem::directory_iterator(source)) {
+
+			auto p = entry.path();
+
+			if (strmat(str, p.filename().string()))
+				acc += encrypt(cr, p.filename().string(), source, target, ext);
+
+		}
+
+		return acc;
+	}
+
+
+
 	bool report = true;
 	std::size_t rem = 0;
 	std::string nfn;
@@ -103,19 +125,23 @@ long long encrypt(
 	pop<std::ostream> ofs;
 
 	if (str == "-"s) {
+		std::cin.setf(std::ios_base::binary);
+		_setmode(_fileno(stdin), _O_BINARY);
 		ifs.borrow(std::cin);
 		report = false;
 	} else {
 		ifs.create<std::ifstream>(source + "/" + str, std::fstream::binary);
-		rem = std::filesystem::file_size(str);
+		rem = std::filesystem::file_size(source + "/" + str);
 	}
 
 	if (target == "-"s) {
+		std::cout.setf(std::ios_base::binary);
+		_setmode(_fileno(stdout), _O_BINARY);
 		ofs.borrow(std::cout);
 		report = false;
 	} else {
 		if (str == "-"s)
-			nfn = target + "/" + "output.decrypt";
+			nfn = target + "/" + "output.encrypt";
 		else
 			nfn = target + "/" + str + ".encrypt";
 		if (!ext.empty())
@@ -213,6 +239,8 @@ long long decrypt(
 	pop<std::size_t> pi{ to_borrow{}, &rem };
 
 	if (str == "-"s) {
+		std::cin.setf(std::ios_base::binary);
+		_setmode(_fileno(stdin), _O_BINARY);
 		ifs.borrow(std::cin);
 		report = false;
 	} else {
@@ -222,6 +250,8 @@ long long decrypt(
 	}
 
 	if (target == "-"s) {
+		std::cout.setf(std::ios_base::binary);
+		_setmode(_fileno(stdout), _O_BINARY);
 		ofs.borrow(std::cout);
 		report = false;
 	} else {
@@ -257,7 +287,10 @@ Result Main(const std::vector<std::string>& args)
 	std::string ext;
 	int i, n = std::ssize(args);
 	for (i = 0; i < n; ++i) {
-		if (args[i] == "-t"s) {
+		if (args[i] == "--version"s) {
+			std::println("ver 1.0.01");
+		}
+		else if (args[i] == "-t"s) {
 			target = args[++i];
 		}
 		else if (args[i] == "-s"s) {
@@ -325,10 +358,6 @@ Result Main(const std::vector<std::string>& args)
 
 int main([[maybe_unused]]int argc, [[maybe_unused]]char** argv)
 {
-	extern void test();
-	test();
-	return 0;
-	/*
 	std::vector<std::string> args;
 	for (int i = 1; i < argc; ++i)
 		args.push_back(argv[i]);
@@ -336,7 +365,6 @@ int main([[maybe_unused]]int argc, [[maybe_unused]]char** argv)
 	auto res = Main(args);
 	res.PrintIf(std::cerr);
 	return res.Ok() ? 0 : -1;
-	*/
 }
 
 
