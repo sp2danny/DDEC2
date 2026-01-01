@@ -173,7 +173,7 @@ int main(int argc, char** argv)
             hStdin = GetStdHandle(STD_INPUT_HANDLE);
             mode = 0;
             GetConsoleMode(hStdin, &mode);
-            SetConsoleMode(hStdin, mode& (~ENABLE_ECHO_INPUT));
+            SetConsoleMode(hStdin, mode & (~ENABLE_ECHO_INPUT));
             std::cin >> line;
             SetConsoleMode(hStdin, mode);
             aliases.push_back({ cmd.arg2,line });

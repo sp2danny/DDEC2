@@ -145,8 +145,8 @@
     <ClCompile Include="PipeSeq.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\DDEC2\dbg.txt" />
-    <Text Include="..\DDEC2\sv.txt" />
+    <Text Include="..\dbg.txt" />
+    <Text Include="..\sv.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

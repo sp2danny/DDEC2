@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\DDEC2\sv.txt" />
-    <Text Include="..\DDEC2\dbg.txt" />
+    <Text Include="..\dbg.txt" />
+    <Text Include="..\sv.txt" />
   </ItemGroup>
 </Project>

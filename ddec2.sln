@@ -19,11 +19,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "de", "de.vcxproj", "{91CD13
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "oper", "oper.vcxproj", "{6EA90A38-79F5-42B1-95E4-EAA024827A34}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cat", "..\cat\cat.vcxproj", "{1F215956-E4CA-4C17-A328-2016B161D7BF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cat", "cat\cat.vcxproj", "{1F215956-E4CA-4C17-A328-2016B161D7BF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "outfile", "..\outfile\outfile.vcxproj", "{432B5A2B-379A-4B5A-A0DF-A4D03B8FD54E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "outfile", "outfile\outfile.vcxproj", "{432B5A2B-379A-4B5A-A0DF-A4D03B8FD54E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PipeSeq", "..\PipeSeq\PipeSeq.vcxproj", "{2ADD1FF3-1D6A-4FA6-BA25-B343C71439D5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PipeSeq", "PipeSeq\PipeSeq.vcxproj", "{2ADD1FF3-1D6A-4FA6-BA25-B343C71439D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
