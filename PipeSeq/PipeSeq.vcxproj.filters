@@ -21,6 +21,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\dbg.txt" />
-    <Text Include="..\sv.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\sv.psf" />
   </ItemGroup>
 </Project>

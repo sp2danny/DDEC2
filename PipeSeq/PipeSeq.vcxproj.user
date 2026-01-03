@@ -17,9 +17,9 @@
     <LocalDebuggerWorkingDirectory>C:\GitHub\DDEC2</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerCommandArguments>dbg.txt</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>sv.psf</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>C:\GitHub\DDEC2</LocalDebuggerWorkingDirectory>
-    <LocalDebuggerCommandArgumentsHistory>sv.txt|dbg.txt|</LocalDebuggerCommandArgumentsHistory>
+    <LocalDebuggerCommandArgumentsHistory>sv.txt|dbg.txt|sv.psf|</LocalDebuggerCommandArgumentsHistory>
   </PropertyGroup>
 </Project>
