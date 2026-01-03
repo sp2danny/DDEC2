@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\dbg.txt" />
+    <Text Include="..\dbg.psf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\sv.psf" />
