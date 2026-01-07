@@ -204,7 +204,6 @@ public:
 	T& operator*() const
 	{
 		Assert(have());
-		//contract_assert(have());
 		return *m_ptr;
 	}
 

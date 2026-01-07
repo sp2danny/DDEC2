@@ -14,7 +14,7 @@
     <ClCompile Include="src\de.cpp" />
     <ClCompile Include="src\pop.ixx" />
     <ClCompile Include="src\test.cpp" />
-    <ClCompile Include="src\util.cpp" />
+    <ClCompile Include="util.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ddec2lib.vcxproj">
@@ -24,8 +24,6 @@
   <ItemGroup>
     <ClInclude Include="src\Crypt.hpp" />
     <ClInclude Include="src\mersenne-twister.hpp" />
-    <ClInclude Include="src\pop.hpp" />
-    <ClInclude Include="src\util.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

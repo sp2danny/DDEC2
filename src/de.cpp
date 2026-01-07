@@ -3,8 +3,9 @@ import std;
 
 import pop;
 
+import util;
+
 #include "Crypt.hpp"
-#include "util.hpp"
 
 #include <fcntl.h>
 #include <io.h>
@@ -125,7 +126,7 @@ long long encrypt(
 	pop<std::ostream> ofs;
 
 	if (str == "-"s) {
-		std::cin.setf(std::ios_base::binary);
+		//std::cin.setf(std::ios_base::binary);
 		_setmode(_fileno(stdin), _O_BINARY);
 		ifs.borrow(std::cin);
 		report = false;
@@ -135,7 +136,7 @@ long long encrypt(
 	}
 
 	if (target == "-"s) {
-		std::cout.setf(std::ios_base::binary);
+		//std::cout.setf(std::ios_base::binary);
 		_setmode(_fileno(stdout), _O_BINARY);
 		ofs.borrow(std::cout);
 		report = false;
@@ -239,7 +240,7 @@ long long decrypt(
 	pop<std::size_t> pi{ to_borrow{}, &rem };
 
 	if (str == "-"s) {
-		std::cin.setf(std::ios_base::binary);
+		//std::cin.setf(std::ios_base::binary);
 		_setmode(_fileno(stdin), _O_BINARY);
 		ifs.borrow(std::cin);
 		report = false;
@@ -250,7 +251,7 @@ long long decrypt(
 	}
 
 	if (target == "-"s) {
-		std::cout.setf(std::ios_base::binary);
+		//std::cout.setf(std::ios_base::binary);
 		_setmode(_fileno(stdout), _O_BINARY);
 		ofs.borrow(std::cout);
 		report = false;
