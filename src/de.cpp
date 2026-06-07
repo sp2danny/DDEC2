@@ -5,6 +5,8 @@ import pop;
 
 import util;
 
+using namespace std::literals;
+
 #include "Crypt.hpp"
 
 #include <fcntl.h>
@@ -35,6 +37,8 @@ Result usage()
 
 bool old = true;
 
+long long acc_sz = 0;
+
 long long encrypt
 (
 	Crypt cr,
@@ -62,6 +66,7 @@ long long encrypt
 		while (true) {
 			is.read((char*)buff.data(), BL);
 			auto rd = is.gcount();
+			acc_sz += rd;
 			if (rd) {
 				cr.encrypt_block((UC*)buff.data(), rd);
 				os.write((char*)buff.data(), rd);
@@ -72,6 +77,7 @@ long long encrypt
 	}
 
 	i = 0;
+	acc_sz += sz;
 	while (rem > 0)
 	{
 		if (rem >= BL) {
@@ -115,8 +121,6 @@ long long encrypt(
 
 		return acc;
 	}
-
-
 
 	bool report = true;
 	std::size_t rem = 0;
@@ -170,6 +174,7 @@ long long decrypt(Crypt cr, std::istream& is, std::ostream& os, std::size_t rem,
 		while (true) {
 			is.read((char*)buff.data(), BL);
 			auto rd = is.gcount();
+			acc_sz += rd;
 			if (rd) {
 				cr.decrypt_block((UC*)buff.data(), rd);
 				os.write((char*)buff.data(), rd);
@@ -179,6 +184,7 @@ long long decrypt(Crypt cr, std::istream& is, std::ostream& os, std::size_t rem,
 		}
 	}
 
+	acc_sz += sz;
 	int i=0, sh=0, m=1;
 	while (true) {
 		if (((sz/BL)>>sh) < 400) break;
@@ -286,10 +292,14 @@ Result Main(const std::vector<std::string>& args)
 	std::string target = ".";
 	std::string source = ".";
 	std::string ext;
+	bool stats = false;
 	int i, n = std::ssize(args);
 	for (i = 0; i < n; ++i) {
 		if (args[i] == "--version"s) {
 			std::println("ver 1.0.01");
+		}
+		else if (args[i] == "--stats"s) {
+			stats = true;
 		}
 		else if (args[i] == "-t"s) {
 			target = args[++i];
@@ -340,8 +350,9 @@ Result Main(const std::vector<std::string>& args)
 	Crypt cr{ pwd, old };
 	for (auto& c : pwd) c = 0;
 
-	if (target != "-"s)
-		std::println("passes {}", cr.passcount());
+	auto pc = cr.passcount();
+
+	auto tp1 = std::chrono::high_resolution_clock::now();
 
 	long long acc = 0;
 	for (auto&& f : files) {
@@ -351,14 +362,36 @@ Result Main(const std::vector<std::string>& args)
 			acc += encrypt(cr, f, source, target, ext);
 	}
 
-	if (target != "-"s)
-		std::println("tokens {}", pritty(acc));
+	auto tp2 = std::chrono::high_resolution_clock::now();
+
+	auto tok = pritty(acc);
+
+	if (stats) {
+
+		auto& out = (target == "-"s) ? std::cerr : std::cout;
+
+		typedef std::chrono::duration<float> fsec;
+		fsec fs = tp2 - tp1;
+
+		std::println(out, "Passes: {}", pc);
+		std::println(out, "Tokens: {}", tok);
+		std::println(out, "Size: {}", acc_sz);
+		std::println(out, "Time {} ", fs);
+
+		float sz = acc_sz / 1024.0f;
+
+		std::println(out, "Speed: {} kb/s", sz/fs.count());
+
+	}
 
 	return {};
 }
 
-int main([[maybe_unused]]int argc, [[maybe_unused]]char** argv)
+int main(int argc, char** argv)
 {
+	//extern void goes_to();
+	//goes_to();
+
 	std::vector<std::string> args;
 	for (int i = 1; i < argc; ++i)
 		args.push_back(argv[i]);
