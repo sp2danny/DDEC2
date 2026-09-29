@@ -104,7 +104,10 @@ long long encrypt(
 	const std::string& str, 
 	const std::string& source,
 	const std::string& target, 
-	const std::string& ext)
+	const std::string& ext,
+	[[maybe_unused]] bool newmode,
+	bool overwrite
+)
 {
 	if (str.find_first_of("*?") != std::string::npos)
 	{
@@ -115,7 +118,7 @@ long long encrypt(
 			auto p = entry.path();
 
 			if (strmat(str, p.filename().string()))
-				acc += encrypt(cr, p.filename().string(), source, target, ext);
+				acc += encrypt(cr, p.filename().string(), source, target, ext, newmode, overwrite);
 
 		}
 
@@ -218,7 +221,10 @@ long long decrypt(
 	const std::string& str, 
 	const std::string& source,
 	const std::string& target, 
-	const std::string& ext)
+	const std::string& ext,
+	[[maybe_unused]] bool newmode,
+	bool overwrite
+)
 {
 	if (str.find_first_of("*?") != std::string::npos)
 	{
@@ -229,8 +235,7 @@ long long decrypt(
 			auto p = entry.path();
 
 			if (strmat(str, p.filename().string()))
-				acc += decrypt(cr, p.filename().string(), source, target, ext);
-
+				acc += decrypt(cr, p.filename().string(), source, target, ext, newmode, overwrite);
 		}
 
 		return acc;
@@ -293,13 +298,21 @@ Result Main(const std::vector<std::string>& args)
 	std::string source = ".";
 	std::string ext;
 	bool stats = false;
+	bool newmode = false;
+	bool overwrite = false;
 	int i, n = std::ssize(args);
 	for (i = 0; i < n; ++i) {
 		if (args[i] == "--version"s) {
-			std::println("ver 1.0.01");
+			std::println("ver 1.0.02");
 		}
 		else if (args[i] == "--stats"s) {
 			stats = true;
+		}
+		else if (args[i] == "--newmode"s) {
+			newmode = true;
+		}
+		else if (args[i] == "--overwrite"s) {
+			overwrite = true;
 		}
 		else if (args[i] == "-t"s) {
 			target = args[++i];
@@ -357,9 +370,9 @@ Result Main(const std::vector<std::string>& args)
 	long long acc = 0;
 	for (auto&& f : files) {
 		if (de == deenc)
-			acc += decrypt(cr, f, source, target, ext);
+			acc += decrypt(cr, f, source, target, ext, newmode, overwrite);
 		else if (de == enc)
-			acc += encrypt(cr, f, source, target, ext);
+			acc += encrypt(cr, f, source, target, ext, newmode, overwrite);
 	}
 
 	auto tp2 = std::chrono::high_resolution_clock::now();
@@ -389,9 +402,6 @@ Result Main(const std::vector<std::string>& args)
 
 int main(int argc, char** argv)
 {
-	//extern void goes_to();
-	//goes_to();
-
 	std::vector<std::string> args;
 	for (int i = 1; i < argc; ++i)
 		args.push_back(argv[i]);

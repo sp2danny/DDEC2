@@ -86,6 +86,7 @@ public:
 
 	pop& operator=(const pop& other)
 	{
+		if (this == &other) return *this;
 		clear();
 		if (!other.m_ptr) return *this;
 		m_ptr = other.m_ptr;
@@ -105,6 +106,7 @@ public:
 
 	pop& operator=(pop&& other) noexcept(UnderlyingNoexceptDestructor)
 	{
+		if (this == &other) return *this;
 		clear();
 		swap(other);
 		return *this;
@@ -208,6 +210,7 @@ public:
 	}
 
 	T* operator->() const
+		//pre(have())
 	{
 		Assert(have());
 		return m_ptr;
@@ -242,7 +245,8 @@ private:
 	T* m_ptr = nullptr;
 	bool m_own = false;
 	deleter_f m_del = nullptr;
-	mutable std::atomic<int>* m_ref = nullptr;
+	//mutable
+	std::atomic<int>* m_ref = nullptr;
 };
 
 
