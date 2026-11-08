@@ -233,7 +233,7 @@ void dorun(const std::string& fromfile, const std::vector<std::string>& pipes)
     sa.lpSecurityDescriptor = 0;
 
     std::vector<WinPipe> win_pipes;
-    int i,n = std::ssize(pipes) - 1;
+    long long i,n = std::ssize(pipes) - 1;
     for (i = 0; i < n; ++i) {
         WinPipe wp;
         CreatePipe(&wp.read, &wp.write, &sa, 0);
@@ -253,10 +253,14 @@ void dorun(const std::string& fromfile, const std::vector<std::string>& pipes)
     {
         if (i == 0)
         {
-            if (of)
+            if (of) {
+                #pragma warning(push)
+                #pragma warning(disable : 4312)
                 wp.std_in = (HANDLE)of;
-            else
+                #pragma warning(pop)
+            } else {
                 wp.std_in = GetStdHandle(STD_INPUT_HANDLE);
+            }
             wp.ispipe.std_in = false;
         }
         else {
@@ -312,7 +316,7 @@ void dorun(const std::string& fromfile, const std::vector<std::string>& pipes)
     while (true)
     {
         bool all = true;
-        int i, n = std::ssize(pis);
+        long long i, n = std::ssize(pis);
         for (i=0; i<n; ++i)
         {
             auto& pi = pis[i];
@@ -352,9 +356,12 @@ void dorun(const std::string& fromfile, const std::vector<std::string>& pipes)
         if (wp.write) CloseHandle(wp.write);
     }
 
-    if (of)
+    if (of) {
+        #pragma warning(push)
+        #pragma warning(disable : 4312)
         CloseHandle((HANDLE)of);
-
+        #pragma warning(pop)
+    }
 
     std::cout << "\nAll done.\n";
 }

@@ -20,7 +20,9 @@ using namespace std::literals;
 
 namespace fs = std::filesystem;
 
-typedef long long ssize_t;
+namespace {
+	//typedef long long ssize_t;
+}
 
 bool strmat(const char* str, const char* pat)
 {
